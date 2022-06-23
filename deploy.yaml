@@ -1,0 +1,150 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: %%MICROSERVICE_NAME%%
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: %%MICROSERVICE_NAME%%
+ 
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: %%MICROSERVICE_NAME%%
+spec:
+  revisionHistoryLimit: 2
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: %%MICROSERVICE_NAME%%
+    spec:
+      containers:
+      - image: gcr.io/__PROJECT_ID/%%MICROSERVICE_NAME%%:__IMAGE_TAG
+        #imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "__CPU_LIMIT"
+            memory: "__MEMORY_LIMIT"
+          requests:
+            cpu: "__CPU_REQUEST"
+            memory: "__MEMORY_REQUEST"
+        name: %%MICROSERVICE_NAME%%
+        # volumeMounts:
+        # - name: public-keys
+        #   mountPath: /home/app/keys/public/
+        #   readOnly: true
+        # - name: private-keys
+        #   mountPath: /home/app/keys/private/
+        #   readOnly: true
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NODE_ENV
+          value: develop
+        - name: PROJECT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: __NAMESPACE_CONFIG
+              key: PROJECT_ID
+        - name: BRANCH_ID
+          valueFrom:
+            configMapKeyRef:
+              name: __NAMESPACE_CONFIG
+              key: BRANCH_ID
+        # - name: MG_DOMAIN
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: user-rest-v2
+        #       key: MG_DOMAIN
+        # - name: MG_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: bradford-secrets
+        #       key: mailgun-password
+        - name: MYSQL_URL
+          valueFrom:
+            secretKeyRef:
+              name: __SQL_URL_SECRET
+              key: mysql_url
+        #- name: MYSQL_OPTS
+        #  valueFrom:
+        #    configMapKeyRef:
+        #      name: user-rest-v2
+        #      key: MYSQL_OPTS
+        # - name: SIGNUP_FROM
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: user-rest-v2
+        #       key: SIGNUP_FROM
+        # - name: SUPPORT_FROM
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: user-rest-v2
+        #       key: SUPPORT_FROM
+        # - name: SUPPORT_TO
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: user-rest-v2
+        #       key: SUPPORT_TO
+        # - name: SUGGESTION_FROM
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: user-rest-v2
+        #       key: SUGGESTION_FROM
+        # - name: SUGGESTION_TO
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: user-rest-v2
+        #       key: SUGGESTION_TO
+        # - name: VERIFY_LINK
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: user-rest-v2
+        #       key: VERIFY_LINK
+        readinessProbe:
+          httpGet:
+            # Path to probe; should be cheap, but representative of typical behavior
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            # Path to probe; should be cheap, but representative of typical behavior
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+      # [START proxy_container]
+      - image: gcr.io/cloudsql-docker/gce-proxy:1.09
+        name: cloudsql-proxy
+        command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+                  "-instances=__SQL_INSTANCE_NAME=tcp:3306",
+                  "-credential_file=/secrets/cloudsql/credentials.json"]
+        volumeMounts:
+          - name: cloudsql-instance-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+          - name: ssl-certs
+            mountPath: /etc/ssl/certs
+          - name: cloudsql
+            mountPath: /cloudsql
+      # [END proxy_container]
+      # [START volumes]
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: cloudsql-instance-credentials
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir:
+      # [END volumes]
+
