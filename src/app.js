@@ -68,7 +68,8 @@ app.use('/ver', (req, res) => {
 
 
 //------------------------- Open Routes -------------------------//
-app.use('/login', routes.test);
+// app.use('/login', routes.test);
+app.use('/mark', routes.mark_attendance);
 
 
 
