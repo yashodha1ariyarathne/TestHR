@@ -3,6 +3,7 @@ const express = require('express');
 const { AppError } = require('../bin/config');
 const conn = require('./../database');
 const router = express.Router();
+var md5 = require('md5');
 
 
 
@@ -12,16 +13,18 @@ router.get('/attendance', async (req, res, next) => {
     var password = req.body.password;
     var id;
 
+    var hashpassword=md5(password);
 
-    var sql = 'SELECT * FROM employee WHERE username = ? and password=?';
+    var sql = 'SELECT * FROM employee WHERE username = ? and hashpassword=?';
     
 
-    conn.query(sql,[username,password], (err, result, fields) => {
+    conn.query(sql,[username,hashpassword], (err, result, fields) => {
 
         if (!result.length) {
 
           console.log("Incorrect Username or Password");
           res.send("Incorrect Username or Password");
+          
 
         }
 
@@ -35,7 +38,9 @@ router.get('/attendance', async (req, res, next) => {
             if (err)
               throw err;
             console.log("1 record inserted");
+            
             res.send("1 record inserted");
+
 
 
           });
