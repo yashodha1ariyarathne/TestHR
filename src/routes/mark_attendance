@@ -1,7 +1,9 @@
 'use strict'
 const express = require('express');
 const { AppError } = require('../bin/config');
-const conn = require('./../database');
+const db = require('../bin/config');
+var conn = require('./../database')
+
 const router = express.Router();
 var md5 = require('md5');
 
@@ -15,7 +17,7 @@ router.get('/attendance', async (req, res, next) => {
 
     var hashpassword=md5(password);
 
-    var sql = 'SELECT * FROM employee WHERE username = ? and hashpassword=?';
+    var sql = 'SELECT * FROM employees WHERE username = ? and hashpassword=?';
     
 
     conn.query(sql,[username,hashpassword], (err, result, fields) => {

@@ -51,7 +51,7 @@ async function sqlConnect(connectionStr) {
         delete connOptions.scheme;
         connOptions.connectionLimit = 15;
         
-        global.db = await mysql.createPool(connectionStr); 
+        global.db = mysql.createPool(connectionStr); 
         log.info('Connected to the database');
     }
     catch(e) {
