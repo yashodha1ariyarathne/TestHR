@@ -15,12 +15,13 @@ router.get('/attendance', async (req, res, next) => {
     var password = req.body.password;
     var id;
 
+    
     var hashpassword=md5(password);
 
-    var sql = 'SELECT * FROM employees WHERE username = ? and hashpassword=?';
+    var sql =  await global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
+    //  await global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
     
-
-    conn.query(sql,[username,hashpassword], (err, result, fields) => {
+    global.db.query(sql,[username,hashpassword], (err, result, fields) => {
 
         if (!result.length) {
 
@@ -35,7 +36,7 @@ router.get('/attendance', async (req, res, next) => {
 
           var sql2 = "INSERT INTO attendance (emp_id,date,time) VALUES (?,SYSDATE(),SYSDATE())";
 
-          conn.query(sql2, [id], (err, result) => {
+          global.db.query(sql2, [id], (err, result) => {
 
             if (err)
               throw err;
@@ -52,6 +53,6 @@ router.get('/attendance', async (req, res, next) => {
       }); 
             
       
-});
+ });
 
 module.exports = router;

@@ -29,11 +29,12 @@ var log = winston.createLogger({
     ]
 })
 
-
+console.log(process.env.MYSQL_URL)
 /* --- Configure Database Access--- */
 
 
-if (process.env.MYSQL_URL) {    
+if (process.env.MYSQL_URL) { 
+       
     var mysql = require('promise-mysql');
 
     sqlConnect(process.env.MYSQL_URL);
