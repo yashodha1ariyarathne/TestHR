@@ -27,11 +27,11 @@ var log = winston.createLogger({
     transports: [
         new winston.transports.Console()
     ]
+    
 })
 
 console.log(process.env.MYSQL_URL)
-/* --- Configure Database Access--- */
-
+/* --- Configure Database Access---*/
 
 if (process.env.MYSQL_URL) { 
        

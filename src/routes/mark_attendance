@@ -2,7 +2,7 @@
 const express = require('express');
 const { AppError } = require('../bin/config');
 const db = require('../bin/config');
-var conn = require('./../database')
+// var conn = require('./../database')
 
 const router = express.Router();
 var md5 = require('md5');
@@ -18,10 +18,9 @@ router.get('/attendance', async (req, res, next) => {
     
     var hashpassword=md5(password);
 
-    var sql =  await global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
-    //  await global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
-    
-    global.db.query(sql,[username,hashpassword], (err, result, fields) => {
+    var sql ='SELECT * FROM employees WHERE username = ? and hashpassword=?';
+
+    await global.db.query(sql,[username,hashpassword], (err, result, fields) => {
 
         if (!result.length) {
 
