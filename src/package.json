@@ -6,10 +6,10 @@
     "start": "node ./bin/www",
     "debug": "run-script-os",
     "cloud-debug": "node --inspect=9229 ./bin/www",
-    "local": "set MYSQL_URL=mysql://root:yashodha2021@localhost:3306/inventivemechanics_hr PORT=8080&node ./bin/www",
-    "debug:nix":"MYSQL_URL=mysql://root:yashodha2021@localhost:3306/inventivemechanics_hr PORT=8080 node --inspect ./bin/www",
+    "local": "set MYSQL_URL=mysql://root:yashodha2021@localhost:3306/inventivemechanics_hr&PORT=8080&node ./bin/www",
+    "debug:nix":"MYSQL_URL=mysql://root:yashodha2021@localhost:3306/inventivemechanics_hr&PORT=8080 node --inspect ./bin/www",
     "debug:win32": "set MYSQL_URL=mysql://root:yashodha2021@localhost:3306/inventivemechanics_hr&PORT=8080&node --inspect ./bin/www",
-    "debug_prod": "set MYSQL_URL=mysql://root:yashodha2021@localhost:3306/inventivemechanics_hr PORT=8080&set NODE_ENV=production&node --inspect ./bin/www"
+    "debug_prod": "set MYSQL_URL=mysql://root:yashodha2021@localhost:3306/inventivemechanics_hr&PORT=8080&set NODE_ENV=production&node --inspect ./bin/www"
   },
   "dependencies": {
     "body-parser": "*",
