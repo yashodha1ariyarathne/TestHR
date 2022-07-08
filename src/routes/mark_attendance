@@ -9,47 +9,28 @@ var md5 = require('md5');
 
 
 
-router.get('/attendance',async(req, res, next) => {
+router.get('/attendance', async(req, res, next) => {
  
-    var username = req.body.username;
-    var password = req.body.password;
-    var id;
+  var username = req.body.username;
+  var password = req.body.password;
 
-    
-    var hashpassword=md5(password);
+  var id;
 
-    var sql ='SELECT * FROM employees WHERE username = ? and hashpassword=?';
+  var hashpassword=md5(password);
 
-    await global.db.query(sql,[username,hashpassword], (err, result, fields) => {
+  let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
 
-        if (!result.length) {
+  if(!result.length)
+    res.send("Incorrect Username or Password");
+        
+  id = result[0].emp_id;
 
-          console.log("Incorrect Username or Password");
-          res.send("Incorrect Username or Password");
-          
-        }
+  let result2 = await global.db.query("INSERT INTO attendance (emp_id,date,time) VALUES (?,SYSDATE(),SYSDATE())", [id]);
 
-        else {
-          id = result[0].emp_id;
+  if( result2.affectedRows >= 1)
+    res.send("1 record inserted");
+        
 
-          var sql2 = "INSERT INTO attendance (emp_id,date,time) VALUES (?,SYSDATE(),SYSDATE())";
-
-          global.db.query(sql2, [id], (err, result) => {
-
-            if (err)
-              throw err;
-            console.log("1 record inserted");
-            res.send("1 record inserted");
-
-
-
-          });
-
-        }
-
-      }); 
-            
-      
- });
+});
 
 module.exports = router;
