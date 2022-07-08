@@ -9,7 +9,7 @@ var md5 = require('md5');
 
 
 
-router.get('/attendance',(req, res, next) => {
+router.get('/attendance',async(req, res, next) => {
  
     var username = req.body.username;
     var password = req.body.password;
@@ -20,7 +20,7 @@ router.get('/attendance',(req, res, next) => {
 
     var sql ='SELECT * FROM employees WHERE username = ? and hashpassword=?';
 
-    global.db.query(sql,[username,hashpassword], (err, result, fields) => {
+    await global.db.query(sql,[username,hashpassword], (err, result, fields) => {
 
         if (!result.length) {
 
