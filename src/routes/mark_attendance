@@ -16,19 +16,19 @@ router.get('/attendance', async(req, res, next) => {
 
   var id;
 
-  var hashpassword=md5(password);
+  var hashpassword = md5(password);
 
   let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
 
   if(!result.length)
-    res.send("Incorrect Username or Password");
+    res.status(500).send("Incorrect Username or Password");
         
   id = result[0].emp_id;
 
-  let result2 = await global.db.query("INSERT INTO attendance (emp_id,date,time) VALUES (?,SYSDATE(),SYSDATE())", [id]);
+  let res_att = await global.db.query("INSERT INTO attendance (emp_id,date,time) VALUES (?,SYSDATE(),SYSDATE())", [id]);
 
-  if( result2.affectedRows >= 1)
-    res.send("1 record inserted");
+  if( res_att.affectedRows >= 1)
+    res.status(200).send("Marked successfully");
         
 
 });
