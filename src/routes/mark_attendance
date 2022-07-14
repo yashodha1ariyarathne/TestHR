@@ -15,33 +15,92 @@ router.get('/attendance', async(req, res, next) => {
   var password = req.body.password;
   var status   = req.body.status;
 
+  var status_low =status.toLowerCase();
+
   var id;
   var res_att;
+
 
   var hashpassword = md5(password);
 
   let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
-  
+
   if(!result.length)
     res.status(500).send("Incorrect Username or Password");
+
         
   id = result[0].emp_id;
 
-  switch(status) {
-      case "IN":case "In":case "in":case "iN":
-        res_att = await global.db.query("INSERT INTO attendance (emp_id,date,time,status) VALUES (?,SYSDATE(),SYSDATE(),'IN')", [id]);
-          break;
+  var st;
+  var count_in;
+  var count_out;
+  var in_c = 0;
+  var out_c =0; 
 
-      case "OUT":case "OuT":case "OUt":case "Out":case "oUT":case "ouT":case "ouT":case "oUt":case "out":
-        res_att = await global.db.query("INSERT INTO attendance (emp_id,date,time,status) VALUES (?,SYSDATE(),SYSDATE(),'OUT')", [id]);
-          break;
-
-      default:
-        res.send("Invalid status");
+  switch(status_low) {
+          case "in":
+             st='in';
+             count_in= await global.db.query('select COUNT(status) AS sti FROM attendance WHERE emp_id =? AND status="in" GROUP BY  CURDATE()', [id]);
+             in_c = count_in[0].sti;
+              break;
+  
+          case "out":
+             st='out';
+             count_out= await global.db.query('select COUNT(status) AS sto FROM attendance WHERE emp_id =? AND status="OUT" GROUP BY  CURDATE()', [id]);
+             out_c =count_out[0].sto;
+              break;
+  
+          default:
+            res.status(200).send("Invalid status");
   }
 
+  
+
+  
+ 
+
+if( in_c <= 1 || out_c <= 1){
+  if(st)
+    res_att = await global.db.query('INSERT INTO attendance (emp_id,date_time,status) VALUES(?,NOW(),?)',[id,status_low]);
+
   if( res_att.affectedRows >= 1 )
-    res.status(200).send("Marked successfully");
+      res.status(200).send("Marked successfully");
+
+}
+else
+res.status(500).send("err");
+
+  // res.redirect()
+
+ 
+  //  var count_in= await global.db.query('select COUNT(status) AS sti FROM attendance WHERE emp_id =? AND STATUS="in" GROUP BY  CURDATE()', [id]);
+  // //  var count_out= await global.db.query('select COUNT(status) AS sto FROM attendance WHERE emp_id =? AND STATUS="OUT" GROUP BY  CURDATE()', [id]); 
+  //  var in_c = count_in[0].sti;
+  // //  var out_c =count_out[0].sto; 
+
+  // if( in_c <= 1){
+  
+    // switch(status_low) {
+    //     case "in":
+    //       res_att = await global.db.query('INSERT INTO attendance (emp_id,date_time,status) VALUES (?, Date(),"IN")',[id]);
+    //         break;
+
+    //     case "out":
+    //       res_att = await global.db.query('INSERT INTO attendance (emp_id,date_time,status) VALUES (?,Date(),"OUT")',[id]);
+    //         break;
+
+    //     default:
+    //       res.send("Invalid");
+    // }
+ 
+  
+  // else
+  // res.send("err")
+
+  // if( res_att.affectedRows >= 1 )
+  //   res.status(200).send("Marked successfully");
+
+
         
 
 });
