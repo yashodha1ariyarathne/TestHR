@@ -13,6 +13,7 @@ app.use(bodyParser.json({
     limit: '50mb'                   //Request size - 50MB
 }));
 
+
 //Handle CORS
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');

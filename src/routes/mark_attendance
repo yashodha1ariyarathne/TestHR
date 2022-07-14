@@ -1,108 +1,57 @@
 'use strict'
-const express = require('express');
+const express = require('express'); 
 const { AppError } = require('../bin/config');
 const db = require('../bin/config');
-// var conn = require('./../database')
-
 const router = express.Router();
+
 var md5 = require('md5');
 
-
-
-router.get('/attendance', async(req, res, next) => {
- 
-  var username = req.body.username;
-  var password = req.body.password;
-  var status   = req.body.status;
-
-  var status_low =status.toLowerCase();
+router.get('/attendance', async(req, res,) => {
 
   var id;
   var res_att;
+  var st_arr1=['in','out'];
+  var st_arr2=[];
 
+  var username = req.body.username;
+  var password = req.body.password;
+  var state   = req.body.state;
 
   var hashpassword = md5(password);
+  var status_low =state.toLowerCase();
 
-  let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
-
-  if(!result.length)
-    res.status(500).send("Incorrect Username or Password");
-
-        
-  id = result[0].emp_id;
-
-  var st;
-  var count_in;
-  var count_out;
-  var in_c = 0;
-  var out_c =0; 
-
-  switch(status_low) {
-          case "in":
-             st='in';
-             count_in= await global.db.query('select COUNT(status) AS sti FROM attendance WHERE emp_id =? AND status="in" GROUP BY  CURDATE()', [id]);
-             in_c = count_in[0].sti;
-              break;
-  
-          case "out":
-             st='out';
-             count_out= await global.db.query('select COUNT(status) AS sto FROM attendance WHERE emp_id =? AND status="OUT" GROUP BY  CURDATE()', [id]);
-             out_c =count_out[0].sto;
-              break;
-  
-          default:
-            res.status(200).send("Invalid status");
-  }
-
-  
-
-  
+  st_arr2.push(status_low);
  
+  var true_st = st_arr1.some(element => {
+    return st_arr2.includes(element);
 
-if( in_c <= 1 || out_c <= 1){
-  if(st)
-    res_att = await global.db.query('INSERT INTO attendance (emp_id,date_time,status) VALUES(?,NOW(),?)',[id,status_low]);
+  });
 
-  if( res_att.affectedRows >= 1 )
+  if(!username || !password|| !state) 
+  res.status(500).send("Bad request");
+
+  if (true_st == false) 
+  res.status(500).send("bad ststus");
+
+  else{  
+    let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
+
+    if(!result.length)
+      res.status(500).send("Incorrect Username or Password");
+
+          
+    id = result[0].emp_id;
+
+    var valiedAttendance = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,status_low]);
+
+    if(!valiedAttendance.length){
+      res_att = await global.db.query('INSERT INTO attendance (emp_id,status,date,time) VALUES(?,?,SYSDATE(),SYSDATE())',[id,status_low]);
       res.status(200).send("Marked successfully");
+    }
 
-}
-else
-res.status(500).send("err");
-
-  // res.redirect()
-
- 
-  //  var count_in= await global.db.query('select COUNT(status) AS sti FROM attendance WHERE emp_id =? AND STATUS="in" GROUP BY  CURDATE()', [id]);
-  // //  var count_out= await global.db.query('select COUNT(status) AS sto FROM attendance WHERE emp_id =? AND STATUS="OUT" GROUP BY  CURDATE()', [id]); 
-  //  var in_c = count_in[0].sti;
-  // //  var out_c =count_out[0].sto; 
-
-  // if( in_c <= 1){
-  
-    // switch(status_low) {
-    //     case "in":
-    //       res_att = await global.db.query('INSERT INTO attendance (emp_id,date_time,status) VALUES (?, Date(),"IN")',[id]);
-    //         break;
-
-    //     case "out":
-    //       res_att = await global.db.query('INSERT INTO attendance (emp_id,date_time,status) VALUES (?,Date(),"OUT")',[id]);
-    //         break;
-
-    //     default:
-    //       res.send("Invalid");
-    // }
- 
-  
-  // else
-  // res.send("err")
-
-  // if( res_att.affectedRows >= 1 )
-  //   res.status(200).send("Marked successfully");
-
-
-        
-
+    else 
+    res.status(500).send("Already marked");
+  }  
 });
 
 module.exports = router;
