@@ -23,17 +23,17 @@ router.get('/attendance', async(req, res,) => {
   
 
   if(!username || !password || !status) 
-    res.status(500).send("Please fill all required fields");
+    return res.status(500).send("Please fill all required fields");
 
   if (statusTypes.includes(statusLowCase) === false) 
     return res.status(500).send("Invalied status type");
 
   try {
-    
-    let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashPassword]);
+
+    let result =await  global.db.query('SELECT * FROM employees  WHERE username = ? and hashpassword=?',[username,hashPassword]);
 
     if(!result.length)
-      res.status(500).send("Incorrect Username or Password");
+      return res.status(500).send("Incorrect Username or Password");
 
               
     id = result[0].emp_id;
