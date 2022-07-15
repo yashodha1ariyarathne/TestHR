@@ -9,28 +9,28 @@ var md5 = require('md5');
 router.get('/attendance', async(req, res,) => {
 
   var id;
-  var res_att;
-  var status_types=['in','out'];
- 
+  var markAtt;
+  var statusTypes=['in','out'];
 
   var username = req.body.username;
   var password = req.body.password;
   var status   = req.body.status;
   var comment   = req.body.comment;
 
-  var hashpassword = md5(password);
+  var hashPassword = md5(password);
 
-  var status_low =status.toLowerCase();
+  var statusLowCase =status.toLowerCase();
   
 
   if(!username || !password || !status) 
     res.status(500).send("Please fill all required fields");
 
-  if (status_types.includes(status_low) === false) 
+  if (statusTypes.includes(statusLowCase) === false) 
     return res.status(500).send("Invalied status type");
 
   try {
-    let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
+    
+    let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashPassword]);
 
     if(!result.length)
       res.status(500).send("Incorrect Username or Password");
@@ -38,10 +38,10 @@ router.get('/attendance', async(req, res,) => {
               
     id = result[0].emp_id;
 
-    var valiedAttendance = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,status_low]);
+    var valiedAttendance = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
 
     if(!valiedAttendance.length){
-      res_att = await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,status_low,comment]);
+      markAtt = await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
       return res.status(200).send("Marked successfully");
     }
       
