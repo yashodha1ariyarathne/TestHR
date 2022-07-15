@@ -30,9 +30,10 @@ router.get('/attendance', async(req, res,) => {
 
   try {
 
-    let result =await  global.db.query('SELECT * FROM employees  WHERE username = ? and hashpassword=?',[username,hashPassword]);
+    let result = await  global.db.query('SELECT * FROM employees  WHERE username = ? and hashpassword=?',[username,hashPassword]);
 
     if(!result.length)
+
       return res.status(500).send("Incorrect Username or Password");
 
               
@@ -41,16 +42,17 @@ router.get('/attendance', async(req, res,) => {
     var valiedAttendance = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
 
     if(!valiedAttendance.length){
+      
       markAtt = await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
       return res.status(200).send("Marked successfully");
     }
       
-    res.status(500).send("Already marked"); 
+    res.status(200).send("Already marked"); 
   }
     
   catch (error) {
 
-    res.send(error);
+    res.status(500).send(error);
    
   }
 
