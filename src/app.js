@@ -78,7 +78,7 @@ app.use('/mark', routes.mark_attendance);
 //Common error handler
 app.use(function errorHandler(err, req, res, next){
 
-    console.log('kkkkkkkkkkkkkk');
+    console.log('error');
 
     if (res.headersSent) {
         log.error(`Name: ${err.name},  End-point: ${req.originalUrl}, Message: ${err.message}, Code: ${err.errorCode}, Address: ${req.headers['x-forwarded-for'] || req.connection.remoteAddress}`);

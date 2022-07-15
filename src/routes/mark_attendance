@@ -10,48 +10,56 @@ router.get('/attendance', async(req, res,) => {
 
   var id;
   var res_att;
-  var st_arr1=['in','out'];
-  var st_arr2=[];
+  var status_types=['in','out'];
+ 
 
   var username = req.body.username;
   var password = req.body.password;
-  var state   = req.body.state;
+  var status   = req.body.status;
+  var comment   = req.body.comment;
 
   var hashpassword = md5(password);
-  var status_low =state.toLowerCase();
 
-  st_arr2.push(status_low);
- 
-  var true_st = st_arr1.some(element => {
-    return st_arr2.includes(element);
+  var status_low =status.toLowerCase();
+  try {
 
-  });
+    if(!username || !password|| !status) 
+    res.status(500).send("Please fill all required fields");
 
-  if(!username || !password|| !state) 
-  res.status(500).send("Bad request");
+    if (status_types.includes(status_low) === false) 
+      res.status(500).send("Invalied status type");
 
-  if (true_st == false) 
-  res.status(500).send("bad ststus");
+    else{ 
 
-  else{  
-    let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
+      let result =await  global.db.query('SELECT * FROM employees WHERE username = ? and hashpassword=?',[username,hashpassword]);
 
-    if(!result.length)
-      res.status(500).send("Incorrect Username or Password");
+      if(!result.length)
+        res.status(500).send("Incorrect Username or Password");
 
-          
-    id = result[0].emp_id;
+            
+      id = result[0].emp_id;
 
-    var valiedAttendance = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,status_low]);
+      var valiedAttendance = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,status_low]);
 
-    if(!valiedAttendance.length){
-      res_att = await global.db.query('INSERT INTO attendance (emp_id,status,date,time) VALUES(?,?,SYSDATE(),SYSDATE())',[id,status_low]);
-      res.status(200).send("Marked successfully");
-    }
+      if(!valiedAttendance.length){
+        res_att = await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,status_low,comment]);
+        res.status(200).send("Marked successfully");
+      }
 
-    else 
-    res.status(500).send("Already marked");
-  }  
+      else 
+        res.status(500).send("Already marked"); 
+      }
+
+  }
+  
+  catch (error) {
+
+    res.send(error);
+   
+  }
+
+  
+  
 });
 
 module.exports = router;
