@@ -39,7 +39,7 @@ router.get('/attendance', async(req, res,next) => {
               
     id = result[0].emp_id;
 
-    var valiedAttendance = await global.db.query('SELECT * FROM attendanceN WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
+    var valiedAttendance = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
 
     if(!valiedAttendance.length){
       
