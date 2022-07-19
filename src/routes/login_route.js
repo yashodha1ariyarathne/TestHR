@@ -25,6 +25,7 @@ router.get('/login', async(req, res,next) => {
             return res.status(400).send("Incorrect Username or Password");
 
         res.status(201).send("Loging successful");
+        return id = result[0].emp_id;
 
     }
     catch(e){
