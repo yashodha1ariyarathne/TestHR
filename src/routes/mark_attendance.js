@@ -39,15 +39,23 @@ router.get('/attendance', async(req, res,next) => {
               
     id = result[0].emp_id;
 
-    var valiedAttendance = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
+    var valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
+    
+    if(valiedAttendance1.length ===1)
+      return res.status(400).send("Already marked"); 
+      
 
-    if(!valiedAttendance.length){
+   if (statusLowCase===statusTypes[1]){
+    var valiedAttendance2 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status="in"',[id]);
       
-      markAtt = await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
-      return res.status(201).send("Marked successfully");
-    }
-      
-    res.status(400).send("Already marked"); 
+    if(!valiedAttendance2.length)
+      return res.status(400).send("You cannot mark 'out' without marking 'in'");
+
+   }
+   
+   markAtt = await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
+   res.status(201).send("Marked successfully");
+
   }
     
   catch (e) {
