@@ -6,7 +6,7 @@ const router = express.Router();
 
 var md5 = require('md5');
 
-router.get('/login', async(req, res,next) => {
+async function login(req, res,next) {
 
     var username = req.body.username;
     var password = req.body.password;
@@ -32,6 +32,7 @@ router.get('/login', async(req, res,next) => {
 
         next (new AppError(AppError.types.systemError, 0, e, 200, 500));
     }
-});
+};
+
 
 module.exports = router;

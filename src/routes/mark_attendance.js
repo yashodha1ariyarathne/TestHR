@@ -44,7 +44,7 @@ router.get('/attendance', async(req, res,next) => {
     id = result[0].emp_id;
 
     //Checking if date related data is already entered.
-    var valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
+    let valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
     
     if(valiedAttendance1.length === 1)
       return res.status(400).send("Already marked"); 
@@ -53,7 +53,7 @@ router.get('/attendance', async(req, res,next) => {
     //If 'Out' is entered, checking whether 'In' is entered for that date.
     if (statusLowCase === statusTypes[1]){
 
-      var valiedAttendance2 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status="in"',[id]);
+      let valiedAttendance2 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status="in"',[id]);
         
       if(!valiedAttendance2.length)
         return res.status(400).send("You cannot mark 'out' without marking 'in'");
