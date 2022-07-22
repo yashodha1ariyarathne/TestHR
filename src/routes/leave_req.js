@@ -50,7 +50,7 @@ router.get('/leave', async(req, res,next) => {
         if(numberOfAvailabLeleave <= numberOfLeaveTaken)
             return res.status(400).send("Sorry! All your leave will be taken for this leave type");
             
-        
+        //If everything is OK, enter the data into the database.
         await global.db.query('INSERT INTO leaverequests (emp_id,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired) VALUES(?,?,?,?)',[empId,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired]);
         res.status(201).send("Leave requests sent successfully");
         
