@@ -37,11 +37,9 @@ router.get('/leave', async(req, res,next) => {
             return res.status(400).send("Please fill all required fields");
     }
 
-    else{
-
-        if(!numberOfDaysOfLeaveRequired) 
-            return res.status(400).send("Please fill all required fields");
-    }       
+    if(!numberOfDaysOfLeaveRequired) 
+        return res.status(400).send("Please fill all required fields");
+          
     
     try {
 
