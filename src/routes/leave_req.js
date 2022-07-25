@@ -22,20 +22,20 @@ router.get('/leave', async(req, res,next) => {
         return res.status(400).send("Please fill all required fields");
     
     let leaveTypeLowCase = leaveType.toLowerCase();
-    
-    if(leaveTypeLowCase==='halfday'){
-        if(!timeForHalfday) 
-            return res.status(400).send("Please fill all required fields");
+
+    //Checking that 'leave type' is entered correctly.
+    if (valiedLeaveType.includes(leaveTypeLowCase) === false) 
+        return res.status(400).send("Invalied leave type");
+
+
+    if( leaveTypeLowCase === 'halfday' && !timeForHalfday){
+        return res.status(400).send("Please fill all required fields");
     }
     else{
         if(!numberOfDaysOfLeaveRequired) 
             return res.status(400).send("Please fill all required fields");
     }       
     
-
-    //Checking that 'leave type' is entered correctly.
-    if (valiedLeaveType.includes(leaveTypeLowCase) === false) 
-        return res.status(400).send("Invalied leave type");
 
     
     try {
