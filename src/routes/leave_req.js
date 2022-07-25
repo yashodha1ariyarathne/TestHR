@@ -28,9 +28,10 @@ router.get('/leave', async(req, res,next) => {
         return res.status(400).send("Invalied leave type");
 
 
+     
     if( leaveTypeLowCase === 'halfday'){
 
-        numberOfDaysOfLeaveRequired=1;
+        numberOfDaysOfLeaveRequired = 1; //The numberOfDaysOfLeaveRequired variable defaults to 1 for halfday.
 
         if(!timeForHalfday) 
             return res.status(400).send("Please fill all required fields");
@@ -66,6 +67,7 @@ router.get('/leave', async(req, res,next) => {
         //Checking whether the employee has taken the total number of leaves available in the year for the employee type and leave type
         if(numberOfAvailabLeleave <= numberOfLeaveTaken)
             return res.status(400).send("Sorry, you've already taken all those leave-type leave.");
+
             
         //If everything is OK, enter the data into the database.
         await global.db.query('INSERT INTO leaverequests (emp_id,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday) VALUES(?,?,?,?,?)',[empId,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday]);
