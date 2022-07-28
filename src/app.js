@@ -99,7 +99,9 @@ app.use(async (req, res, next) => {
 });
 
 app.use('/mark', routes.mark_attendance);
-app.use('/request', routes.leave_req);
+app.use('/request', routes.request_leave);
+app.use('/manage', routes.manage_leave);
+app.use('/view', routes.view_leavereq);
 
 //for test middleware
 app.use('/test', (req, res, next) => {
