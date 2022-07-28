@@ -68,12 +68,9 @@ app.use('/ver', (req, res) => {
     res.status(200).send('0.1.0');
 });
 
-
-
 //------------------------- Open Routes -------------------------//
 
-app.use('/mark', routes.mark_attendance);
-app.use('/request', routes.leave_req);
+app.use('/signup',routes.sign_up);
 
 // middleware for authentication-------------------------------------
 app.use(async (req, res, next) => {
@@ -101,9 +98,13 @@ app.use(async (req, res, next) => {
     
 });
 
+app.use('/mark', routes.mark_attendance);
+app.use('/request', routes.leave_req);
+
 //for test middleware
 app.use('/test', (req, res, next) => {
     res.status(200).send("successful")});
+
 
 //Common error handler
 app.use(function errorHandler(err, req, res, next){
