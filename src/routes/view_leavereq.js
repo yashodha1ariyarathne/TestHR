@@ -3,9 +3,8 @@ const express = require('express');
 const { AppError } = require('../bin/config');
 const db = require('../bin/config');
 const router = express.Router();
-// const { TokenExpiredError } = require('jsonwebtoken');
 
-router.get('/manage' ,async(req, res,next) => {
+router.get('/viewreq' ,async(req, res,next) => {
  
   var date = req.body.date;
   
@@ -17,7 +16,7 @@ router.get('/manage' ,async(req, res,next) => {
 
   try {
 
-    //Checking whether the username and password entered matche the data in the database.
+    //Retrieving leave requests from the database related to the date entered.
     let result = await global.db.query('SELECT * FROM leaverequests WHERE dateOfLeaveRequired=?',[date]);
 
     if(!result.length)
