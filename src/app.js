@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const url = require('url');
 
 
+
+
 //Expect a JSON body
 app.use(bodyParser.json({
     limit: '50mb'                   //Request size - 50MB
@@ -69,14 +71,39 @@ app.use('/ver', (req, res) => {
 
 
 //------------------------- Open Routes -------------------------//
-// app.use('/login', routes.test);
 
-app.use('/login', routes.login_route);
 app.use('/mark', routes.mark_attendance);
 app.use('/request', routes.leave_req);
 
+// middleware for authentication-------------------------------------
+app.use(async (req, res, next) => {
 
+    try {
+        
+        //check the token is valid
+        let token = req.headers.authorization;
+                
+        if(token){
+            console.log("valid token");
+            next();
+        }
+        else{
+                
+            res.status(500).send('Athuntication faild');
+        }
+           
+    } 
+        
+    catch (e) {
+        next (new AppError(AppError.types.systemError, 0, e, 200, 500));
+    }
+   
+    
+});
 
+//for test middleware
+app.use('/test', (req, res, next) => {
+    res.status(200).send("successful")});
 
 //Common error handler
 app.use(function errorHandler(err, req, res, next){

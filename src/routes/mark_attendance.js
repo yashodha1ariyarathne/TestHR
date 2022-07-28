@@ -5,8 +5,10 @@ const db = require('../bin/config');
 const router = express.Router();
 
 var md5 = require('md5');
+const { TokenExpiredError } = require('jsonwebtoken');
 
-router.get('/attendance', async(req, res,next) => {
+router.get('/attendance' ,async(req, res,next) => {
+ 
 
   var id;
   var markAtt;
