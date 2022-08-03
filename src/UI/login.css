@@ -1,0 +1,26 @@
+ 
+.flex-con{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home{
+    text-align: center;
+    border: 2px solid black;
+}
+.home >div {
+    margin-bottom: 10px;
+    
+}
+.userinputs {
+    display: flex;
+    margin: 30px;
+   
+
+}
+.userinputs > div {
+    margin: 10px;
+
+}

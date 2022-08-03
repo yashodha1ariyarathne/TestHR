@@ -8,7 +8,8 @@ const bodyParser = require('body-parser');
 const url = require('url');
 
 
-
+const path = require('path')
+app.use('/',express.static(path.join(__dirname,'UI')))
 
 //Expect a JSON body
 app.use(bodyParser.json({
@@ -73,30 +74,30 @@ app.use('/ver', (req, res) => {
 app.use('/signup',routes.sign_up);
 
 // middleware for authentication-------------------------------------
-app.use(async (req, res, next) => {
+// app.use(async (req, res, next) => {
 
-    try {
+//     try {
         
-        //check the token is valid
-        let token = req.headers.authorization;
+//         //check the token is valid
+//         let token = req.headers.authorization;
                 
-        if(token){
-            console.log("valid token");
-            next();
-        }
-        else{
+//         if(token){
+//             console.log("valid token");
+//             next();
+//         }
+//         else{
                 
-            res.status(500).send('Athuntication faild');
-        }
+//             res.status(500).send('Athuntication faild');
+//         }
            
-    } 
+//     } 
         
-    catch (e) {
-        next (new AppError(AppError.types.systemError, 0, e, 200, 500));
-    }
+//     catch (e) {
+//         next (new AppError(AppError.types.systemError, 0, e, 200, 500));
+//     }
    
     
-});
+// });
 
 app.use('/mark', routes.mark_attendance);
 app.use('/request', routes.request_leave);
