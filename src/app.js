@@ -11,6 +11,7 @@ const url = require('url');
 const path = require('path')
 app.use('/',express.static(path.join(__dirname,'UI')))
 
+
 //Expect a JSON body
 app.use(bodyParser.json({
     limit: '50mb'                   //Request size - 50MB
@@ -70,34 +71,37 @@ app.use('/ver', (req, res) => {
 });
 
 //------------------------- Open Routes -------------------------//
+app.get('/', (req, res) => {
+res.sendFile(path.join(__dirname+'/UI/login.html'));
+});
 
 app.use('/signup',routes.sign_up);
 
-// middleware for authentication-------------------------------------
-// app.use(async (req, res, next) => {
 
-//     try {
-        
-//         //check the token is valid
-//         let token = req.headers.authorization;
-                
-//         if(token){
-//             console.log("valid token");
-//             next();
-//         }
-//         else{
-                
-//             res.status(500).send('Athuntication faild');
-//         }
-           
-//     } 
-        
-//     catch (e) {
-//         next (new AppError(AppError.types.systemError, 0, e, 200, 500));
-//     }
-   
+// middleware for authentication-------------------------------------
+app.use(async (req, res, next) => {
+
+    //check the token is valid
     
-// });
+    try{
+        let token = req.cookies.token;
+        if(token){
+            console.log("valid token"); 
+            next();
+        }
+        else{
+                
+            res.status(500).send('Athuntication faild');
+            
+        }
+    }
+    catch (e) {
+            // next (new AppError(AppError.types.systemError, 0, e, 200, 500));
+    }
+    
+    
+});
+
 
 app.use('/mark', routes.mark_attendance);
 app.use('/request', routes.request_leave);

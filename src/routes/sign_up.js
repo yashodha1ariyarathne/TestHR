@@ -3,17 +3,19 @@ const express = require('express');
 const { AppError } = require('../bin/config');
 const db = require('../bin/config');
 const router = express.Router();
+const path = require('path')
+
 
 const jwt = require("jsonwebtoken")
+const jwtKey = "my_secret_key"
+const jwtExpirySeconds = 300
 
-  const jwtKey = "my_secret_key"
-  const jwtExpirySeconds = 300
-
+ 
 router.get('/createToken', async(req, res,next) => {
 
     const users = {
-        user1: "password1",
-        user2: "password2",
+        u1: "p1",
+        u2: "p2",
     }
     
     try {
@@ -33,7 +35,9 @@ router.get('/createToken', async(req, res,next) => {
             expiresIn: jwtExpirySeconds,
         }) 
 
-        res.status(201).send(token)
+        console.log("token:", token)
+        res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })     
+        return res.redirect('/manage.html');
     
 
     } 

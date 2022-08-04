@@ -7,41 +7,42 @@
 
         <link rel="stylesheet" href="login.css">
 
-        <title>Mark attendance</title>
+        <title>Login</title>
     </head>
     <body>
+       
         <div class="flex-con">
 
             <div class="home">
+                <form method="get">
+                    <div>
+                        <p id="home">Login</p> 
+                    </div>  
+                    
+                    <div class="userinputs">
+                    
+                        <div class="label">
+                            <label for="username">User Name</label><br>
+                            <label for="password">Password</label>
+                        </div>
 
-                <div>
-                    <p id="home">Login</p> 
-                </div>  
+                        <div class="inputs">
+                            <input type="text" name="username" id="username"> <br>
+                            <input type="password" name="password" id="password">     
+                        </div>
 
-                <div class="userinputs">
-
-                    <div class="label">
-                        <label for="username">User Name</label><br>
-                        <label for="password">Password</label>
                     </div>
-
-                    <div class="inputs">
-                        <input type="text" name="useRname" id="usertxt"> <br>
-                        <input type="password" name="password" id="pwd">     
+                                        
+                    <div>
+                        <a href="/signup/createToken"><input type="button" name="login" value="Login" id="login"></a>
                     </div>
-
-                </div>
-                                    
-                <div>
-                    <input type="button" name="login" value="Login" id="login">
-                </div>
-
+                </form>
             </div>    
                                 
         </div>
         
     
-    
+   
         
     </body>
 </html>

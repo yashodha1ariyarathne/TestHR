@@ -10,16 +10,17 @@
     text-align: center;
     border: 2px solid black;
 }
-.home >div {
+
+.home > div {
     margin-bottom: 10px;
     
 }
+
 .userinputs {
     display: flex;
     margin: 30px;
-   
-
 }
+
 .userinputs > div {
     margin: 10px;
 

@@ -17,7 +17,7 @@ router.get('/attendance' ,async(req, res,next) => {
   var username = req.body.username;
   var password = req.body.password;
   var status   = req.body.status;
-  var comment   = req.body.comment;
+  var comment  = req.body.comment;
 
   var hashPassword = md5(password);
 
