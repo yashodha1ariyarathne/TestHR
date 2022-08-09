@@ -4,14 +4,14 @@ const { AppError } = require('../bin/config');
 const db = require('../bin/config');
 const router = express.Router();
 
-router.get('/leave', async(req, res,next) => {
+router.post('/leave', async(req, res,next) => {
 
-    let empId = req.body.empId;
+    let empId = req.body.empId; 
     let reason = req.body.reason;
     let dateOfLeaveRequired = req.body.dateOfLeaveRequired;
     let numberOfDaysOfLeaveRequired = req.body.numberOfDaysOfLeaveRequired;
     let timeForHalfday=req.body.timeForHalfday;
-    let leaveType = req.body.type;
+    let leaveType = req.body.leaveType;
 
     let valiedLeaveType = ['casual','medical','halfday'];
 
@@ -40,7 +40,7 @@ router.get('/leave', async(req, res,next) => {
     if(!numberOfDaysOfLeaveRequired) 
         return res.status(400).send("Please fill all required fields");
           
-    
+       
     try {
 
          //Checking that the entered emp_id matches the data in the database.
@@ -68,7 +68,7 @@ router.get('/leave', async(req, res,next) => {
 
             
         //If everything is OK, enter the data into the database.
-        await global.db.query('INSERT INTO leaverequests (emp_id,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday) VALUES(?,?,?,?,?)',[empId,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday]);
+        await global.db.query('INSERT INTO leaverequests (emp_id,leaveType,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday) VALUES(?,?,?,?,?,?)',[empId,leaveTypeLowCase,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday]);
         res.status(201).send("Leave requests sent successfully");
         
     } 

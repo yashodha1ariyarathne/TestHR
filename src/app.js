@@ -4,18 +4,28 @@ const express = require('express');
 const app = express();
 const routes = require('./routes');
 const log = require('./bin/config').log;
+const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const url = require('url');
+var $  = require('jquery');  
 
 
 const path = require('path')
 app.use('/',express.static(path.join(__dirname,'UI')))
 
 
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
+
 //Expect a JSON body
 app.use(bodyParser.json({
     limit: '50mb'                   //Request size - 50MB
 }));
+
+// Accessing Cookies from user's Browser
+app.use(cookieParser())
 
 
 //Handle CORS
@@ -71,7 +81,7 @@ app.use('/ver', (req, res) => {
 });
 
 //------------------------- Open Routes -------------------------//
-app.get('/', (req, res) => {
+app.post('/', (req, res) => {
 res.sendFile(path.join(__dirname+'/UI/login.html'));
 });
 
@@ -79,39 +89,34 @@ app.use('/signup',routes.sign_up);
 
 
 // middleware for authentication-------------------------------------
-app.use(async (req, res, next) => {
+// app.use(async (req, res, next) => {
 
-    //check the token is valid
+//     //check the token is valid
     
-    try{
-        let token = req.cookies.token;
-        if(token){
-            console.log("valid token"); 
-            next();
-        }
-        else{
+//     try{
+//         let token = req.cookies.token;
+//         if(token){
+//             console.log("valid token"); 
+//             res.status(200).send(token);
+//         }
+//         else{
                 
-            res.status(500).send('Athuntication faild');
+//             res.status(400).send('Athuntication faild');
             
-        }
-    }
-    catch (e) {
-            // next (new AppError(AppError.types.systemError, 0, e, 200, 500));
-    }
+//         }
+//     }
+//     catch (e) {
+//             // next (new AppError(AppError.types.systemError, 0, e, 200, 500));
+//     }
     
     
-});
+// });
 
 
 app.use('/mark', routes.mark_attendance);
 app.use('/request', routes.request_leave);
 app.use('/manage', routes.manage_leavereq);
 app.use('/view', routes.view_leavereq);
-
-//for test middleware
-app.use('/test', (req, res, next) => {
-    res.status(200).send("successful")});
-
 
 //Common error handler
 app.use(function errorHandler(err, req, res, next){

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script>
+        $(document).ready(function(){
+        $("form").on("submit", function(event){
+        event.preventDefault();
+ 
+        var formValues= $(this).serialize();
+ 
+        $.ajax({
+                type: "POST",
+                url: '/request/leave',
+                data: formValues,
+                success: function(data) {
+                      
+                    
+                    alert("Form Submited Successfully");
+                },
+                error: function(data) {
+                      
+                    
+                    alert("some Error");
+                }
+            });
+    });
+});
+        
+    // $(() => {
+        
+    //     $("#submitButton").click(function(ev) {
+    //         var form = $("#formId");
+    //         $.ajax({
+    //             type: "POST",
+    //             url: '/request/leave',
+    //             data: form.serialize(),
+    //             success: function(data) {
+                      
+                    
+    //                 alert("Form Submited Successfully");
+    //             },
+    //             error: function(data) {
+                      
+                    
+    //                 alert("some Error");
+    //             }
+    //         });
+    //     });
+    // });
+    </script>
+    <title>Request leave</title>
+</head>
+<body>
+    <form id='formId' method="post">
+        
+        <label>Employee ID:</label><br>
+        <input type="text" name="empId" id="empId"/> <br>  <br>
+
+        <label> Reason: </label><br>         
+        <textarea id="reason" value="reason" name="reason"></textarea> <br><br>
+
+        <label>Date Of Leave Required:</label> <br>
+        <input type="date" id="dateOfLeaveRequired" name="dateOfLeaveRequired">  <br>  <br> 
+        
+        <label>NumberOf Days Of Leave Required:</label><br>
+        <input type="text" name="numberOfDaysOfLeaveRequired" id="numberOfDaysOfLeaveRequired"/> <br>  <br>
+
+        <label>Time For Halfday :</label> <br>
+        <label><input type="radio" id="timeForHalfday" name="timeForHalfday" value="morning"/>Morning</label>   
+        <label><input type="radio" id="timeForHalfday" name="timeForHalfday" value="evening"/>Evening <label><br>       
+        <br><br>  
+        
+        <label>Leave Type:</label> <br>    
+        <select id="leaveType" name="leaveType">    
+        <option  value="casual">casual</option>    
+        <option value="medical">medical</option>
+        <option value="halfday">halfday</option> 
+        </select> <br><br>    
+
+        <button type='submit' id='submitButton'>Submit</button>
+    </form>
+    
+</body>
+</html>
