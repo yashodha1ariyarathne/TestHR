@@ -4,32 +4,25 @@ const { AppError } = require('../bin/config');
 const db = require('../bin/config');
 const router = express.Router();
 
-router.post('/leave', async(req, res,next) => {
 
-    let empId = req.body.empId; 
+
+router.post('/leave', async(req, res,next) => {
+    
+    let empId = req.empId; 
     let reason = req.body.reason;
     let dateOfLeaveRequired = req.body.dateOfLeaveRequired;
     let numberOfDaysOfLeaveRequired = req.body.numberOfDaysOfLeaveRequired;
     let timeForHalfday=req.body.timeForHalfday;
     let leaveType = req.body.leaveType;
 
-    let valiedLeaveType = ['casual','medical','halfday'];
-
-    
+   
     //Checking whether mandatory data has been entered.
 
     if(!empId || !dateOfLeaveRequired || !leaveType) 
         return res.status(400).send("Please fill all required fields");
     
-    let leaveTypeLowCase = leaveType.toLowerCase();
-
-    //Checking that 'leave type' is entered correctly.
-    if (valiedLeaveType.includes(leaveTypeLowCase) === false) 
-        return res.status(400).send("Invalied leave type");
-
-
-     
-    if( leaveTypeLowCase === 'halfday'){
+    
+    if( leaveType === 'halfday'){
 
         numberOfDaysOfLeaveRequired = 1; //The numberOfDaysOfLeaveRequired variable defaults to 1 for halfday.
 
@@ -53,12 +46,12 @@ router.post('/leave', async(req, res,next) => {
 
 
         //To find the total number of holidays available in the year for the employee's employee type and leave type
-        let resultAvalable = await  global.db.query('SELECT * FROM availableleave  WHERE empTypeId = ? and leaveType = ?',[empTypeId,leaveTypeLowCase]);
+        let resultAvalable = await  global.db.query('SELECT * FROM availableleave  WHERE empTypeId = ? and leaveType = ?',[empTypeId,leaveType]);
         let numberOfAvailabLeleave= resultAvalable[0].NumberOfLeaves
         
 
         //To find out the total number of leaves taken by the respective employee during the year by employee type and leave type
-        let resultTaken = await  global.db.query('SELECT SUM(numberOfDaysOfLeave) as numberOfLeaveTaken  FROM leavetaken  WHERE emp_id = ? AND leaveType = ?',[empId,leaveTypeLowCase]);
+        let resultTaken = await  global.db.query('SELECT SUM(numberOfDaysOfLeave) as numberOfLeaveTaken  FROM leavetaken  WHERE emp_id = ? AND leaveType = ?',[empId,leaveType]);
         let numberOfLeaveTaken= resultTaken[0].numberOfLeaveTaken
             
 
@@ -68,8 +61,8 @@ router.post('/leave', async(req, res,next) => {
 
             
         //If everything is OK, enter the data into the database.
-        await global.db.query('INSERT INTO leaverequests (emp_id,leaveType,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday) VALUES(?,?,?,?,?,?)',[empId,leaveTypeLowCase,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday]);
-        res.status(201).send("Leave requests sent successfully");
+        await global.db.query('INSERT INTO leaverequests (emp_id,leaveType,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday) VALUES(?,?,?,?,?,?)',[empId,leaveType,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday]);
+        return res.status(201).send("Leave requests sent successfully");
         
     } 
 

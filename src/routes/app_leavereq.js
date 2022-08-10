@@ -4,9 +4,9 @@ const { AppError } = require('../bin/config');
 const db = require('../bin/config');
 const router = express.Router();
 
-router.get('/managereq' ,async(req, res,next) => {
+router.post('/approvereq' ,async(req, res,next) => {
 
-    var id = req.body.id;
+    var id = req.body.empId;
     var date = req.body.date;
     var approval = req.body.approval;
     var comment = req.body.comment;
@@ -23,7 +23,7 @@ router.get('/managereq' ,async(req, res,next) => {
     if (approvalTypes.includes(approval) === false) 
     return res.status(400).send("Invalied approval");
 
-
+ 
 
     try {
 

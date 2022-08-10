@@ -7,7 +7,42 @@
 
         <link rel="stylesheet" href="login.css">
 
-        <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>  
+        <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script> 
+        
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("button").click(function(){
+
+                    var username = $("#username").val();
+                    var password = $("#password").val();
+                    
+
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/signup/createToken',
+                        contentType: 'application/json',
+                        data:JSON.stringify({username:username,password:password}),
+                        success: function (resp) {
+
+                            if (resp) {
+
+                                location.href='./manage.html'
+                            }
+
+
+                        },
+                        error: function (err) {
+
+                            console.log(err)
+
+                        }
+                    });
+
+                });
+            });
+        </script>
+
        
         <title>Login</title>
     </head>
@@ -16,7 +51,7 @@
         <div class="flex-con">
 
             <div class="home">
-                <form method="get">
+                <form>
                     <div>
                         <p id="home">Login</p> 
                     </div>  
@@ -36,43 +71,10 @@
                     </div>
                                         
                     <div>
-                        <button type="button">Login</button>
+                        <button type='submit' id='submit'>Login</button>
                          
 
-                        <script type="text/javascript">
-                            $(document).ready(function(){
-                                $("button").click(function(){
-                                  
-                                    var username = $("#username").val();
-                                    var password = $("#password").val();
-                                    debugger
-                                   
-
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: '/signup/createToken',
-                                        contentType: 'application/json',
-                                        data:JSON.stringify({username:username,password:password}),
-                                        success: function (resp) {
-
-                                            if (resp) {
-
-                                                location.href='./manage.html'
-                                            }
-
-
-                                        },
-                                        error: function (err) {
-
-                                            console.log(err)
-
-                                        }
-                                    });
-                                    
-                                });
-                            });
-                        </script>
-                
+                        
                     </div>
                 </form>
 

@@ -17,50 +17,24 @@
                 type: "POST",
                 url: '/request/leave',
                 data: formValues,
-                success: function(data) {
-                      
+                success: function(data) {  
                     
                     alert("Form Submited Successfully");
                 },
-                error: function(data) {
-                      
+                error: function(err) {
                     
-                    alert("some Error");
+                    alert("Some error in inputs");
                 }
             });
     });
 });
         
-    // $(() => {
-        
-    //     $("#submitButton").click(function(ev) {
-    //         var form = $("#formId");
-    //         $.ajax({
-    //             type: "POST",
-    //             url: '/request/leave',
-    //             data: form.serialize(),
-    //             success: function(data) {
-                      
-                    
-    //                 alert("Form Submited Successfully");
-    //             },
-    //             error: function(data) {
-                      
-                    
-    //                 alert("some Error");
-    //             }
-    //         });
-    //     });
-    // });
     </script>
     <title>Request leave</title>
 </head>
 <body>
     <form id='formId' method="post">
         
-        <label>Employee ID:</label><br>
-        <input type="text" name="empId" id="empId"/> <br>  <br>
-
         <label> Reason: </label><br>         
         <textarea id="reason" value="reason" name="reason"></textarea> <br><br>
 

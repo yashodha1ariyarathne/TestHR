@@ -10,14 +10,13 @@ const cookieParser = require('cookie-parser');
 const url = require('url');
 var $  = require('jquery');  
 
+const jwt = require("jsonwebtoken")
+const jwtKey = "my_secret_key"
+const jwtExpirySeconds = 300
 
 const path = require('path')
 app.use('/',express.static(path.join(__dirname,'UI')))
 
-
-app.use(bodyParser.urlencoded({
-    extended: false
-}))
 
 //Expect a JSON body
 app.use(bodyParser.json({
@@ -89,34 +88,53 @@ app.use('/signup',routes.sign_up);
 
 
 // middleware for authentication-------------------------------------
-// app.use(async (req, res, next) => {
+app.use(async (req, res, next) => {
 
-//     //check the token is valid
+    //check the token is valid
     
-//     try{
-//         let token = req.cookies.token;
-//         if(token){
-//             console.log("valid token"); 
-//             res.status(200).send(token);
-//         }
-//         else{
+    try{
+
+        // let token = req.cookies.token;
+        let token = req.headers.authorization;
+
+        if(token){
+            console.log("valid token"); 
+            next()
+        }
+        else{
                 
-//             res.status(400).send('Athuntication faild');
+            return res.status(400).send('Athuntication error');
             
-//         }
-//     }
-//     catch (e) {
-//             // next (new AppError(AppError.types.systemError, 0, e, 200, 500));
-//     }
+        }
+    }
+    catch (e) {
+            
+    }
     
     
-// });
+});
 
+
+// verify token
+app.use(function(req,res,next) {
+
+    let token= req.headers.authorization;
+
+    jwt.verify(token, jwtKey, function(err, decodedToken) {
+        if(err) { 
+            res.status(400).send('Athuntication faild') 
+        }
+        else {
+            req.empId = decodedToken.empId;   // Add to req object
+            next();
+        }
+    });
+});
 
 app.use('/mark', routes.mark_attendance);
 app.use('/request', routes.request_leave);
-app.use('/manage', routes.manage_leavereq);
-app.use('/view', routes.view_leavereq);
+app.use('/approve', routes.app_leavereq);
+// app.use('/view', routes.view_leavereq);
 
 //Common error handler
 app.use(function errorHandler(err, req, res, next){
