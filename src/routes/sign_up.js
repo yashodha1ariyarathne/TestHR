@@ -40,15 +40,29 @@ router.post('/createToken',urlencodedparser, async(req, res,next) => {
         let empId = result[0].emp_id;
 
         // Create a new token with the username in the payload 
-        let token = jwt.sign({empId}, jwtKey,(err,token) => {
-            res.json({
-                token
-            })
+        let token = jwt.sign({empId}, jwtKey, {
+            expiresIn: jwtExpirySeconds,
         }) 
 
+          return res.json(token);
+    
+        
+        
         // res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
         // res.status(200).send(token);
-        // next()
+        
+            // const bearerHeader= req.headers['authorization']
+            // if(typeof bearerHeader !== 'undefined'){
+            //     const bearer = bearerHeader.split(' ');
+            //     const bearerToken = bearer[1];
+            //     token = bearerToken;
+            //     next();
+            // }
+            // else{
+            //     res.sendStatus(403);
+            // }
+        
+       
         
         
 

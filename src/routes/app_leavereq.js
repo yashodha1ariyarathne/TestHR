@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/approvereq' ,async(req, res,next) => {
 
-    var id = req.body.empId;
+    var id = req.empId;
     var date = req.body.date;
     var approval = req.body.approval;
     var comment = req.body.comment;
@@ -14,7 +14,7 @@ router.post('/approvereq' ,async(req, res,next) => {
     var approvalTypes=['accept','reject'];
 
     //Checking whether mandatory data has been entered.
-    if(!date|| !id ||!approval) 
+    if(!date|| !approval) 
         return res.status(400).send("Please fill all required fields");
 
     var approval = approval.toLowerCase();

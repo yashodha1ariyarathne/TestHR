@@ -6,7 +6,7 @@ const routes = require('./routes');
 const log = require('./bin/config').log;
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const url = require('url');
 var $  = require('jquery');  
 
@@ -23,8 +23,8 @@ app.use(bodyParser.json({
     limit: '50mb'                   //Request size - 50MB
 }));
 
-// Accessing Cookies from user's Browser
-app.use(cookieParser())
+// // Accessing Cookies from user's Browser
+// app.use(cookieParser())
 
 
 //Handle CORS
@@ -80,27 +80,28 @@ app.use('/ver', (req, res) => {
 });
 
 //------------------------- Open Routes -------------------------//
-app.post('/', (req, res) => {
-res.sendFile(path.join(__dirname+'/UI/login.html'));
-});
+// app.post('/', (req, res) => {
+// res.sendFile(path.join(__dirname+'/UI/login.html'));
+// });
+// res.setHeader('Authorization', 'Bearer ' + token);
+                // next();
 
 app.use('/signup',routes.sign_up);
 
-
-// middleware for authentication-------------------------------------
 app.use(verifyToken,(req,res,next) =>{
 
-    let token= req.token;
-
-    jwt.verify(token, jwtKey, function(err, decodedToken) {
-        if(err) { 
-            res.status(400).send('Athuntication faild') 
-        }
-        else {
-            req.empId = decodedToken.empId;   // Add to req object
-            next();
-        }
-    });
+    let token= req.headers['authorization'];
+    if(token){
+ 
+        // Verify the token using jwt.verify method
+        const decodedToken = jwt.verify(token, jwtKey);
+ 
+        req.empId = decodedToken.empId;   // Add to req object
+        next();
+    }else{
+ 
+        res.status(400).send('Athuntication faild') 
+    }
 });
 
 function verifyToken (req,res,next) {
@@ -108,13 +109,14 @@ function verifyToken (req,res,next) {
     if(typeof bearerHeader !== 'undefined'){
         const bearer = bearerHeader.split(' ');
         const bearerToken = bearer[1];
-        req.token = bearerToken;
+        req.headers['authorization'] = bearerToken;
         next();
     }
     else{
         res.sendStatus(403);
     }
 }
+
 
     
 app.use('/mark', routes.mark_attendance);

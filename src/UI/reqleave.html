@@ -6,28 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
     <script>
+
+        const token = sessionStorage.getItem('token');
+        
         $(document).ready(function(){
-        $("form").on("submit", function(event){
-        event.preventDefault();
- 
-        var formValues= $(this).serialize();
- 
-        $.ajax({
-                type: "POST",
-                url: '/request/leave',
-                data: formValues,
-                success: function(data) {  
-                    
-                    alert("Form Submited Successfully");
-                },
-                error: function(err) {
-                    
-                    alert("Some error in inputs");
-                }
+            $("form").on("submit", function(event){
+                event.preventDefault();
+        
+                var reason = $("#reason").val();
+                var dateOfLeaveRequired = $("#dateOfLeaveRequired").val();
+                var numberOfDaysOfLeaveRequired = $("#numberOfDaysOfLeaveRequired").val();
+                var timeForHalfday = $("#timeForHalfday").val();
+                var leaveType = $("#leaveType").val();
+
+                debugger
+                
+                $.ajax({
+                        type: "POST",
+                        url: '/request/leave',
+                        
+                        headers: {
+                                'Authorization': 'bearer ' + token,
+                                'Content-Type': 'application/json'
+                            },
+                        data:JSON.stringify({ reason: reason, dateOfLeaveRequired:dateOfLeaveRequired , numberOfDaysOfLeaveRequired:numberOfDaysOfLeaveRequired ,timeForHalfday:timeForHalfday, leaveType:leaveType}),
+                        success: function(data) {  
+                            
+                            alert("Form Submited Successfully");
+                        },
+                        error: function(err) {
+                            
+                            alert("Some error in inputs");
+                        }
+                });
             });
-    });
-});
+        });
         
     </script>
     <title>Request leave</title>

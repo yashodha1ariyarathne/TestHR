@@ -15,6 +15,7 @@ router.post('/leave', async(req, res,next) => {
     let timeForHalfday=req.body.timeForHalfday;
     let leaveType = req.body.leaveType;
 
+
    
     //Checking whether mandatory data has been entered.
 
