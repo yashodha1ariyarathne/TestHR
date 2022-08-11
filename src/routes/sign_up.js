@@ -40,14 +40,15 @@ router.post('/createToken',urlencodedparser, async(req, res,next) => {
         let empId = result[0].emp_id;
 
         // Create a new token with the username in the payload 
-        let token = jwt.sign({empId}, jwtKey, {
-            algorithm: "HS256",
-            expiresIn: jwtExpirySeconds,
+        let token = jwt.sign({empId}, jwtKey,(err,token) => {
+            res.json({
+                token
+            })
         }) 
 
         // res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
-        res.status(200).send(token);
-        next()
+        // res.status(200).send(token);
+        // next()
         
         
 

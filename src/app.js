@@ -88,37 +88,9 @@ app.use('/signup',routes.sign_up);
 
 
 // middleware for authentication-------------------------------------
-app.use(async (req, res, next) => {
+app.use(verifyToken,(req,res,next) =>{
 
-    //check the token is valid
-    
-    try{
-
-        // let token = req.cookies.token;
-        let token = req.headers.authorization;
-
-        if(token){
-            console.log("valid token"); 
-            next()
-        }
-        else{
-                
-            return res.status(400).send('Athuntication error');
-            
-        }
-    }
-    catch (e) {
-            
-    }
-    
-    
-});
-
-
-// verify token
-app.use(function(req,res,next) {
-
-    let token= req.headers.authorization;
+    let token= req.token;
 
     jwt.verify(token, jwtKey, function(err, decodedToken) {
         if(err) { 
@@ -131,10 +103,24 @@ app.use(function(req,res,next) {
     });
 });
 
+function verifyToken (req,res,next) {
+    const bearerHeader= req.headers['authorization']
+    if(typeof bearerHeader !== 'undefined'){
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+        req.token = bearerToken;
+        next();
+    }
+    else{
+        res.sendStatus(403);
+    }
+}
+
+    
 app.use('/mark', routes.mark_attendance);
 app.use('/request', routes.request_leave);
 app.use('/approve', routes.app_leavereq);
-// app.use('/view', routes.view_leavereq);
+
 
 //Common error handler
 app.use(function errorHandler(err, req, res, next){
