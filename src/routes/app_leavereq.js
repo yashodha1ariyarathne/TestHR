@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/approvereq' ,async(req, res,next) => {
 
-    var id = req.empId;
+    var id = req.body.empId;
     var date = req.body.date;
     var approval = req.body.approval;
     var comment = req.body.comment;

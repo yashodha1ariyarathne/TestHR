@@ -15,14 +15,12 @@
             $("form").on("submit", function(event){
                 event.preventDefault();
         
-                var reason = $("#reason").val();
-                var dateOfLeaveRequired = $("#dateOfLeaveRequired").val();
-                var numberOfDaysOfLeaveRequired = $("#numberOfDaysOfLeaveRequired").val();
-                var timeForHalfday = $("#timeForHalfday").val();
-                var leaveType = $("#leaveType").val();
-
-                debugger
-                
+                let formData = new FormData(formId);
+                var object = {};
+                formData.forEach(function(value, key){
+                    object[key] = value;
+                });
+        
                 $.ajax({
                         type: "POST",
                         url: '/request/leave',
@@ -31,7 +29,7 @@
                                 'Authorization': 'bearer ' + token,
                                 'Content-Type': 'application/json'
                             },
-                        data:JSON.stringify({ reason: reason, dateOfLeaveRequired : dateOfLeaveRequired , numberOfDaysOfLeaveRequired : numberOfDaysOfLeaveRequired ,timeForHalfday : timeForHalfday, leaveType : leaveType}),
+                        data:JSON.stringify(object),
                         success: function(data) {  
                             
                             alert("Form Submited Successfully");
@@ -48,7 +46,7 @@
     <title>Request leave</title>
 </head>
 <body>
-    <form id='formId' method="post">
+    <form id='formId'>
         
         <label> Reason: </label><br>         
         <textarea id="reason" value="reason" name="reason"></textarea> <br><br>

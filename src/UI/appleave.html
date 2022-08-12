@@ -9,16 +9,27 @@
       
     
     <script>
+        
+        const token = sessionStorage.getItem('token');
+
         $(document).ready(function(){
             $("form").on("submit", function(event){
                 event.preventDefault();
         
-                var formValues= $(this).serialize();
+                let formData = new FormData(appFrm);
+                var object = {};
+                formData.forEach(function(value, key){
+                    object[key] = value;
+                });
         
                 $.ajax({
                         type: "POST",
                         url: '/approve/approvereq',
-                        data: formValues,
+                        headers: {
+                                'Authorization': 'bearer ' + token,
+                                'Content-Type': 'application/json'
+                            },
+                        data:JSON.stringify(object) ,
                         success: function(resp) {  
                             
                             alert("Form Submited Successfully");
@@ -36,7 +47,7 @@
     <title>Approval</title>
 </head>
 <body>
-    <form>
+    <form id="appFrm">
         <label>Employee ID:</label><br>
         <input type="text" name="empId" id="empId"/> <br>  <br>
 
