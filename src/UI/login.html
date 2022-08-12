@@ -49,7 +49,7 @@
 
                                     $.ajax({
                                         type: 'POST',
-                                        url: '/login/createToken',
+                                        url: '/login/login',
                                         contentType: 'application/json',
                                         data:JSON.stringify({username:username,password:password}),
                                         success: function (resp) {

@@ -13,7 +13,7 @@ const jwtKey = "my_secret_key"
 const jwtExpirySeconds = 300
 
 
-router.post('/createToken',urlencodedparser, async(req, res,next) => {
+router.post('/login',urlencodedparser, async(req, res,next) => {
 
     // Get credentials from JSON body
         
