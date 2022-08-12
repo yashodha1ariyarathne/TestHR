@@ -86,7 +86,7 @@ app.use('/ver', (req, res) => {
 // res.setHeader('Authorization', 'Bearer ' + token);
                 // next();
 
-app.use('/signup',routes.sign_up);
+app.use('/login',routes.login);
 
 app.use(verifyToken,(req,res,next) =>{
 

@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/leave', async(req, res,next) => {
     
-    let empId = req.empId; 
+    let empId = req.body.empId; 
     let reason = req.body.reason;
     let dateOfLeaveRequired = req.body.dateOfLeaveRequired;
     let numberOfDaysOfLeaveRequired = req.body.numberOfDaysOfLeaveRequired;

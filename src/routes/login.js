@@ -45,24 +45,6 @@ router.post('/createToken',urlencodedparser, async(req, res,next) => {
         }) 
 
           return res.json(token);
-    
-        
-        
-        // res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
-        // res.status(200).send(token);
-        
-            // const bearerHeader= req.headers['authorization']
-            // if(typeof bearerHeader !== 'undefined'){
-            //     const bearer = bearerHeader.split(' ');
-            //     const bearerToken = bearer[1];
-            //     token = bearerToken;
-            //     next();
-            // }
-            // else{
-            //     res.sendStatus(403);
-            // }
-        
-       
         
         
 

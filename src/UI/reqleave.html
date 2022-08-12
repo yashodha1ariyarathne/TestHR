@@ -31,7 +31,7 @@
                                 'Authorization': 'bearer ' + token,
                                 'Content-Type': 'application/json'
                             },
-                        data:JSON.stringify({ reason: reason, dateOfLeaveRequired:dateOfLeaveRequired , numberOfDaysOfLeaveRequired:numberOfDaysOfLeaveRequired ,timeForHalfday:timeForHalfday, leaveType:leaveType}),
+                        data:JSON.stringify({ reason: reason, dateOfLeaveRequired : dateOfLeaveRequired , numberOfDaysOfLeaveRequired : numberOfDaysOfLeaveRequired ,timeForHalfday : timeForHalfday, leaveType : leaveType}),
                         success: function(data) {  
                             
                             alert("Form Submited Successfully");
@@ -60,8 +60,8 @@
         <input type="text" name="numberOfDaysOfLeaveRequired" id="numberOfDaysOfLeaveRequired"/> <br>  <br>
 
         <label>Time For Halfday :</label> <br>
-        <label><input type="radio" id="timeForHalfday" name="timeForHalfday" value="morning"/>Morning</label>   
-        <label><input type="radio" id="timeForHalfday" name="timeForHalfday" value="evening"/>Evening <label><br>       
+        <input type="radio"  name="timeForHalfday" value="morning">Morning
+        <input type="radio"  name="timeForHalfday" value="evening">Evening   
         <br><br>  
         
         <label>Leave Type:</label> <br>    
