@@ -88,13 +88,19 @@ app.use('/ver', (req, res) => {
 
 app.use('/login',routes.login);
 
-app.use(verifyToken,(req,res,next) =>{
+//verify header authorization token
+app.use(function verifyToken (req,res,next) {
 
-    let token= req.headers['authorization'];
-    if(token){
+    const bearerHeader= req.headers['authorization']
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+
+    req.headers['authorization'] = bearerToken;
+
+    if(bearerToken){
  
         // Verify the token using jwt.verify method
-        const decodedToken = jwt.verify(token, jwtKey);
+        const decodedToken = jwt.verify(bearerToken, jwtKey);
  
         req.empId = decodedToken.empId;   // Add to req object
         next();
@@ -103,19 +109,6 @@ app.use(verifyToken,(req,res,next) =>{
         res.status(400).send('Athuntication faild') 
     }
 });
-
-function verifyToken (req,res,next) {
-    const bearerHeader= req.headers['authorization']
-    if(typeof bearerHeader !== 'undefined'){
-        const bearer = bearerHeader.split(' ');
-        const bearerToken = bearer[1];
-        req.headers['authorization'] = bearerToken;
-        next();
-    }
-    else{
-        res.sendStatus(403);
-    }
-}
 
 
     
