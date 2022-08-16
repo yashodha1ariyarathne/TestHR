@@ -10,6 +10,7 @@ router.post('/approvereq' ,async(req, res,next) => {
     var date = req.body.date;
     var approval = req.body.approval;
     var comment = req.body.comment;
+    var empaIdOfTheStatusMarker=req.empId;
 
     var approvalTypes=['accept','reject'];
 
@@ -34,7 +35,7 @@ router.post('/approvereq' ,async(req, res,next) => {
             return res.status(400).send("Error");
 
         
-        await global.db.query('update leaverequests SET status=?,comment=? where emp_id=? AND dateOfLeaveRequired=?',[approval,comment,id,date,]); 
+        await global.db.query('update leaverequests SET status=?,comment=?,empaIdOfTheStatusMarker=? where emp_id=? AND dateOfLeaveRequired=?',[approval,comment,empaIdOfTheStatusMarker,id,date]); 
         res.status(201).send(result);
 
     }
