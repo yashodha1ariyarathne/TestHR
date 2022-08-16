@@ -92,21 +92,24 @@ app.use(function verifyToken (req,res,next) {
 
     const bearerHeader= req.headers['authorization']
 
-    if(bearerHeader){
+    if(!bearerHeader)
+       return res.status(400).send('Invalied token'); 
 
-        const bearer = bearerHeader.split(' ');
-        const bearerToken = bearer[1];
-        req.headers['authorization'] = bearerToken;
-        
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.headers['authorization'] = bearerToken;
+    
+    try {
         // Verify the token using jwt.verify method
         const decodedToken = jwt.verify(bearerToken, jwtKey);
         req.empId = decodedToken.empId;   // Add to req object
         next();
+        
+    } 
+    catch (error) {
+        return res.status(400).send('Athuntication faild');
     }
-    else{
-    
-        res.status(400).send('Athuntication faild') 
-    }
+        
 });
 
     
