@@ -115,6 +115,7 @@ app.use(function verifyToken (req,res,next) {
     
 app.use('/mark', routes.mark_attendance);
 app.use('/request', routes.request_leave);
+app.use('/view', routes.view_leavereq);
 app.use('/approve', routes.app_leavereq);
 
 

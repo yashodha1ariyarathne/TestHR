@@ -1,5 +1,6 @@
 'use strict'
 const express = require('express'); 
+const { error } = require('jquery');
 const { AppError } = require('../bin/config');
 const db = require('../bin/config');
 const router = express.Router();
@@ -18,16 +19,27 @@ router.post('/viewreq' ,async(req, res,next) => {
   try {
 
     //Retrieving leave requests from the database related to the date entered.
-    let result = await global.db.query('SELECT * FROM leaverequests WHERE dateOfLeaveRequired = ?',[date]);
+  
+    await global.db.query('SELECT * FROM leaverequests WHERE dateOfLeaveRequired = ?',[date] ,(err, rows, fields) => { 
+      if(err)
+      return res.status(400).send("There are no leave requests related to the date entered");
 
-    if(!result.length)
-      return res.status(400).send("There are no leave requests related to the id entered");
-
-    // res.status(201).send(result);
-    
-
+   
+    for( let i = 0 ; i < rows.length ; i++){
+      var row = rows[i];
+      console.log(row.emp_id);
+      console.log(row.reason);
+      console.log(row.leaveType);
+      console.log(row.dateOfLeaveRequired);
+      console.log(row.numberOfDaysOfLeaveRequired);
+      console.log(row.timeForHalfday);
+      console.log(row.status);
+    }
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(rows));
+    });     
   }
-    
+
   catch (e) {
 
     next (new AppError(AppError.types.systemError, 0, e, 200, 500));
