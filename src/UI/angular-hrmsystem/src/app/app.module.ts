@@ -12,6 +12,10 @@ import { AppleaveComponent } from './appleave/appleave.component';
 import { ManageleaveComponent } from './manageleave/manageleave.component';
 import { LoginComponent } from './login/login.component';
 
+import { AuthGuard } from './services/auth.guard';
+import { tokenGetter } from './services/auth.service';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AppService } from './app.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,8 +29,18 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    JwtModule.forRoot({
+      config : {
+       
+        tokenGetter: tokenGetter
+      }
+    }),
   ],
-  providers: [],
+
+  providers: [
+    AuthGuard,
+    AppService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
