@@ -3,9 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 
-import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'; 
+import { AuthInterceptorService } from './auth-interceptor.service'; 
+import { FormsModule } from '@angular/forms'; 
 
-import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { ReqleaveComponent } from './reqleave/reqleave.component';
 import { AppleaveComponent } from './appleave/appleave.component';
@@ -16,13 +18,17 @@ import { AuthGuard } from './services/auth.guard';
 import { tokenGetter } from './services/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppService } from './app.service';
+import { HomeComponent } from './home/home.component';
+
 @NgModule({
+
   declarations: [
     AppComponent,
     ReqleaveComponent,
     AppleaveComponent,
     ManageleaveComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -36,11 +42,13 @@ import { AppService } from './app.service';
       }
     }),
   ],
-
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     AuthGuard,
     AppService,
   ],
   bootstrap: [AppComponent]
+
 })
+
 export class AppModule { }

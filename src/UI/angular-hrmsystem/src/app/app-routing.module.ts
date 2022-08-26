@@ -1,33 +1,30 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-
-import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
-
-import { HttpClientModule } from '@angular/common/http';
 
 import { ReqleaveComponent } from './reqleave/reqleave.component';
 import { AppleaveComponent } from './appleave/appleave.component';
 import { ManageleaveComponent } from './manageleave/manageleave.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './services/auth.guard';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent,
+    data:{username:'username',password:'password'}},
 
-  { path: '', component: ManageleaveComponent ,
+  { path: '', component: HomeComponent,
     canActivate: [AuthGuard]  },
 
-  // { path: 'manageleave', component: ManageleaveComponent,
-  //   canActivate: [AuthGuard]  },
+  { path: 'manageleave', component: ManageleaveComponent,
+    canActivate: [AuthGuard]  },
 
-  // { path: 'reqleave', component: ReqleaveComponent,
-  //   canActivate: [AuthGuard]  },
+  { path: 'reqleave', component: ReqleaveComponent,
+    canActivate: [AuthGuard]  },
 
-  // { path: 'appleave', component: AppleaveComponent,
-  //   canActivate: [AuthGuard]  }
+  { path: 'appleave', component: AppleaveComponent,
+    canActivate: [AuthGuard]  }
 ];
 
 @NgModule({

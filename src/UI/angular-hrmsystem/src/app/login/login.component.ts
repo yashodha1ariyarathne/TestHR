@@ -1,11 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
-import { NgForm } from '@angular/forms';
+
 
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { ToastrService } from 'ngx-toastr';
+import { body } from 'express-validator';
+
+import { AppService } from '../app.service';
 import { AuthService } from '../services/auth.service';
+
+
 
 @Component({
   selector: 'app-login',
@@ -13,14 +17,26 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-   
- 
-  
+
+  username: string = '';
+  password: string = '';
+
   constructor(
-    private jwtHelper: JwtHelperService,
-    private router: Router,
-    private authService: AuthService
+    private http:HttpClient,
+    private appService: AppService
   ) { }
  
+  login(){
+    debugger
+    const url=this.appService.url;
+    this.http.post<any>(url+'/login/login',JSON.stringify({username:this.username,password:this.password}), { headers: new HttpHeaders( {'Content-Type': 'application/json' })
+    }).subscribe(response => {
+      localStorage.setItem("token",'Bearer '+ response);
+   })
+  }
+
   
   }
+
+
+
