@@ -8,6 +8,7 @@ import { AuthInterceptorService } from ".././auth-interceptor.service";
   providedIn: 'root'
 })
 export class AuthService {
+  
   constructor(
   
     public jwtHelper: JwtHelperService,
@@ -15,14 +16,12 @@ export class AuthService {
     public authinterceptorservice:AuthInterceptorService
     ) { }
 
-  
 
     public isAuthenticated(): boolean {
     
       let token = localStorage.getItem('token');
       
       if (token) {
-        
         return true;
       }
   
@@ -33,7 +32,6 @@ export class AuthService {
 
 
 export function tokenGetter() {
-
-  return localStorage.getItem("token")
+  return localStorage.getItem('token');
 }
 
