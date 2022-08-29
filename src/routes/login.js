@@ -16,6 +16,8 @@ const jwtExpirySeconds = 300
 router.post('/login',urlencodedparser, async(req, res,next) => {
 
     // Get credentials from JSON body
+
+
         
     let username = req.body.username;
     let password = req.body.password;
@@ -45,7 +47,7 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
             expiresIn: jwtExpirySeconds,
         }) 
 
-          return res.json(token);
+          return res.send(token);  
         
         
 

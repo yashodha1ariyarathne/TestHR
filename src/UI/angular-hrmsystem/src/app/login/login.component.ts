@@ -30,10 +30,18 @@ export class LoginComponent {
   login(){
     debugger
     const url=this.appService.url;
-    this.http.post<any>(url+'/login/login',JSON.stringify({username:this.username,password:this.password}), { headers: new HttpHeaders( {'Content-Type': 'application/json' })
-    }).subscribe(response => {
-      localStorage.setItem("token",'Bearer '+ response);
-   })
+
+    this.http.post(
+
+      url+'/login/login', 
+
+      JSON.stringify({username:this.username, password:this.password}), 
+
+      { "responseType": 'text'})
+      
+      .subscribe(response => {
+        localStorage.setItem("token",'Bearer '+ response);
+      })
   }
 
   
