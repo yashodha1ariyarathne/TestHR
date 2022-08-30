@@ -1,0 +1,11 @@
+<p>mark your attendance</p>
+
+
+<label> Status:</label> <br>
+<input type="text" name="status" value="status" [(ngModel)]="status">
+<br><br>  
+
+<label> Comment: </label><br>         
+<textarea id="comment" value="comment" name="comment" [(ngModel)]="comment"></textarea> <br><br>
+
+<button type="button" (click)="mark()" routerLink="">Mark</button>

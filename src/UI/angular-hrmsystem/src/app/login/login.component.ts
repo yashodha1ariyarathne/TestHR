@@ -40,12 +40,12 @@ export class LoginComponent {
       { "responseType": 'text'})
       
       .subscribe(response => {
-        localStorage.setItem("token",'Bearer '+ response);
+        localStorage.setItem("token",response);
       })
   }
 
   
   }
 
-
+ 
 

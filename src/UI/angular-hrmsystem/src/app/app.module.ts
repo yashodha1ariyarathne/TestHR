@@ -19,6 +19,7 @@ import { AuthGuard } from './services/auth.guard';
 import { tokenGetter } from './services/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppService } from './app.service';
+import { MarkattendanceComponent } from './markattendance/markattendance.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { AppService } from './app.service';
     AppleaveComponent,
     ManageleaveComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    MarkattendanceComponent
   ],
   imports: [
     BrowserModule,

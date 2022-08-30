@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+
+
+import { AuthGuard } from './services/auth.guard';
+
+import { AppComponent } from './app.component';
 import { ReqleaveComponent } from './reqleave/reqleave.component';
 import { AppleaveComponent } from './appleave/appleave.component';
 import { ManageleaveComponent } from './manageleave/manageleave.component';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './services/auth.guard';
-import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboad.component';
+import { MarkattendanceComponent } from './markattendance/markattendance.component';
 
 
 const routes: Routes = [
@@ -16,6 +20,10 @@ const routes: Routes = [
 
   { path: '', component: DashboardComponent,
     canActivate: [AuthGuard]  },
+
+  { path: 'markattendance', component: MarkattendanceComponent,
+    canActivate: [AuthGuard],
+    data:{status:'status',comment:'comment'}  },
 
   { path: 'manageleave', component: ManageleaveComponent,
     canActivate: [AuthGuard]  },
