@@ -7,14 +7,14 @@ import { ManageleaveComponent } from './manageleave/manageleave.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './services/auth.guard';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './dashboard/dashboad.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent,
     data:{username:'username',password:'password'}},
 
-  { path: '', component: HomeComponent,
+  { path: '', component: DashboardComponent,
     canActivate: [AuthGuard]  },
 
   { path: 'manageleave', component: ManageleaveComponent,

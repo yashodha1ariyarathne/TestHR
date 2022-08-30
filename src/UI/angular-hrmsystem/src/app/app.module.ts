@@ -13,12 +13,13 @@ import { ReqleaveComponent } from './reqleave/reqleave.component';
 import { AppleaveComponent } from './appleave/appleave.component';
 import { ManageleaveComponent } from './manageleave/manageleave.component';
 import { LoginComponent } from './login/login.component';
+import { DashboardComponent } from './dashboard/dashboad.component';
 
 import { AuthGuard } from './services/auth.guard';
 import { tokenGetter } from './services/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppService } from './app.service';
-import { HomeComponent } from './home/home.component';
+
 
 @NgModule({
 
@@ -28,7 +29,7 @@ import { HomeComponent } from './home/home.component';
     AppleaveComponent,
     ManageleaveComponent,
     LoginComponent,
-    HomeComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
