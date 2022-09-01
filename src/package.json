@@ -12,6 +12,7 @@
     "debug_prod": "set MYSQL_URL=mysql://root:yashodha2021@localhost:3306/inventivemechanics_hr&PORT=8080&set NODE_ENV=production&node --inspect ./bin/www"
   },
   "dependencies": {
+    "angular-material": "^1.2.5",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",

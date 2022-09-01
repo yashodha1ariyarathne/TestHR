@@ -8,42 +8,17 @@ var md5 = require('md5');
 const { TokenExpiredError } = require('jsonwebtoken');
 
 router.post('/attendance' ,async(req, res,next) => {
- 
-
-  var id;
+  
   var markAtt;
   var statusTypes=['in','out'];
 
-  var username = req.body.username;
-  var password = req.body.password;
+  var  id = req.empId;
   var status   = req.body.status;
   var comment  = req.body.comment;
 
-  var hashPassword = md5(password);
-
   var statusLowCase =status.toLowerCase();
-  
-  //Checking whether mandatory data has been entered.
-  if(!username || !password || !status) 
-    return res.status(400).send("Please fill all required fields");
-
-  
-  //Checking that 'Status' is entered correctly.
-  if (statusTypes.includes(statusLowCase) === false) 
-    return res.status(400).send("Invalied status type");
-
 
   try {
-
-    //Checking whether the username and password entered matche the data in the database.
-    let result = await  global.db.query('SELECT * FROM employees  WHERE username = ? and hashpassword=?',[username,hashPassword]);
-
-    if(!result.length)
-
-      return res.status(400).send("Incorrect Username or Password");
-
-              
-    id = result[0].emp_id;
 
     //Checking if date related data is already entered.
     let valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);

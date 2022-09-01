@@ -12,7 +12,7 @@ var $  = require('jquery');
 
 const jwt = require("jsonwebtoken")
 const jwtKey = "my_secret_key"
-const jwtExpirySeconds = 300
+const jwtExpirySeconds = 500
 
 const path = require('path')
 app.use('/',express.static(path.join(__dirname,'UI')))
@@ -101,13 +101,13 @@ app.use(function verifyToken (req,res,next) {
     
     try {
         // Verify the token using jwt.verify method
-        const decodedToken = jwt.verify(bearerToken, jwtKey);
-        req.empId = decodedToken.empId;   // Add to req object
+        const decodedToken = jwt.verify(bearerToken, jwtKey,jwtExpirySeconds);
+        req.empId = decodedToken.empId; // Add to req object
         next();
         
     } 
     catch (error) {
-        return res.status(400).send('Athuntication faild');
+        return res.status(400).send(error);
     }
         
 });

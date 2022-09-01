@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+
 import { AppComponent } from './app.component';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'; 
 import { AuthInterceptorService } from './auth-interceptor.service'; 
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,7 @@ import { MarkattendanceComponent } from './markattendance/markattendance.compone
 @NgModule({
 
   declarations: [
+   
     AppComponent,
     ReqleaveComponent,
     AppleaveComponent,
@@ -34,8 +36,10 @@ import { MarkattendanceComponent } from './markattendance/markattendance.compone
     MarkattendanceComponent
   ],
   imports: [
+    
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     JwtModule.forRoot({
@@ -50,7 +54,8 @@ import { MarkattendanceComponent } from './markattendance/markattendance.compone
     AuthGuard,
     AppService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
 
 })
 

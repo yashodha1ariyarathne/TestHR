@@ -25,10 +25,15 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data:{status:'status',comment:'comment'}  },
 
-  { path: 'manageleave', component: ManageleaveComponent,
-    canActivate: [AuthGuard]  },
-
   { path: 'reqleave', component: ReqleaveComponent,
+    canActivate: [AuthGuard],
+    data:{reason:'reason',
+    dateOfLeaveRequired:'dateOfLeaveRequired',
+    numberOfDaysOfLeaveRequired:'numberOfDaysOfLeaveRequired',
+    timeForHalfday:'timeForHalfday',
+    leaveType:'leaveType'} },
+
+  { path: 'manageleave', component: ManageleaveComponent,
     canActivate: [AuthGuard]  },
 
   { path: 'appleave', component: AppleaveComponent,

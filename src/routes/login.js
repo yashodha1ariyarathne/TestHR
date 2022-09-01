@@ -45,6 +45,7 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
         // Create a new token with the username in the payload 
         let token = jwt.sign({empId}, jwtKey, {
             expiresIn: jwtExpirySeconds,
+            
         }) 
 
           return res.send(token);  
