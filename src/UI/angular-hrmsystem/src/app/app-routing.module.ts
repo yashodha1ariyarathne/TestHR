@@ -16,28 +16,48 @@ import { MarkattendanceComponent } from './markattendance/markattendance.compone
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent,
-    data:{username:'username',password:'password'}},
+    data:{
+      username:'username',
+      password:'password'
+    }
+  },
 
   { path: '', component: DashboardComponent,
-    canActivate: [AuthGuard]  },
+    canActivate: [AuthGuard]  
+  },
 
   { path: 'markattendance', component: MarkattendanceComponent,
     canActivate: [AuthGuard],
-    data:{status:'status',comment:'comment'}  },
+    data:{
+      status:'status',
+      comment:'comment'
+    } 
+  },
 
   { path: 'reqleave', component: ReqleaveComponent,
     canActivate: [AuthGuard],
-    data:{reason:'reason',
-    dateOfLeaveRequired:'dateOfLeaveRequired',
-    numberOfDaysOfLeaveRequired:'numberOfDaysOfLeaveRequired',
-    timeForHalfday:'timeForHalfday',
-    leaveType:'leaveType'} },
+    data:{
+      reason:'reason',
+      dateOfLeaveRequired:'dateOfLeaveRequired',
+      numberOfDaysOfLeaveRequired:'numberOfDaysOfLeaveRequired',
+      timeForHalfday:'timeForHalfday',
+      leaveType:'leaveType'
+    }
+  },
 
   { path: 'manageleave', component: ManageleaveComponent,
-    canActivate: [AuthGuard]  },
+    canActivate: [AuthGuard]
+  },
 
   { path: 'appleave', component: AppleaveComponent,
-    canActivate: [AuthGuard]  }
+    canActivate: [AuthGuard],
+    data:{
+      empId:'empId',
+      date:'date',
+      approval:'approval',
+      comment:'comment'
+    }  
+  }
 ];
 
 @NgModule({

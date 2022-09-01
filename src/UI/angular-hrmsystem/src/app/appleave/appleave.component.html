@@ -1,18 +1,22 @@
-<div class="flex-con">
-    <label>Employee ID:</label><br>
-    <input type="text" name="empId" id="empId"/> <br>  <br>
+<form [formGroup]="form" (ngSubmit)="submit()"> 
 
-    <label>Date:</label> <br>
-    <input type="date" id="date" name="date">  <br>  <br> 
+    <label for="empId">Employee ID:</label><br>
+    <input type="text" name="empId" id="empId" formControlName="empId"/> <br>  <br>
 
-    <label>Approval :</label> <br>
-    <label><input type="radio" id="approval" name="approval" value="accept"/>Accept</label>   
-    <label><input type="radio" id="approval" name="approval" value="reject"/>Reject<label><br>       
+    <label for="date">Date:</label> <br>
+    <input type="date" id="date" name="date"formControlName="date"/>  <br>  <br> 
+
+    <label for="approval">Approval :</label> <br>
+    <label for="accept"><input type="radio" id="approval" name="approval" value="accept" formControlName="approval"/>Accept</label>   
+    <label for="reject"><input type="radio" id="approval" name="approval" value="reject" formControlName="approval"/>Reject</label><br>       
     <br><br>  
     
-    <label>Comment: </label><br>         
-    <textarea id="comment" value="comment" name="comment"></textarea> <br><br>
+    <label for="comment">Comment: </label><br>         
+    <textarea id="comment" value="comment" name="comment" formControlName="comment"></textarea> <br><br>
     
     <button type='submit' id='submit' name="submit">Submit</button>
             
-       
+</form>     
+<div>
+    <button class="btn_exit" type="submit" routerLink="/">Exit</button>
+</div>

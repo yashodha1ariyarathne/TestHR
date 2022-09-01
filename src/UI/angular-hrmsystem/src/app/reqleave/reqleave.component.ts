@@ -50,6 +50,9 @@ export class ReqleaveComponent  {
       .subscribe(response => {
         localStorage.getItem('token');
       })
+
+    this.form.reset();
+      
   }
    
    
