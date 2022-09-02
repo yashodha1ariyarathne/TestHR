@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse,  } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppService } from '../app.service';
@@ -14,6 +14,7 @@ export class AppleaveComponent {
     private fb:FormBuilder,
     private http:HttpClient,
     private appService: AppService
+   
   ) { }
   form = new FormGroup({
     empId: new FormControl('', Validators.required),
@@ -42,11 +43,14 @@ export class AppleaveComponent {
         comment:this.form.value.comment
       }), 
 
-      { "responseType": 'text'})
-      
-      .subscribe(response => {
-        localStorage.getItem('token');
-      })
+      { "responseType": 'text'}).subscribe({
+        next: response => {
+            localStorage.getItem('token');
+        }
+    })
+
+
+
 
     this.form.reset();
       

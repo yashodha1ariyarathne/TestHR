@@ -20,6 +20,9 @@ router.post('/attendance' ,async(req, res,next) => {
 
   try {
 
+    if(!status)
+      return res.status(400).send("Please fill all required fields");
+
     //Checking if date related data is already entered.
     let valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
     

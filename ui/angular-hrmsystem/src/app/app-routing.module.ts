@@ -8,7 +8,7 @@ import { AuthGuard } from './services/auth.guard';
 import { AppComponent } from './app.component';
 import { ReqleaveComponent } from './reqleave/reqleave.component';
 import { AppleaveComponent } from './appleave/appleave.component';
-import { ManageleaveComponent } from './manageleave/manageleave.component';
+// import { ManageleaveComponent } from './manageleave/manageleave.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboad.component';
 import { MarkattendanceComponent } from './markattendance/markattendance.component';
@@ -43,10 +43,6 @@ const routes: Routes = [
       timeForHalfday:'timeForHalfday',
       leaveType:'leaveType'
     }
-  },
-
-  { path: 'manageleave', component: ManageleaveComponent,
-    canActivate: [AuthGuard]
   },
 
   { path: 'appleave', component: AppleaveComponent,

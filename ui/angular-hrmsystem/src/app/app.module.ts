@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { ReqleaveComponent } from './reqleave/reqleave.component';
 import { AppleaveComponent } from './appleave/appleave.component';
-import { ManageleaveComponent } from './manageleave/manageleave.component';
+// import { ManageleaveComponent } from './manageleave/manageleave.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboad.component';
 
@@ -30,7 +30,6 @@ import { MarkattendanceComponent } from './markattendance/markattendance.compone
     AppComponent,
     ReqleaveComponent,
     AppleaveComponent,
-    ManageleaveComponent,
     LoginComponent,
     DashboardComponent,
     MarkattendanceComponent
