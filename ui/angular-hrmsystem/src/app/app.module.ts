@@ -23,6 +23,8 @@ import { AppService } from './app.service';
 import { MarkattendanceComponent } from './markattendance/markattendance.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatSliderModule } from '@angular/material/slider';
+
 
 @NgModule({
 
@@ -36,7 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MarkattendanceComponent
   ],
   imports: [
-    
+    MatSliderModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
