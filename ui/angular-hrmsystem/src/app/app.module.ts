@@ -21,6 +21,7 @@ import { tokenGetter } from './services/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppService } from './app.service';
 import { MarkattendanceComponent } from './markattendance/markattendance.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { MarkattendanceComponent } from './markattendance/markattendance.compone
         tokenGetter: tokenGetter
       }
     }),
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
