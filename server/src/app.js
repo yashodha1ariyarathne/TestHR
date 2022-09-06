@@ -88,30 +88,28 @@ app.use('/ver', (req, res) => {
 
 app.use('/login',routes.login);
 
-app.use(function verifyToken (req,res,next) {
-
+app.use(async (req, res, next) => {
     const bearerHeader= req.headers['authorization']
 
-    if(!bearerHeader)
-       return res.status(400).send('Invalied token'); 
-
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1];
-    req.headers['authorization'] = bearerToken;
+        if(!bearerHeader)
+           return res.status(400).send('Invalied token'); 
     
-    try {
-        // Verify the token using jwt.verify method
-        const decodedToken = jwt.verify(bearerToken, jwtKey,jwtExpirySeconds);
-        req.empId = decodedToken.empId; // Add to req object
-        next();
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+        req.headers['authorization'] = bearerToken;
         
-    } 
-    catch (error) {
-        return res.status(400).send(error);
-    }
-        
-});
-
+        try {
+            // Verify the token using jwt.verify method
+            const decodedToken = jwt.verify(bearerToken, jwtKey,jwtExpirySeconds);
+            req.empId = decodedToken.empId; // Add to req object
+            next();
+            // return res.status(400).send('Invalied token');
+            
+        } 
+        catch (error) {
+            return res.status(400).send(error);
+        }
+})
     
 app.use('/markAddendance', routes.mark_attendance);
 app.use('/requestLeave', routes.request_leave);
