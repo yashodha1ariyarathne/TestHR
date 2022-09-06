@@ -16,12 +16,19 @@ router.post('/attendance' ,async(req, res,next) => {
   var status   = req.body.status;
   var comment  = req.body.comment;
 
+
   var statusLowCase =status.toLowerCase();
 
   try {
 
+    //Checking whether mandatory data has been entered.
     if(!status)
       return res.status(400).send("Please fill all required fields");
+
+    //Checking that 'Status' is entered correctly.
+    if (statusTypes.includes(statusLowCase) === false) 
+    return res.status(400).send("Invalied status type");
+
 
     //Checking if date related data is already entered.
     let valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
