@@ -49,6 +49,7 @@ export class ReqleaveComponent  {
       
       .subscribe(response => {
         localStorage.getItem('token');
+        window.alert(response);
       })
 
     this.form.reset();

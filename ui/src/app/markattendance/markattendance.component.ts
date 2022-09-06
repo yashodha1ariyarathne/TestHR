@@ -38,6 +38,7 @@ export class MarkattendanceComponent {
       
       .subscribe(response => {
         localStorage.getItem('token');
+        window.alert(response);
       })
   }
 }

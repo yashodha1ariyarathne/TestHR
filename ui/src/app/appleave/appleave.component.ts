@@ -46,6 +46,7 @@ export class AppleaveComponent {
       { "responseType": 'text'}).subscribe({
         next: response => {
             localStorage.getItem('token');
+            window.alert(response);
         }
     })
 
