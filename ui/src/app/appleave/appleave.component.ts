@@ -43,20 +43,19 @@ export class AppleaveComponent {
         comment:this.form.value.comment
       }), 
 
-      { "responseType": 'text'}).subscribe({
-        next: response => {
-            localStorage.getItem('token');
-            window.alert(response);
-        }
-    })
-
-
-
-
-    this.form.reset();
+      { "responseType": 'text'}).subscribe(response => {
+        localStorage.getItem('token');
+        window.alert(response);
+      })
+  
+      this.form.reset();
       
+    }
+     
+     
+  
   }
-   
-   
 
-}
+
+
+

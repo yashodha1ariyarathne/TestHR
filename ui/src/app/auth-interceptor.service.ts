@@ -24,16 +24,12 @@ export class AuthInterceptorService implements HttpInterceptor {
         .pipe(
            catchError((error: HttpErrorResponse) => {
                 // Catching Error Stage
-                let errorMassage = '';
-                if (error.error instanceof ErrorEvent) {
-                    errorMassage= `Error: ${error.error.message}`;
+                if (error) {
+                   window.alert(error.error) // in case of an error response the error message is displayed
                 }
-                else{
-                  errorMassage= `Error code: ${error.status}\nMessage: ${error.message}`;
-                }
-                window.alert(errorMassage);;
-                return throwError(() => errorMassage); // any further errors are returned to frontend                    
+                
+                return throwError(error); // any further errors are returned to frontend                    
            })
         );
-  }  
+  }   
 }
