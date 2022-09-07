@@ -1,28 +1,29 @@
-<form [formGroup]="form" (ngSubmit)="submit()"> 
-
-    <label for="reason"> Reason: </label><br>         
-    <textarea id="reason" value="reason" name="reason" formControlName="reason" ></textarea> <br><br>
-
-    <label for="date">Date Of Leave Required:</label> <br>
-    <input type="date" id="dateOfLeaveRequired" name="dateOfLeaveRequired" formControlName="dateOfLeaveRequired">  <br>  <br> 
-
-    <label for="numberOfDaysOfLeaveRequired">NumberOf Days Of Leave Required:</label><br>
-    <input type="text" name="numberOfDaysOfLeaveRequired" id="numberOfDaysOfLeaveRequired" formControlName="numberOfDaysOfLeaveRequired"/> <br>  <br>
-
-    <label for="timeForHalfday">Time For Halfday :</label> <br>
-    <input type="radio"  name="timeForHalfday" value="morning" formControlName="timeForHalfday">Morning
-    <input type="radio"  name="timeForHalfday" value="evening" formControlName="timeForHalfday">Evening   
-    <br><br>  
-
-    <label for="leaveType">Leave Type:</label> <br>
-    <select formControlName="leaveType">
-    <option [ngValue]="null" disabled>Select Leavetype</option>    
-    <option  *ngFor="let  leaveType of leaveTypes"  [ngValue]="leaveType.name" >{{leaveType.name}}</option>    
-    </select> <br><br>    
-
-    <button class="btn_submit" type="submit" >Submit</button>  <br>  <br>
-
-</form>
 <div>
-    <button class="btn_exit" type="submit" routerLink="/">Exit</button>
+    <form [formGroup]="form" (ngSubmit)="submit()"> 
+
+        <label for="reason"> Reason: </label><br>         
+        <textarea id="reason" value="reason" name="reason" formControlName="reason" ></textarea> <br><br>
+
+        <label for="date">Date Of Leave Required:</label> <br>
+        <input type="date" id="dateOfLeaveRequired" name="dateOfLeaveRequired" formControlName="dateOfLeaveRequired">  <br>  <br> 
+
+        <label for="numberOfDaysOfLeaveRequired">NumberOf Days Of Leave Required:</label><br>
+        <input type="text" name="numberOfDaysOfLeaveRequired" id="numberOfDaysOfLeaveRequired" formControlName="numberOfDaysOfLeaveRequired"/> <br>  <br>
+
+        <label for="timeForHalfday">Time For Halfday :</label> <br>
+        <input type="radio"  name="timeForHalfday" value="morning" formControlName="timeForHalfday">Morning
+        <input type="radio"  name="timeForHalfday" value="evening" formControlName="timeForHalfday">Evening   
+        <br><br>  
+
+        <label for="leaveType">Leave Type:</label> <br>
+        <select formControlName="leaveType">
+        <option [ngValue]="null" disabled>Select Leavetype</option>    
+        <option  *ngFor="let  leaveType of leaveTypes"  [ngValue]="leaveType.name" >{{leaveType.name}}</option>    
+        </select> <br><br>    
+
+        <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >Submit</button>
+        <button type="button" routerLink="" mat-stroked-button color="accent">Exit</button>
+
+    </form>
+
 </div>
