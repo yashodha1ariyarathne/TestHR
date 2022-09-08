@@ -43,7 +43,34 @@ export class LoginComponent {
       { "responseType": 'text'}).subscribe(response => {
         localStorage.setItem("token",response);
       })
+
+
+
+      /*
+
+
+            let loginResult = await lastValueFrom(this.http.post(
+
+          url+'/login/login', 
+
+          JSON.stringify({username:this.username, password:this.password}), 
+
+        { "responseType": 'text'}))
+      }
+
+
+      */
+
+
+
     }
+
+
+
+
+
+
+
   }
 
  
