@@ -55,7 +55,7 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
     } 
     catch (error) {
         
-        next (new AppError(AppError.types.systemError, 0, error, 200, 500));
+        return res.status(401).send("username or password doesn't exist, or if password does or not match the password in our records")
     }
 });
 

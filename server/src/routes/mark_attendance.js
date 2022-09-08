@@ -53,9 +53,9 @@ router.post('/attendance' ,async(req, res,next) => {
 
   }
     
-  catch (e) {
+  catch (error) {
 
-    next (new AppError(AppError.types.systemError, 0, e, 200, 500));
+    next (new AppError(AppError.types.systemError, 0, error, 200, 500));
    
   }
 
