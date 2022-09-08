@@ -12,7 +12,7 @@ var $  = require('jquery');
 
 const jwt = require("jsonwebtoken")
 const jwtKey = "my_secret_key"
-const jwtExpirySeconds = 500
+const jwtExpirySeconds = 300
 
 const path = require('path')
 app.use('/',express.static(path.join(__dirname,'ui')))
@@ -101,7 +101,7 @@ app.use(async (req, res, next) => {
         try {
             // Verify the token using jwt.verify method
             const decodedToken = jwt.verify(bearerToken, jwtKey,jwtExpirySeconds);
-            req.empId = decodedToken.empId; // Add to req object
+            res.locals.empId = decodedToken.empId; // Add to req object
             next();
             // return res.status(400).send('Invalied token');
             

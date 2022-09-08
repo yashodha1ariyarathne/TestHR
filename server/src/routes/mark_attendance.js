@@ -12,7 +12,7 @@ router.post('/attendance' ,async(req, res,next) => {
   var markAtt;
   var statusTypes=['in','out'];
 
-  var  id = req.empId;
+  var  id = res.locals.empId;
   var status   = req.body.status;
   var comment  = req.body.comment;
 
