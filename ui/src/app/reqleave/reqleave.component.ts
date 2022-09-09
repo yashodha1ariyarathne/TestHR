@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { lastValueFrom } from 'rxjs';
 import { AppService } from '../app.service';
 
 @Component({
@@ -30,29 +31,34 @@ export class ReqleaveComponent  {
     return this.form.controls;
   }
    
-  submit(){
-    console.log(this.form.value);
+  async submit(){
+   
     debugger
     const url=this.appService.url;
 
-    this.http.post(
+    try {
 
-      url+'/requestLeave/leave', 
+      let reqLeaveResult = await lastValueFrom(this.http.post(
+        url+'/requestLeave/leave', 
 
-      JSON.stringify({reason:this.form.value.reason,
-        dateOfLeaveRequired:this.form.value.dateOfLeaveRequired,
-        numberOfDaysOfLeaveRequired:this.form.value.numberOfDaysOfLeaveRequired,
-        timeForHalfday:this.form.value.timeForHalfday,
-        leaveType:this.form.value.leaveType}), 
+        JSON.stringify({reason:this.form.value.reason,
+            dateOfLeaveRequired:this.form.value.dateOfLeaveRequired,
+            numberOfDaysOfLeaveRequired:this.form.value.numberOfDaysOfLeaveRequired,
+            timeForHalfday:this.form.value.timeForHalfday,
+            leaveType:this.form.value.leaveType}),  
 
-      { "responseType": 'text'})
-      
-      .subscribe(response => {
-        localStorage.getItem('token');
-        window.alert(response);
-      })
+        { "responseType": 'text'}))
 
-    this.form.reset();
+        window.alert(reqLeaveResult);
+        this.form.reset();
+
+    } 
+
+    catch (error) {
+
+        throw(error);  
+
+    }
       
   }
    

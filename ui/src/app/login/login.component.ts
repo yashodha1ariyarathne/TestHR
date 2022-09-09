@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
-import { Observable, throwError } from 'rxjs';
+import { lastValueFrom, Observable, throwError } from 'rxjs';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 // import { body } from 'express-validator';
@@ -30,36 +30,40 @@ export class LoginComponent {
     
   ) { }
  
-  login(){
+  async login(){
     debugger
+
     const url=this.appService.url;
+        
+    try {
 
-    this.http.post(
-
-      url+'/login/login', 
-
-      JSON.stringify({username:this.username, password:this.password}), 
-
-      { "responseType": 'text'}).subscribe(response => {
-        localStorage.setItem("token",response);
-      })
-
-
-
-      /*
-
-
-            let loginResult = await lastValueFrom(this.http.post(
+      let loginResult = await lastValueFrom(this.http.post(
 
           url+'/login/login', 
 
           JSON.stringify({username:this.username, password:this.password}), 
 
         { "responseType": 'text'}))
+
+      if(loginResult){
+        localStorage.setItem("token",loginResult);
+        // console.log(loginResult)
       }
+    
+    } 
+
+    catch (error) {
+      var err:any = error;
+      // console.log(err.error)
+      window.alert(err.error);  
+
+    }
+    
+    
+  }
 
 
-      */
+      
 
 
 
@@ -71,7 +75,7 @@ export class LoginComponent {
 
 
 
-  }
+  
 
  
 

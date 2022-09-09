@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse,  } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { lastValueFrom } from 'rxjs';
 import { AppService } from '../app.service';
 
 @Component({
@@ -27,30 +28,39 @@ export class AppleaveComponent {
     return this.form.controls;
   }
    
-  submit(){
+  async submit(){
     console.log(this.form.value);
     debugger
     const url=this.appService.url;
 
-    this.http.post(
+    try {
 
-      url+'/approveLeaveRequest/approvereq', 
+      let appLeaveResult = await lastValueFrom(this.http.post(
+        url+'/approveLeaveRequest/approvereq', 
 
-      JSON.stringify({
-        empId:this.form.value.empId,
-        date:this.form.value.date,
-        approval:this.form.value.approval,
-        comment:this.form.value.comment
-      }), 
+        JSON.stringify({
+          empId:this.form.value.empId,
+          date:this.form.value.date,
+          approval:this.form.value.approval,
+          comment:this.form.value.comment
+        }),   
 
-      { "responseType": 'text'}).subscribe(response => {
-        localStorage.getItem('token');
-        window.alert(response);
-      })
-  
-      this.form.reset();
-      
+        { "responseType": 'text'}))
+
+        window.alert(appLeaveResult);
+        this.form.reset();
+
+    } 
+
+    catch (error) {
+
+        throw(error);  
+
     }
+  
+      
+      
+  }
      
      
   
