@@ -24,7 +24,7 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
 
     //Checking whether mandatory data has been entered.
     if(!username || !password ) 
-    return console.log("Please fill all required fields")
+    return res.status(401).send("Please fill all required fields")
     // res.status(400).send("Please fill all required fields");
 
     var hashPassword = md5(password);
@@ -48,14 +48,15 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
             
         }) 
 
-          return res.send(token);  
+          return res.send(token);
+           
         
         
 
     } 
     catch (error) {
         
-        return res.status(401).send("username or password doesn't exist, or if password does or not match the password in our records")
+        next (new AppError(AppError.types.systemError, 0, error, 200, 500));
     }
 });
 
