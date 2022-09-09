@@ -34,7 +34,7 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
 
         let result = await  global.db.query('SELECT * FROM employees  WHERE username =? && hashPassword = ? ',[username,hashPassword]);
 
-        if (!result ) {
+        if (result.length === 0 ) {
             // return 401 error is username or password doesn't exist, or if password does not match the password in our records
             return res.status(401).send("username or password doesn't exist, or if password does or not match the password in our records")
         }
