@@ -23,18 +23,18 @@ router.post('/attendance' ,async(req, res,next) => {
 
     //Checking whether mandatory data has been entered.
     if(!status)
-      return res.status(400).send("Please fill all required fields");
+      return res.status(400).json("Please fill all required fields");
 
     //Checking that 'Status' is entered correctly.
     if (statusTypes.includes(statusLowCase) === false) 
-    return res.status(400).send("Invalied status type");
+    return res.status(400).json("Invalied status type");
 
 
     //Checking if date related data is already entered.
     let valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
     
     if(valiedAttendance1.length === 1)
-      return res.status(400).send("Already marked"); 
+      return res.status(400).json("Already marked"); 
 
       
     //If 'Out' is entered, checking whether 'In' is entered for that date.
@@ -43,13 +43,13 @@ router.post('/attendance' ,async(req, res,next) => {
       let valiedAttendance2 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status="in"',[id]);
         
       if(!valiedAttendance2.length)
-        return res.status(400).send("You cannot mark 'out' without marking 'in'");
+        return res.status(400).json("You cannot mark 'out' without marking 'in'");
 
     }
 
     //If everything is OK, enter the data into the database.
     markAtt = await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
-    res.status(201).send("Marked successfully");
+    res.status(201).json("Marked successfully");
 
   }
     

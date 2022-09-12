@@ -16,7 +16,7 @@ const jwtExpirySeconds = 300
 router.post('/login',urlencodedparser, async(req, res,next) => {
 
     // Get credentials from JSON body
-
+    res.setHeader('Content-Type', 'application/json');
 
         
     let username = req.body.username;
@@ -25,7 +25,7 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
     //Checking whether mandatory data has been entered.
     if(!username || !password ) 
     return res.status(401).send("Please fill all required fields")
-    // res.status(400).send("Please fill all required fields");
+    
 
     var hashPassword = md5(password);
 
@@ -36,7 +36,7 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
 
         if (result.length === 0 ) {
             // return 401 error is username or password doesn't exist, or if password does not match the password in our records
-            return res.status(401).send("username or password doesn't exist, or if password does or not match the password in our records")
+            return res.status(401).json("username or password doesn't exist, or if password does or not match the password in our records")
         }
         
         username = result[0].username;
@@ -48,7 +48,9 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
             
         }) 
 
-          return res.send(token);
+        //   return res.send(token);
+          const jsonContent = JSON.stringify(token);
+          res.send(token);
            
         
         

@@ -20,7 +20,7 @@ router.post('/leave', async(req, res,next) => {
     //Checking whether mandatory data has been entered.
 
     if(!empId || !dateOfLeaveRequired || !leaveType) 
-        return res.status(400).send("Please fill all required fields");
+        return res.status(400).json("Please fill all required fields");
     
     
     if( leaveType === 'halfday'){
@@ -28,11 +28,11 @@ router.post('/leave', async(req, res,next) => {
         numberOfDaysOfLeaveRequired = 1; //The numberOfDaysOfLeaveRequired variable defaults to 1 for halfday.
 
         if(!timeForHalfday) 
-            return res.status(400).send("Please fill all required fields");
+            return res.status(400).json("Please fill all required fields");
     }
 
     if(!numberOfDaysOfLeaveRequired) 
-        return res.status(400).send("Please fill all required fields");
+        return res.status(400).json("Please fill all required fields");
           
        
     try {
@@ -41,7 +41,7 @@ router.post('/leave', async(req, res,next) => {
         let result = await  global.db.query('SELECT * FROM employees  WHERE emp_id = ? ',[empId]);
 
         if(!result.length)
-            return res.status(400).send("Incorrect Employee id");
+            return res.status(400).json("Incorrect Employee id");
 
         let empTypeId = result[0].empTypeId;
 
@@ -58,12 +58,12 @@ router.post('/leave', async(req, res,next) => {
 
         //Checking whether the employee has taken the total number of leaves available in the year for the employee type and leave type
         if(numberOfAvailabLeleave <= numberOfLeaveTaken)
-            return res.status(400).send("Sorry, you've already taken all those leave-type leave.");
+            return res.status(400).json("Sorry, you've already taken all those leave-type leave.");
 
             
         //If everything is OK, enter the data into the database.
         await global.db.query('INSERT INTO leaverequests (emp_id,leaveType,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday) VALUES(?,?,?,?,?,?)',[empId,leaveType,reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday]);
-        return res.status(201).send("Leave requests sent successfully");
+        return res.status(201).json("Leave requests sent successfully");
         
     } 
 

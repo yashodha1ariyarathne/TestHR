@@ -12,7 +12,7 @@ router.post('/viewreq' ,async(req, res,next) => {
   
   //Checking whether date has been entered.
   if(!date) 
-    return res.status(400).send("Please enter date");
+    return res.status(400).json("Please enter date");
 
  
 
@@ -22,7 +22,7 @@ router.post('/viewreq' ,async(req, res,next) => {
   
     await global.db.query('SELECT * FROM leaverequests WHERE dateOfLeaveRequired = ?',[date] ,(err, rows, fields) => { 
       if(err)
-      return res.status(400).send("There are no leave requests related to the date entered");
+      return res.status(400).json("There are no leave requests related to the date entered");
 
    
     for( let i = 0 ; i < rows.length ; i++){

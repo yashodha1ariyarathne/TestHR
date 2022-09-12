@@ -16,13 +16,13 @@ router.post('/approvereq' ,async(req, res,next) => {
 
     //Checking whether mandatory data has been entered.
     if(!date|| !approval) 
-        return res.status(400).send("Please fill all required fields");
+        return res.status(400).json("Please fill all required fields");
 
     var approval = approval.toLowerCase();
     
     //Checking that 'approval' is entered correctly.
     if (approvalTypes.includes(approval) === false) 
-    return res.status(400).send("Invalied approval");
+    return res.status(400).json("Invalied approval");
 
  
 
@@ -32,11 +32,11 @@ router.post('/approvereq' ,async(req, res,next) => {
         let result = await global.db.query('SELECT * FROM leaverequests WHERE emp_id=? AND dateOfLeaveRequired=?',[id,date]);
 
         if(!result.length)
-            return res.status(400).send("Error");
+            return res.status(400).json("Error");
 
         
         await global.db.query('update leaverequests SET status=?,comment=?,empaIdOfTheStatusMarker=? where emp_id=? AND dateOfLeaveRequired=?',[approval,comment,empaIdOfTheStatusMarker,id,date]); 
-        res.status(201).send(result);
+        res.status(201).json(result);
 
     }
         
