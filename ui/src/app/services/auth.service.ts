@@ -12,7 +12,8 @@ export class AuthService {
   constructor(
   
     public jwtHelper: JwtHelperService,
-    private appService: AppService,
+    public appService: AppService,
+    
     // public authinterceptorservice:AuthInterceptorService
     ) { }
 

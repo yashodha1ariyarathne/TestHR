@@ -8,6 +8,19 @@ export let injector: Injector;
 
 export class AppService { 
   url = 'http://localhost:8080'; 
+  static url: string;
   constructor(private http: HttpClient) { } 
   
+}
+export function geturl(){
+  const url='http://localhost:8080/login/login';
+  return url;
+}
+export function getusername(){
+  const username ='yasho';
+  return username;
+}
+export function getpassword(){
+  const password='123';
+  return  password;
 }

@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { Router } from "@angular/router";
 import { lastValueFrom, Observable, throwError } from 'rxjs';
 
@@ -8,8 +8,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { AppService } from '../app.service';
 import { AuthService } from '../services/auth.service';
+import { ApiService } from '../exapi.service';
 
-
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-login',
@@ -22,42 +25,35 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   public error: any; 
-  
+   
 
   constructor(
     private http:HttpClient,
     private appService: AppService,
+    private  apiService:  ApiService
     
   ) { }
  
-  async login(){
+  login(){
     debugger
-
-    const url=this.appService.url;
-        
-    try {
-
-      let loginResult = await lastValueFrom(this.http.post(
-
-          url+'/login/login', 
-
-          JSON.stringify({username:this.username, password:this.password}), 
-
-        { "responseType": 'text'}))
-
-      if(loginResult){
-        localStorage.setItem("token",loginResult);
-        // console.log(loginResult)
-      }
+    //  try {
+    var data={username:this.username,password:this.password};
+    return this.apiService.callReaquest()
     
-    } 
+    // } 
 
-    catch (error) {
-      var err:any = error;
-      // console.log(err.error)
-      window.alert(err.error);  
+    // catch (error) {
+    //   var err:any = error;
+    //   // console.log(err.error)
+    //   window.alert(err.error);  
 
+    // }
+  
     }
+
+    
+        
+   
     
     
   }
@@ -67,7 +63,7 @@ export class LoginComponent {
 
 
 
-    }
+    
 
 
 
