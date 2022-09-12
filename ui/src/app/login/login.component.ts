@@ -36,8 +36,8 @@ export class LoginComponent {
   ) { }
  
   async login() {
-    return this.apiService.userLogin(this.username,this.password)
-    
+    let loginResult = await this.apiService.userLogin(this.username,this.password)
+    localStorage.setItem("token",loginResult);
 
 
   }
