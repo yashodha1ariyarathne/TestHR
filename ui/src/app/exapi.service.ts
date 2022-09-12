@@ -6,11 +6,13 @@ import { AppService} from './app.service';
 import { AuthService} from './services/auth.service';
 
 
+
 export let injector: Injector;
 
 @Injectable({ providedIn: 'root' })
 
 export class ApiService { 
+   
   
 
   constructor(
@@ -23,11 +25,13 @@ export class ApiService {
 
   
   userLogin(username:string,password:string){
-    let requestResult = lastValueFrom(this.http.post(this.appService.url + '/login/login', {username,password}, {responseType: 'text'}));
+    
+    let requestResult = lastValueFrom(this.http.post(this.appService.url + '/login/login', {username,password}, {responseType: 'text'},));
     return requestResult;
     // console.log(requestResult);
     
   }
+
   
 
   

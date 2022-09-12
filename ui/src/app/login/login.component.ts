@@ -38,10 +38,10 @@ export class LoginComponent {
   async login() {
 
     try {
-      
+
     let loginResult = await this.apiService.userLogin(this.username,this.password)
 
-    if(loginResult.length === 1)
+    if(loginResult.length > 1)
       localStorage.setItem("token",loginResult);
     
     } 
