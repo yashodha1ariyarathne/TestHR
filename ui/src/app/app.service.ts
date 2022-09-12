@@ -12,15 +12,3 @@ export class AppService {
   constructor(private http: HttpClient) { } 
   
 }
-export function geturl(){
-  const url='http://localhost:8080/login/login';
-  return url;
-}
-export function getusername(){
-  const username ='yasho';
-  return username;
-}
-export function getpassword(){
-  const password='123';
-  return  password;
-}

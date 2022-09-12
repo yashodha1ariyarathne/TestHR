@@ -25,6 +25,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   public error: any; 
+  result: string='';
    
 
   constructor(
@@ -34,23 +35,12 @@ export class LoginComponent {
     
   ) { }
  
-  login(){
-    debugger
-    //  try {
-    var data={username:this.username,password:this.password};
-    return this.apiService.callReaquest()
+  async login() {
+    return this.apiService.userLogin(this.username,this.password)
     
-    // } 
 
-    // catch (error) {
-    //   var err:any = error;
-    //   // console.log(err.error)
-    //   window.alert(err.error);  
 
-    // }
-  
-    }
-
+  }
     
         
    

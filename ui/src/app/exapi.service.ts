@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {  Injectable, Injector, Input } from '@angular/core';
 import { LoginComponent} from './login/login.component';
 import { lastValueFrom } from 'rxjs';
-import { AppService,geturl,getusername,getpassword } from './app.service';
+import { AppService} from './app.service';
 import { AuthService} from './services/auth.service';
 
 
@@ -21,35 +21,11 @@ export class ApiService {
     
   ) { }
 
-  public async  callReaquest(){
-    debugger
-    const url= geturl();
-    const username= getusername();
-    const password= getpassword()
-    try {
+  
+  async userLogin(username:string,password:string){
 
-      let requestResult = await lastValueFrom(this.http.post(
-
-          url, 
-
-          JSON.stringify({username:username,password:password}), 
-
-        { "responseType": 'text'}))
-
-      if(requestResult){
-        localStorage.setItem("token",requestResult);
-        // console.log(loginResult)
-      }
-    
-    } 
-
-    catch (error) {
-      var err:any = error;
-      // console.log(err.error)
-      window.alert(err.error);  
-
-    }
-    
+    let requestResult = lastValueFrom(this.http.post(this.appService.url + '/login/login', {username,password}, {responseType: 'text'}));
+    console.log(requestResult);
     
   }
 
