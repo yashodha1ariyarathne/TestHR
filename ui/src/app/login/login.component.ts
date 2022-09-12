@@ -36,17 +36,27 @@ export class LoginComponent {
   ) { }
  
   async login() {
+
+    try {
+      
     let loginResult = await this.apiService.userLogin(this.username,this.password)
-    localStorage.setItem("token",loginResult);
+
+    if(loginResult.length === 1)
+      localStorage.setItem("token",loginResult);
+    
+    } 
+    
+    catch (error) {
+      var err:any = error;
+      window.alert(err.error);
+    
+    } 
 
 
   }
     
         
-   
-    
-    
-  }
+}
 
 
       
