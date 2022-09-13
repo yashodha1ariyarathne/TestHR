@@ -39,10 +39,11 @@ export class LoginComponent {
 
     try {
 
-    let loginResult = await this.apiService.userLogin(this.username,this.password)
+    let loginResult = await this.apiService.userLogin(this.username,this.password);
+    let Result=JSON.stringify(loginResult);
 
-    if(loginResult.length > 1)
-      localStorage.setItem("token",loginResult);
+    if(Result.length > 1)
+      localStorage.setItem("token",Result);
     
     } 
     

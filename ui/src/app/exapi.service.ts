@@ -25,11 +25,11 @@ export class ApiService {
 
   
   userLogin(username:string,password:string){
-    
-    let requestResult = lastValueFrom(this.http.post(this.appService.url + '/login/login', {username,password}, {responseType: 'text'},));
-    return requestResult;
+
+    const headers = new HttpHeaders().set('Content-Type','application/json');
+    let requestResult = lastValueFrom(this.http.post(this.appService.url + '/login/login', JSON.stringify({username,password}),{headers:headers}));
     // console.log(requestResult);
-    
+    return requestResult;
   }
 
   
