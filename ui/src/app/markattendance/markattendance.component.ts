@@ -9,6 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
+import { ApiService } from '../exapi.service';
 
 @Component({
   selector: 'app-markattendance',
@@ -16,10 +17,15 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./markattendance.component.css']
 })
 export class MarkattendanceComponent {
+
+  status: string = '';
+  comment: string = '';
+
   constructor(
     private fb:FormBuilder,
     private http:HttpClient,
-    private appService: AppService
+    private appService: AppService,
+    private  apiService:  ApiService
    
   ) { }
   form = new FormGroup({
@@ -31,28 +37,27 @@ export class MarkattendanceComponent {
     return this.form.controls;
   }
 
-  async mark(){
-    debugger
-    const url=this.appService.url;
+  async mark() {
+
     try {
-
-      let attendanceResult = await lastValueFrom(this.http.post(
-
-        url+'/markAddendance/attendance',
-
-        JSON.stringify({status:this.form.value.status,comment:this.form.value.comment}),  
-
-        { "responseType": 'text'}))
-
-      // localStorage.setItem("token",attendanceResult);
-      window.alert(attendanceResult);
-      this.form.reset();
-
+    let status=JSON.parse(JSON.stringify(this.form.value.status));
+    let comment=JSON.parse(JSON.stringify(this.form.value.comment));
+  
+    
+    let markResult = await this.apiService.markAttend(status,comment);
+    window.alert(markResult);
+    
+    
+    } 
+    
+    catch (error) {
+      var err:any = error;
+      window.alert(err.error);
+    
     } 
 
-    catch (error) {
-      throw(error);    
-    }
-  }
 
   }
+    
+        
+}

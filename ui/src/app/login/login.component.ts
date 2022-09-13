@@ -40,10 +40,12 @@ export class LoginComponent {
     try {
 
     let loginResult = await this.apiService.userLogin(this.username,this.password);
-    let Result=JSON.stringify(loginResult);
 
-    if(Result.length > 1)
-      localStorage.setItem("token",Result);
+    let Result=JSON.stringify(loginResult)
+    Result=JSON.parse(Result)
+
+    if(loginResult)
+      localStorage.setItem('token',Result);
     
     } 
     

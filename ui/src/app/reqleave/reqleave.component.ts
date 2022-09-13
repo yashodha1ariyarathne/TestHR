@@ -3,12 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AppService } from '../app.service';
+import { ApiService } from '../exapi.service';
 
 @Component({
   selector: 'app-reqleave',
   templateUrl: './reqleave.component.html',
   styleUrls: ['./reqleave.component.css']
 })
+
 export class ReqleaveComponent  { 
   leaveTypes = [
     { id: 1,   name: "casual" },
@@ -18,7 +20,8 @@ export class ReqleaveComponent  {
   constructor(
     private fb:FormBuilder,
     private http:HttpClient,
-    private appService: AppService
+    private appService: AppService,
+    private  apiService:  ApiService
   ) { }
   form = new FormGroup({
     reason: new FormControl('', Validators.required),
@@ -30,37 +33,33 @@ export class ReqleaveComponent  {
   get f(){
     return this.form.controls;
   }
-   
+
   async submit(){
-   
-    debugger
-    const url=this.appService.url;
 
     try {
+    let reason = JSON.parse(JSON.stringify(this.form.value.reason));
+    let dateOfLeaveRequired = JSON.parse(JSON.stringify(this.form.value.dateOfLeaveRequired));
+    let numberOfDaysOfLeaveRequired = JSON.parse(JSON.stringify(this.form.value.numberOfDaysOfLeaveRequired));
+    let timeForHalfday = JSON.parse(JSON.stringify(this.form.value.timeForHalfday));
+    let leaveType = JSON.parse(JSON.stringify(this.form.value.leaveType));
+    
+    let requestResult = await this.apiService.requestLeave(reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday,leaveType);
+    window.alert(requestResult);
+    this.form.reset();
 
-      let reqLeaveResult = await lastValueFrom(this.http.post(
-        url+'/requestLeave/leave', 
-
-        JSON.stringify({reason:this.form.value.reason,
-            dateOfLeaveRequired:this.form.value.dateOfLeaveRequired,
-            numberOfDaysOfLeaveRequired:this.form.value.numberOfDaysOfLeaveRequired,
-            timeForHalfday:this.form.value.timeForHalfday,
-            leaveType:this.form.value.leaveType}),  
-
-        { "responseType": 'text'}))
-
-        window.alert(reqLeaveResult);
-        this.form.reset();
-
+    
+    
+    } 
+    
+    catch (error) {
+      var err:any = error;
+      window.alert(err.error);
+    
     } 
 
-    catch (error) {
 
-        throw(error);  
-
-    }
-      
   }
+    
    
    
 

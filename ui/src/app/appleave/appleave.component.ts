@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AppService } from '../app.service';
+import { ApiService } from '../exapi.service';
 
 @Component({
   selector: 'app-appleave',
@@ -14,7 +15,8 @@ export class AppleaveComponent {
   constructor(
     private fb:FormBuilder,
     private http:HttpClient,
-    private appService: AppService
+    private appService: AppService,
+    private  apiService:  ApiService
    
   ) { }
   form = new FormGroup({
@@ -29,42 +31,36 @@ export class AppleaveComponent {
   }
    
   async submit(){
-    console.log(this.form.value);
-    debugger
-    const url=this.appService.url;
 
     try {
+    let empId = JSON.parse(JSON.stringify(this.form.value.empId));
+    let date = JSON.parse(JSON.stringify(this.form.value.date));
+    let approval= JSON.parse(JSON.stringify(this.form.value.approval));
+    let  comment = JSON.parse(JSON.stringify(this.form.value.comment));
+    
+    let approveResult = await this.apiService.approveLeave(empId,date,approval,comment);
+    window.alert(approveResult);
+    this.form.reset();
 
-      let appLeaveResult = await lastValueFrom(this.http.post(
-        url+'/approveLeaveRequest/approvereq', 
-
-        JSON.stringify({
-          empId:this.form.value.empId,
-          date:this.form.value.date,
-          approval:this.form.value.approval,
-          comment:this.form.value.comment
-        }),   
-
-        { "responseType": 'text'}))
-
-        window.alert(appLeaveResult);
-        this.form.reset();
-
+    
+    
+    } 
+    
+    catch (error) {
+      var err:any = error;
+      window.alert(err.error);
+    
     } 
 
-    catch (error) {
 
-        throw(error);  
-
-    }
-  
-      
-      
   }
+      
+      
+}
      
      
   
-  }
+  
 
 
 
