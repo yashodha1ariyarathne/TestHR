@@ -49,8 +49,8 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
         }) 
 
         //   return res.send(token);
-          const jsonContent = JSON.stringify(token);
-          res.send(token);
+        //   const jsonContent = JSON.stringify(token);
+        return  res.json(token);
            
         
         
