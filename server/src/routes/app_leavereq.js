@@ -36,7 +36,7 @@ router.post('/approvereq' ,async(req, res,next) => {
 
         
         await global.db.query('update leaverequests SET status=?,comment=?,empaIdOfTheStatusMarker=? where emp_id=? AND dateOfLeaveRequired=?',[approval,comment,empaIdOfTheStatusMarker,id,date]); 
-        res.status(201).json(result);
+        res.status(201).json("Approval submit successfully");
 
     }
         
