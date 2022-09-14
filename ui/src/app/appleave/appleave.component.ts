@@ -38,7 +38,7 @@ export class AppleaveComponent {
     let approval= JSON.parse(JSON.stringify(this.form.value.approval));
     let  comment = JSON.parse(JSON.stringify(this.form.value.comment));
     
-    let approveResult = await this.apiService.approveLeave(empId,date,approval,comment);
+    let approveResult = await this.apiService.approveLeave({empId,date,approval,comment});
     window.alert(approveResult);
     this.form.reset();
 

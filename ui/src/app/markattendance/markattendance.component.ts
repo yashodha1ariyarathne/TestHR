@@ -44,7 +44,7 @@ export class MarkattendanceComponent {
     let comment=JSON.parse(JSON.stringify(this.form.value.comment));
   
     
-    let markResult = await this.apiService.markAttend(status,comment);
+    let markResult = await this.apiService.markAttend({status,comment});
     window.alert(markResult);
     
     

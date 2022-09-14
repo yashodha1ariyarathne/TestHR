@@ -43,7 +43,7 @@ export class ReqleaveComponent  {
     let timeForHalfday = JSON.parse(JSON.stringify(this.form.value.timeForHalfday));
     let leaveType = JSON.parse(JSON.stringify(this.form.value.leaveType));
     
-    let requestResult = await this.apiService.requestLeave(reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday,leaveType);
+    let requestResult = await this.apiService.requestLeave({reason,dateOfLeaveRequired,numberOfDaysOfLeaveRequired,timeForHalfday,leaveType});
     window.alert(requestResult);
     this.form.reset();
 

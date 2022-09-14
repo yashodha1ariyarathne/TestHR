@@ -38,12 +38,13 @@ export class LoginComponent {
   async login() {
 
     try {
+    let username=JSON.parse(JSON.stringify(this.username));
+    let password=JSON.parse(JSON.stringify(this.password))
 
-    let loginResult = await this.apiService.userLogin(this.username,this.password);
+    let loginResult = await this.apiService.userLogin({username,password});
 
-    let Result=JSON.stringify(loginResult)
-    Result=JSON.parse(Result)
-
+    let Result=JSON.parse(JSON.stringify(loginResult))
+   
     if(loginResult)
       localStorage.setItem('token',Result);
     
