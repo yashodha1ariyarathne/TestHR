@@ -1,0 +1,12 @@
+.dashboard{
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(152, 160, 193);
+   
+}
+.button{
+    display: flex;
+    flex-direction: column;
+}

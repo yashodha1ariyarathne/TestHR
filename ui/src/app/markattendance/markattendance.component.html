@@ -1,15 +1,25 @@
-<p>mark your attendance</p>
-<form [formGroup]="form" (ngSubmit)="mark()"> 
+<div class="form">
+    <div class="form-mark">
+        <div><p>mark your attendance</p></div>
+    
+        <div>
+            <form [formGroup]="form" (ngSubmit)="mark()"> 
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>Status</mat-label>
+                    <input matInput type="text" name="status" value="status" formControlName="status">
+                </mat-form-field>
 
-    <label> Status:</label> <br>
-    <input type="text" name="status" value="status" formControlName="status">
-    <br><br>  
-
-    <label> Comment: </label><br>         
-    <textarea id="comment" value="comment" name="comment" formControlName="comment"></textarea> <br><br>
-
-    <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >Mark</button>
-    <button type="button" routerLink="" mat-stroked-button color="accent">Exit</button>
-
-</form>
-
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Comment</mat-label>
+                    <textarea matInput placeholder="Ex. Personal reason" id="comment" value="comment" name="comment" formControlName="comment"></textarea>
+                </mat-form-field>
+                <br>
+                <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >Mark</button>
+                <button type="button" routerLink="" mat-stroked-button color="accent">Exit</button>
+    
+            </form>
+        </div>
+    </div>
+   
+</div>

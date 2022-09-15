@@ -1,29 +1,35 @@
 <!-- <router-outlet></router-outlet> -->
 <div class="flex-con">
     <div class="home">
-        
-        <div>
-            <p id="home">Login</p> 
+        <div class="login">
+            <p>Login</p> 
         </div>  
-        
+    
         <div class="userinputs">
-
             
-            <div class="label">
-                <label for="username">User Name</label><br>
-                <label for="password">Password</label>
-            </div>
-            <div class="inputs">
-                <input type="text" name="username" id="username"[(ngModel)]="username"> <br>
-                <input type="password" name="password" id="password"[(ngModel)]="password">     
-            </div>
-        </div>
-
-        <div>
             
-            <button type="button" (click)="login()" routerLink="" mat-flat-button color="primary">Login</button>
-            <router-outlet></router-outlet>
-        </div>
+            <div class="username">
+                <mat-form-field appearance="fill">
+                    <mat-label>Username</mat-label>
+                    <input matInput name="username" id="username"[(ngModel)]="username">
+                  </mat-form-field>
+            </div>
+
+            <div class="password">
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" name="password" id="password"[(ngModel)]="password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>        
+            </div>
+        
+            <div>
+                
+                <button type="button" (click)="login()" routerLink="" mat-flat-button color="primary">Login</button>
+                <router-outlet></router-outlet>
+            </div>
         
     </div> 
        

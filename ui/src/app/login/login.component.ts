@@ -26,7 +26,7 @@ export class LoginComponent {
   password: string = '';
   public error: any; 
   result: string='';
-   
+  hide = true;
 
   constructor(
     private http:HttpClient,

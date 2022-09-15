@@ -30,7 +30,7 @@ export class MarkattendanceComponent {
   ) { }
   form = new FormGroup({
     status: new FormControl('', Validators.required),
-    comment: new FormControl('', Validators.required)    
+    comment: new FormControl('')    
   });
 
   get f(){

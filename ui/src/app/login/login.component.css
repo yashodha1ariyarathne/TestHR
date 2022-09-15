@@ -5,12 +5,12 @@
     align-items: center;
     background-color: rgb(152, 160, 193);
 }
-
+.login{
+    margin: 75px;
+}
 .home{
-    text-align: center;
-    /* border: 2px solid rgba(250, 242, 242, 0.34); */
-    background-color:rgb(122, 156, 236);
-    box-shadow: 1px 10px 10px 10px rgb(122, 156, 236);
+    background-color:rgb(253, 253, 253);
+    /* box-shadow: 1px 10px 10px 10px rgb(249, 250, 251); */
 }
 
 .home > div {
@@ -21,6 +21,7 @@
 .userinputs {
     display: flex;
     margin: 30px;
+    flex-direction: column;
 }
 
 .userinputs > div {
