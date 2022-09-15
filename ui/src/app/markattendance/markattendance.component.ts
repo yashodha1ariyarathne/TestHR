@@ -46,6 +46,7 @@ export class MarkattendanceComponent {
     
     let markResult = await this.apiService.markAttend({status,comment});
     window.alert(markResult);
+    this.form.reset();
     
     
     } 

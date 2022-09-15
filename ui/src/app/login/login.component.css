@@ -1,13 +1,16 @@
 .flex-con{
-    height: 100vh;
+    height: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(152, 160, 193);
 }
 
 .home{
     text-align: center;
-    border: 2px solid black;
+    /* border: 2px solid rgba(250, 242, 242, 0.34); */
+    background-color:rgb(122, 156, 236);
+    box-shadow: 1px 10px 10px 10px rgb(122, 156, 236);
 }
 
 .home > div {
