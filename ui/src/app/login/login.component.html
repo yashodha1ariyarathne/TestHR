@@ -4,35 +4,35 @@
         <div class="login">
             <p>Login</p> 
         </div>  
-    
-        <div class="userinputs">
-            
-           
-            <div class="username">
-                <mat-form-field appearance="fill">
-                    <mat-label>Username</mat-label>
-                    <input matInput name="username" id="username"[(ngModel)]="username">
-                  </mat-form-field>
-            </div>
-
-            <div class="password">
-                <mat-form-field appearance="fill">
-                    <mat-label>Password</mat-label>
-                    <input matInput [type]="hide ? 'password' : 'text'" name="password" id="password"[(ngModel)]="password">
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                </mat-form-field>        
-            </div>
-        
-            <div>
+        <form [formGroup]="form" (ngSubmit)="login()" > 
+            <div class="userinputs">
                 
-                <button type="button" (click)="login()" routerLink="" mat-flat-button color="primary">Login</button>
-                <router-outlet></router-outlet>
-            </div>
-        
-    </div> 
-       
+            
+                <div class="username">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Username</mat-label>
+                        <input matInput name="username" id="username" formControlName="username">
+                    </mat-form-field>
+                </div>
+
+                <div class="password">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Password</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" name="password" id="password" formControlName="password">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>        
+                </div>
+            
+                <div>
+                    
+                    <button type='submit'  id='submit' name="submit" mat-flat-button color="primary" routerLink="">Login</button>
+                   
+                </div>
+            
+            </div> 
+        </form>
    
 </div> 
 

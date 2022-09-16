@@ -9,6 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AppService } from '../app.service';
 import { AuthService } from '../services/auth.service';
 import { ApiService } from '../exapi.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +35,19 @@ export class LoginComponent {
     private  apiService:  ApiService
     
   ) { }
- 
+
+  form = new FormGroup({
+    username: new FormControl('', Validators.required),
+    password: new FormControl('',Validators.required)    
+  });
+  
+
+
   async login() {
 
     try {
-    let username=JSON.parse(JSON.stringify(this.username));
-    let password=JSON.parse(JSON.stringify(this.password))
+    let username=JSON.parse(JSON.stringify(this.form.value.username));
+    let password=JSON.parse(JSON.stringify(this.form.value.password))
 
     let loginResult = await this.apiService.userLogin({username,password});
 
@@ -53,6 +61,7 @@ export class LoginComponent {
     catch (error) {
       var err:any = error;
       window.alert(err.error);
+      this.form.reset();
     
     } 
 
