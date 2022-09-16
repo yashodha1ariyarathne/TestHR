@@ -1,14 +1,14 @@
 .header{
     background-color:rgb(44, 52, 140);
-}
 
-.title_center {
-    display: flex;
-    justify-content: center; /* align horizontal */
-    align-items: center; /* align vertical */
-    background-color:rgb(44, 52, 140);
-    height: 100px;
-    padding: 20px 10px;
-    font-family: sans-serif;
-    color:rgb(246, 217, 3);
-  }
+    .title_center {
+        display: flex;
+        justify-content: center; /* align horizontal */
+        align-items: center; /* align vertical */
+        background-color:rgb(44, 52, 140);
+        height: 100px;
+        padding: 20px 10px;
+        font-family: sans-serif;
+        color:rgb(246, 246, 169);
+    }
+}

@@ -4,27 +4,23 @@
     justify-content: center;
     align-items: center;
     background-color: rgb(152, 160, 193);
-}
-.login{
-    margin: 75px;
-}
-.home{
-    background-color:rgb(253, 253, 253);
-    /* box-shadow: 1px 10px 10px 10px rgb(249, 250, 251); */
-}
 
-.home > div {
-    margin-bottom: 10px;
-    
-}
+    .home{
+        background-color:rgba(246, 249, 249, 0.9);
+        
+        .login{
 
-.userinputs {
-    display: flex;
-    margin: 30px;
-    flex-direction: column;
-}
+            font-weight: 500;
+            font-size: large;
+            margin-left: 125px;
+        }
+        
+        .userinputs {
+            display: flex;
+            margin: 30px;
+            flex-direction: column;
+        }
 
-.userinputs > div {
-    margin: 10px;
+    }
 
 }
