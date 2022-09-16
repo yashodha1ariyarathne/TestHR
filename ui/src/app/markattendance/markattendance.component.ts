@@ -14,7 +14,7 @@ import { ApiService } from '../exapi.service';
 @Component({
   selector: 'app-markattendance',
   templateUrl: './markattendance.component.html',
-  styleUrls: ['./markattendance.component.css']
+  styleUrls: ['./markattendance.component.scss']
 })
 export class MarkattendanceComponent {
 

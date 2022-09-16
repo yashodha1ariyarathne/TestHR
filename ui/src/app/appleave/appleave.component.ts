@@ -8,7 +8,7 @@ import { ApiService } from '../exapi.service';
 @Component({
   selector: 'app-appleave',
   templateUrl: './appleave.component.html',
-  styleUrls: ['./appleave.component.css']
+  styleUrls: ['./appleave.component.scss']
 })
 export class AppleaveComponent {
   

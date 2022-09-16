@@ -8,7 +8,7 @@ import { ApiService } from '../exapi.service';
 @Component({
   selector: 'app-reqleave',
   templateUrl: './reqleave.component.html',
-  styleUrls: ['./reqleave.component.css']
+  styleUrls: ['./reqleave.component.scss']
 })
 
 export class ReqleaveComponent  { 
