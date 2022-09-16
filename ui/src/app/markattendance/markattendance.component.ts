@@ -54,6 +54,7 @@ export class MarkattendanceComponent {
     catch (error) {
       var err:any = error;
       window.alert(err.error);
+      this.form.reset();
     
     } 
 
