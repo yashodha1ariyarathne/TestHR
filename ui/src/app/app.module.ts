@@ -16,6 +16,8 @@ import { AppleaveComponent } from './appleave/appleave.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboad.component';
 
+
+
 import { AuthGuard } from './services/auth.guard';
 import { tokenGetter } from './services/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -24,6 +26,13 @@ import { MarkattendanceComponent } from './markattendance/markattendance.compone
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './material/material.module';
+import { DashComponent } from './dash/dash.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { LayoutModule } from '@angular/cdk/layout';
 
 
 @NgModule({
@@ -35,7 +44,8 @@ import { MaterialModule } from './material/material.module';
     AppleaveComponent,
     LoginComponent,
     DashboardComponent,
-    MarkattendanceComponent
+    MarkattendanceComponent,
+    DashComponent
   ],
   imports: [
     
@@ -53,6 +63,12 @@ import { MaterialModule } from './material/material.module';
       }
     }),
     BrowserAnimationsModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    LayoutModule,
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },

@@ -1,0 +1,63 @@
+<mat-toolbar class="mat-elevation-z8">
+  <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+    <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+    <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+  </button>
+  Home
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+
+    <button mat-button class="menu-button" id="mrkButton" class="mrkButton" routerLink="/markattendance">
+      <mat-icon>person</mat-icon>
+      <span>Mark Attendance</span>
+    </button>
+    <button mat-button class="menu-button" id="reqLeaveButton" class="reqLeaveButton" routerLink="/reqleave">
+      <mat-icon>check</mat-icon>
+      <span> Requst a Leave</span>
+    </button>
+    <button mat-button class="menu-button"  id="appLeaveButton" class="appLeaveButton" routerLink="/appleave">
+      <mat-icon>check</mat-icon>
+      <span> Approve leave</span>
+    </button>
+
+    
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button"  id="logout" class="logout"(click)="logout()"routerLink="/login">
+      <mat-icon>info</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8">
+      <router-outlet></router-outlet>
+      <mat-grid-list cols="2" rowHeight="350px">
+        <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                {{card.title}}
+                <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <button mat-menu-item>Expand</button>
+                  <button mat-menu-item>Remove</button>
+                </mat-menu>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <div>Card Content Here</div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+  
+  

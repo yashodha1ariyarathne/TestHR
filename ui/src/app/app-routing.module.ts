@@ -12,6 +12,8 @@ import { AppleaveComponent } from './appleave/appleave.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboad.component';
 import { MarkattendanceComponent } from './markattendance/markattendance.component';
+import { DashComponent } from './dash/dash.component';
+
 
 
 const routes: Routes = [
@@ -22,7 +24,7 @@ const routes: Routes = [
     }
   },
 
-  { path: '', component: DashboardComponent,
+  { path: '', component: DashComponent,
     canActivate: [AuthGuard]  
   },
 
