@@ -101,7 +101,8 @@ app.use(async (req, res, next) => {
         try {
             // Verify the token using jwt.verify method
             const decodedToken = jwt.verify(bearerToken, jwtKey,jwtExpirySeconds);
-            res.locals.empId = decodedToken.empId; // Add to req object
+            res.locals.empId = decodedToken.payload.empId;
+            res.locals.empTypeIdId = decodedToken.payload.empTypeIdId;
             next();
             // return res.status(400).send('Invalied token');
             

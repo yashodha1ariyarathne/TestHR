@@ -41,12 +41,18 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
         
         username = result[0].username;
         let empId = result[0].emp_id;
+        let empTypeId=result[0].empTypeId;
+       
+        let payload ={
+            empId:empId,
+            empTypeIdId:empTypeId
+        }
 
-        // Create a new token with the username in the payload 
-        let token = jwt.sign({empId}, jwtKey, {
+        let token = jwt.sign({payload}, jwtKey, {
             expiresIn: jwtExpirySeconds,
             
         }) 
+       
 
         //   return res.send(token);
         //   const jsonContent = JSON.stringify(token);

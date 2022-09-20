@@ -13,12 +13,14 @@ router.post('/attendance' ,async(req, res,next) => {
   var statusTypes=['in','out'];
 
   var  id = res.locals.empId;
+  var typeId=res.locals.empTyepeId;
   var status   = req.body.status;
   var comment  = req.body.comment;
 
 
   var statusLowCase =status.toLowerCase();
 
+console.log(res.locals);
   try {
 
     //Checking whether mandatory data has been entered.
