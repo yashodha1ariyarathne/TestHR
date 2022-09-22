@@ -21,7 +21,8 @@ export class AuthService {
   private getDecodedToken(token: any){
       try {
         return jwt_decode(token);
-      } catch(Error) {
+      } 
+      catch(Error) {
         return null;
       }
     }
@@ -31,7 +32,7 @@ export class AuthService {
     let tokenInfo= this.getDecodedToken(token) as any;
     this.appService.empId = tokenInfo.payload.empId;
     this.appService.empTypeId = tokenInfo.payload.empTypeId;
-    
+    console.log(tokenInfo)
   } 
 
   public isAuthenticated(): boolean {

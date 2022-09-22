@@ -17,7 +17,7 @@
       <mat-icon>check</mat-icon>
       <span> Requst a Leave</span>
     </button>
-    <button mat-button id="appLeaveButton" class="appLeaveButton" routerLink="/appleave">
+    <button mat-button id="appLeaveButton" class="appLeaveButton" routerLink="/appleave" *ngIf="isAuthenticatedUserType()">
       <mat-icon>check</mat-icon>
       <span> Approve leave</span>
     </button>

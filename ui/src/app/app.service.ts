@@ -9,9 +9,9 @@ export let injector: Injector;
 export class AppService { 
   url = 'http://localhost:8080'; 
   static url: string;
-  empId:number=0;
-  empTypeId:number=0;
-
+  empId = 0;
+  empTypeId = 0;
+  
   constructor(private http: HttpClient) { } 
   
 }

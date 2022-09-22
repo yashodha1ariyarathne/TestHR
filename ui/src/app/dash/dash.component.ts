@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-dash',
@@ -8,6 +9,21 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
   styleUrls: ['./dash.component.scss']
 })
 export class DashComponent {
+  
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public appService: AppService) {}
+
+    empTypeId=this.appService.empTypeId;
+
+    isAuthenticatedUserType () : boolean {
+      if (this.empTypeId >= 2) 
+        return true;
+
+      return false;
+    };
+  
+
   logout() {
     localStorage.removeItem('token');
   }
@@ -31,6 +47,4 @@ export class DashComponent {
       ];
     })
   );
-
-  constructor(private breakpointObserver: BreakpointObserver) {}
 }
