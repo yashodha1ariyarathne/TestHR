@@ -45,7 +45,7 @@ router.post('/login',urlencodedparser, async(req, res,next) => {
        
         let payload ={
             empId:empId,
-            empTypeIdId:empTypeId
+            empTypeId:empTypeId
         }
 
         let token = jwt.sign({payload}, jwtKey, {
