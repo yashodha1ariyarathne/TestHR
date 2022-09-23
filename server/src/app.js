@@ -102,7 +102,7 @@ app.use(async (req, res, next) => {
             // Verify the token using jwt.verify method
             const decodedToken = jwt.verify(bearerToken, jwtKey,jwtExpirySeconds);
             res.locals.empId = decodedToken.payload.empId;
-            res.locals.empTypeIdId = decodedToken.payload.empTypeIdId;
+            res.locals.empTypeId = decodedToken.payload.empTypeId;
             next();
             // return res.status(400).send('Invalied token');
             

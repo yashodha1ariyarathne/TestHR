@@ -7,12 +7,17 @@ const router = express.Router();
 router.post('/approvereq' ,async(req, res,next) => {
 
     var id = req.body.empId;
+    let empTypeId =res.locals.empTypeId;
     var date = req.body.date;
     var approval = req.body.approval;
     var comment = req.body.comment;
     var empaIdOfTheStatusMarker=req.empId;
 
     var approvalTypes=['accept','reject'];
+
+    //Checking user privilege level.
+    if(empTypeId <= 2) 
+        return res.status(400).json("You cannot do this according to the your user privilege level.");
 
     //Checking whether mandatory data has been entered.
     if(!date|| !approval) 
