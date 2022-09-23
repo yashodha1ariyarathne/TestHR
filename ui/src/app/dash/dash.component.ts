@@ -16,14 +16,6 @@ export class DashComponent {
 
     empTypeId=this.appService.empTypeId;
 
-    isAuthenticatedUserType () : boolean {
-      if (this.empTypeId > 2) 
-        return true;
-
-      return false;
-    };
-  
-
   logout() {
     localStorage.removeItem('token');
   }

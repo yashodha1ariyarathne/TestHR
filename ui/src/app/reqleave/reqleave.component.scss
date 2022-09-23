@@ -7,14 +7,18 @@
     background-color: rgb(152, 160, 193);
    
 }
-.form-mark{
-    height: 400px;
-    width: 300px;
+.form-req{
+    height: 550px;
+    width: 600px;
     background-color: rgb(255, 255, 255);
+    
     
 
 }
-.form-mark > div{
-    padding: 10px;
+.form-req > div{
+    display: flex;
+    margin: 30px;
+    flex-direction: column;
+    
     
 }

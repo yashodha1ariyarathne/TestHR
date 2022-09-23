@@ -1,32 +1,49 @@
 <div class="form">
-    <div class="form-mark">
-        <form [formGroup]="form" (ngSubmit)="submit()"> 
-
-            <label for="reason"> Reason: </label><br>         
-            <textarea id="reason" value="reason" name="reason" formControlName="reason" ></textarea> <br><br>
-
-            <label for="date">Date Of Leave Required:</label> <br>
-            <input type="date" id="dateOfLeaveRequired" name="dateOfLeaveRequired" formControlName="dateOfLeaveRequired">  <br>  <br> 
-
-            <label for="numberOfDaysOfLeaveRequired">NumberOf Days Of Leave Required:</label><br>
-            <input type="text" name="numberOfDaysOfLeaveRequired" id="numberOfDaysOfLeaveRequired" formControlName="numberOfDaysOfLeaveRequired"/> <br>  <br>
-
-            <label for="timeForHalfday">Time For Halfday :</label> <br>
-            <input type="radio"  name="timeForHalfday" value="morning" formControlName="timeForHalfday">Morning
-            <input type="radio"  name="timeForHalfday" value="evening" formControlName="timeForHalfday">Evening   
-            <br><br>  
-
-            <label for="leaveType">Leave Type:</label> <br>
-            <select formControlName="leaveType">
-            <option [ngValue]="null" disabled>Select Leavetype</option>    
-            <option  *ngFor="let  leaveType of leaveTypes"  [ngValue]="leaveType.name" >{{leaveType.name}}</option>    
-            </select> <br><br>    
-
-            <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >Submit</button>
-            <button type="button" routerLink="" mat-stroked-button color="accent">Exit</button>
-
-        </form>
+    <div class="form-req">
+        <div><p>Request a leave</p></div>
     
+        <div>
+            <form [formGroup]="form" (ngSubmit)="submit()"> 
+                
+                <mat-form-field class="reason" appearance="fill">
+                    <mat-label>Reason</mat-label>
+                    <textarea matInput placeholder="Ex.Personal" id="reason" value="reason" name="reason" formControlName="reason"></textarea>
+                </mat-form-field><br> 
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Date Of Leave Required</mat-label>
+                    <input matInput [matDatepicker]="picker"id="dateOfLeaveRequired" name="dateOfLeaveRequired" formControlName="dateOfLeaveRequired">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <br> 
+
+                <mat-form-field appearance="fill">
+                    <mat-label>NumberOf Days Of Leave Required</mat-label>
+                    <input matInput type="text" name="numberOfDaysOfLeaveRequired" id="numberOfDaysOfLeaveRequired" formControlName="numberOfDaysOfLeaveRequired">
+                </mat-form-field> <br>
+                
+                <mat-radio-group aria-label="timeForHalfday">Time For Halfday<br>
+                    <mat-radio-button name="timeForHalfday" value="morning" formControlName="timeForHalfday">Morning</mat-radio-button>
+                    <mat-radio-button  name="timeForHalfday" value="evening" formControlName="timeForHalfday">Evening</mat-radio-button>
+                </mat-radio-group>
+                <br>  
+                
+                <mat-form-field appearance="fill">
+                    <mat-label >Leave Type</mat-label>
+                    <mat-select formControlName="leaveType">
+                        <mat-option *ngFor="let  leaveType of leaveTypes">{{leaveType.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br><br>    
+
+                <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >Submit</button>
+                <button type="button" routerLink="" mat-stroked-button color="accent">Exit</button>
+
+            </form>
+        </div>
+        
     </div>
     
 </div>
