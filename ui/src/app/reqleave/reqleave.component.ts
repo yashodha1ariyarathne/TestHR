@@ -12,6 +12,12 @@ import { ApiService } from '../exapi.service';
 })
 
 export class ReqleaveComponent  { 
+
+ timeForHalfDay = [
+    { id: 1,   name: "Morning" },
+    { id: 2 , name: "evening" } 
+  ];
+
   leaveTypes = [
     { id: 1,   name: "casual" },
     { id: 2 , name: "medical" },

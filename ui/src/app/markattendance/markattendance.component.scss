@@ -5,16 +5,16 @@
     justify-content: center;
     align-items: center;
     background-color: rgb(152, 160, 193);
-   
-}
-.form-mark{
-    height: 400px;
-    width: 300px;
-    background-color: rgb(255, 255, 255);
     
-
-}
-.form-mark > div{
-    padding: 10px;
+    .form-mark{
+        height: 300px;
+        width: 300px;
+        background-color: rgb(255, 255, 255);
+        
     
+    }
+    .form-mark > div{
+        padding-left: 10px;
+        
+    }
 }

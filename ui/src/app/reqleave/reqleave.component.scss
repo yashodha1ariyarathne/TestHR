@@ -6,19 +6,19 @@
     align-items: center;
     background-color: rgb(152, 160, 193);
    
-}
-.form-req{
-    height: 550px;
-    width: 600px;
-    background-color: rgb(255, 255, 255);
+    .form-req{
+        height: 550px;
+        width: 400px;
+        background-color: rgb(255, 255, 255);
+                  
+    }
+    .form-req > div{
+        padding-left: 20px;
+        padding-top: 30px;
+        
+     
+    }
     
-    
-
-}
-.form-req > div{
-    display: flex;
-    margin: 30px;
-    flex-direction: column;
     
     
 }

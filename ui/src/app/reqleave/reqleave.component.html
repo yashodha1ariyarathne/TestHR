@@ -1,7 +1,5 @@
 <div class="form">
     <div class="form-req">
-        <div><p>Request a leave</p></div>
-    
         <div>
             <form [formGroup]="form" (ngSubmit)="submit()"> 
                 
@@ -16,27 +14,29 @@
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <br> 
+                </mat-form-field> <br> 
+               
 
                 <mat-form-field appearance="fill">
                     <mat-label>NumberOf Days Of Leave Required</mat-label>
                     <input matInput type="text" name="numberOfDaysOfLeaveRequired" id="numberOfDaysOfLeaveRequired" formControlName="numberOfDaysOfLeaveRequired">
                 </mat-form-field> <br>
                 
-                <mat-radio-group aria-label="timeForHalfday">Time For Halfday<br>
-                    <mat-radio-button name="timeForHalfday" value="morning" formControlName="timeForHalfday">Morning</mat-radio-button>
-                    <mat-radio-button  name="timeForHalfday" value="evening" formControlName="timeForHalfday">Evening</mat-radio-button>
-                </mat-radio-group>
-                <br>  
+                <label>Time For Halfday</label><br> 
+                <mat-radio-group aria-labelledby="timeForHalfdaylbl" class="timeForHalfday" id="timeForHalfday" formControlName="timeForHalfday">
+                <mat-radio-button class="timeForHalfdaybtn" id="timeForHalfdaybtn" *ngFor="let timeForHalfday of timeForHalfDay" [value]="timeForHalfday.name">
+                    {{timeForHalfday.name}}
+                </mat-radio-button>
+                </mat-radio-group> <br> <br> 
                 
                 <mat-form-field appearance="fill">
-                    <mat-label >Leave Type</mat-label>
+                    <mat-label>Leave Type</mat-label>
                     <mat-select formControlName="leaveType">
-                        <mat-option *ngFor="let  leaveType of leaveTypes">{{leaveType.name}}</mat-option>
+                    <mat-option *ngFor="let  leaveType of leaveTypes" [value]="leaveType.name">{{leaveType.name}}
+                    </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <br><br>    
+                <br>   
 
                 <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >Submit</button>
                 <button type="button" routerLink="" mat-stroked-button color="accent">Exit</button>
