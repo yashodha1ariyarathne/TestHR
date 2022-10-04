@@ -14,7 +14,7 @@ import { ReqleaveComponent } from './reqleave/reqleave.component';
 import { AppleaveComponent } from './appleave/appleave.component';
 // import { ManageleaveComponent } from './manageleave/manageleave.component';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboad.component';
+
 
 
 
@@ -33,6 +33,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MenubarComponent } from './ui-widgets/menubar/menubar.component';
 
 
 @NgModule({
@@ -43,9 +44,10 @@ import { LayoutModule } from '@angular/cdk/layout';
     ReqleaveComponent,
     AppleaveComponent,
     LoginComponent,
-    DashboardComponent,
+    DashComponent,
     MarkattendanceComponent,
-    DashComponent
+    DashComponent,
+    MenubarComponent
   ],
   imports: [
     

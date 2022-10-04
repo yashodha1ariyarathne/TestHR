@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { AppService } from '../app.service';
+
 
 @Component({
   selector: 'app-dash',
@@ -11,14 +11,8 @@ import { AppService } from '../app.service';
 export class DashComponent {
   
   constructor(
-    private breakpointObserver: BreakpointObserver,
-    public appService: AppService) {}
+    private breakpointObserver: BreakpointObserver) {}
 
-    empTypeId=this.appService.empTypeId;
-
-  logout() {
-    localStorage.removeItem('token');
-  }
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {

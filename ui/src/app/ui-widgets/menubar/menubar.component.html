@@ -1,0 +1,42 @@
+
+<mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+      <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+    </button>
+    Home
+  </mat-toolbar> 
+  
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+
+    <button mat-button id="mrkButton" class="mrkButton" routerLink="/markattendance">
+        <mat-icon>person</mat-icon>
+        <span>Mark Attendance</span>
+    </button>
+    <button mat-button id="reqLeaveButton" class="reqLeaveButton" routerLink="/reqleave">
+        <mat-icon>check</mat-icon>
+        <span> Requst a Leave</span>
+    </button>
+    <button mat-button id="appLeaveButton" class="appLeaveButton" routerLink="/appleave" *ngIf="empTypeId > 2">
+        <mat-icon>check</mat-icon>
+        <span> Approve leave</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button"  id="logout" class="logout" (click)="logout()"  routerLink="/login">
+        <mat-icon>info</mat-icon>
+        <span>Logout</span>
+    </button>
+    </mat-sidenav>
+
+    <mat-sidenav-content> 
+        <div>
+            <router-outlet></router-outlet>
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+  
