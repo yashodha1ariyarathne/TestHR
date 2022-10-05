@@ -22,43 +22,37 @@ const routes: Routes = [
     }
   },
 
-  { path: '', component: MenubarComponent,
-    canActivate: [AuthGuard],  
-    children: 
-    [
-      { path: '', component: DashComponent,
-        canActivate: [AuthGuard], 
-      },
+{ path: '', component: DashComponent,
+    canActivate: [AuthGuard], 
+  },
 
-      { path: 'markattendance', component: MarkattendanceComponent,
-        canActivate: [AuthGuard],
-        data:{
-          status:'status',
-          comment:'comment'
-        } 
-      },
+  { path: 'markattendance', component: MarkattendanceComponent,
+    canActivate: [AuthGuard],
+    data:{
+      status:'status',
+      comment:'comment'
+    } 
+  },
 
-      { path: 'reqleave', component: ReqleaveComponent,
-        canActivate: [AuthGuard],
-        data:{
-          reason:'reason',
-          dateOfLeaveRequired:'dateOfLeaveRequired',
-          numberOfDaysOfLeaveRequired:'numberOfDaysOfLeaveRequired',
-          timeForHalfday:'timeForHalfday',
-          leaveType:'leaveType'
-        }
-      },
+  { path: 'reqleave', component: ReqleaveComponent,
+    canActivate: [AuthGuard],
+    data:{
+      reason:'reason',
+      dateOfLeaveRequired:'dateOfLeaveRequired',
+      numberOfDaysOfLeaveRequired:'numberOfDaysOfLeaveRequired',
+      timeForHalfday:'timeForHalfday',
+      leaveType:'leaveType'
+    }
+  },
 
-      { path: 'appleave', component: AppleaveComponent,
-        canActivate: [AuthGuard],
-        data:{
-          empId:'empId',
-          date:'date',
-          approval:'approval',
-          comment:'comment'
-        }  
-      }
-    ]
+  { path: 'appleave', component: AppleaveComponent,
+    canActivate: [AuthGuard],
+    data:{
+      empId:'empId',
+      date:'date',
+      approval:'approval',
+      comment:'comment'
+    }  
   }
 ];
 
