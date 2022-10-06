@@ -46,15 +46,17 @@ export class LoginComponent {
   async login() {
 
     try {
-    let username=JSON.parse(JSON.stringify(this.form.value.username));
-    let password=JSON.parse(JSON.stringify(this.form.value.password))
+    let username = JSON.parse(JSON.stringify(this.form.value.username));
+    let password = JSON.parse(JSON.stringify(this.form.value.password))
 
     let loginResult = await this.apiService.userLogin({username,password});
 
-    let Result=JSON.parse(JSON.stringify(loginResult))
+    let result = JSON.parse(JSON.stringify(loginResult))
    
     if(loginResult)
-      localStorage.setItem('token',Result);
+    
+      localStorage.setItem('token',result);
+     
     
     } 
     

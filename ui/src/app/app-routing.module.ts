@@ -22,9 +22,9 @@ const routes: Routes = [
     }
   },
 
-{ path: '', component: DashComponent,
-    canActivate: [AuthGuard], 
-  },
+  { path: '', component: DashComponent,
+      canActivate: [AuthGuard], 
+    },
 
   { path: 'markattendance', component: MarkattendanceComponent,
     canActivate: [AuthGuard],

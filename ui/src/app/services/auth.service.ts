@@ -16,8 +16,8 @@ export class AuthService {
     public appService: AppService,
    
     ) { }
-
-
+  
+  
   private getDecodedToken(token: any){
       try {
         return jwt_decode(token);
@@ -26,6 +26,7 @@ export class AuthService {
         return null;
       }
     }
+    
     
   private setUser(token: any) {
 
@@ -52,6 +53,8 @@ export class AuthService {
   }
 
 }
+
+
 
 export function tokenGetter() {
   

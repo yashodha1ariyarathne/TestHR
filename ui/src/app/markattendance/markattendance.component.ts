@@ -40,8 +40,8 @@ export class MarkattendanceComponent {
   async mark() {
 
     try {
-    let status=JSON.parse(JSON.stringify(this.form.value.status));
-    let comment=JSON.parse(JSON.stringify(this.form.value.comment));
+    let status = JSON.parse(JSON.stringify(this.form.value.status));
+    let comment = JSON.parse(JSON.stringify(this.form.value.comment));
   
     
     let markResult = await this.apiService.markAttend({status,comment});

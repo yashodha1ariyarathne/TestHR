@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService} from './services/auth.service';
+// import { AppService } from './app.service';
+import { AuthGuard } from './services/auth.guard';
+// import { AuthService} from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +12,13 @@ export class AppComponent {
   title = 'angular-hrmsystem';
 
   constructor(
-    private authService: AuthService,
-    
+   
+    public authGuard : AuthGuard,
+    // public authService : AuthService
   ){}
+
+
   
-  isValid=this.authService.isAuthenticated();
+  isValid = this.authGuard.isvalied;
+    
 }
