@@ -14,12 +14,12 @@ export class AppService {
   empId = 0;
   empTypeId = 0;
   
-  
+  isValied = false;
 
   constructor(
     private http: HttpClient,
-    // private authGuard  :AuthGuard
+    
     ) { } 
 
-    // isValied = this.authGuard.canActivate();
+    
 }

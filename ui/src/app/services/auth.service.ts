@@ -33,6 +33,7 @@ export class AuthService {
     let tokenInfo= this.getDecodedToken(token) as any;
     this.appService.empId = tokenInfo.payload.empId;
     this.appService.empTypeId = tokenInfo.payload.empTypeId;
+    // this.appService.isValied = true;
     console.log(tokenInfo)
   } 
 

@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     
   ){}
 
-  isvalied = this.authService.isAuthenticated();
+  // isvalied = this.authService.isAuthenticated();
 
   canActivate(): boolean {
   
@@ -26,6 +26,7 @@ export class AuthGuard implements CanActivate {
       return false;
     }
     else{
+      
       return true;
     }
     

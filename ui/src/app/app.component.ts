@@ -1,24 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AppService } from './app.service';
 // import { AppService } from './app.service';
-import { AuthGuard } from './services/auth.guard';
+// import { AuthGuard } from './services/auth.guard';
 // import { AuthService} from './services/auth.service';
+// export let browserRefresh = false;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'angular-hrmsystem';
-
+  isValid:any;
   constructor(
    
-    public authGuard : AuthGuard,
-    // public authService : AuthService
+    public appService  : AppService ,
+   
   ){}
 
+  ngOnInit() {
 
+    this.isValid = this.appService.isValied;
+
+  }
+
+
+ 
   
-  isValid = this.authGuard.isvalied;
     
 }

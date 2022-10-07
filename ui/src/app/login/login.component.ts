@@ -7,7 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 // import { body } from 'express-validator';
 
 import { AppService } from '../app.service';
-import { AuthService } from '../services/auth.service';
+// import { AuthService } from '../services/auth.service';
 import { ApiService } from '../exapi.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -54,10 +54,10 @@ export class LoginComponent {
     let result = JSON.parse(JSON.stringify(loginResult))
    
     if(loginResult)
-    
+
       localStorage.setItem('token',result);
-     
-    
+      this.appService.isValied = true;
+      
     } 
     
     catch (error) {
