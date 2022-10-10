@@ -3,15 +3,14 @@
     <div class="header">
         <mat-card class="title_center">
             <mat-card-title>Inventive Mechanics HR System</mat-card-title>
+           
+            
         </mat-card>
     </div>
 
     <div>
         <app-menubar *ngIf="appService.isValied == true"></app-menubar>
-    </div>
-
-    <div>
         <router-outlet></router-outlet>
     </div>
-    
+
 </div>

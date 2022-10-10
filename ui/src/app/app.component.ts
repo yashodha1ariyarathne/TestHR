@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from './app.service';
 // import { AppService } from './app.service';
 // import { AuthGuard } from './services/auth.guard';
@@ -10,24 +11,20 @@ import { AppService } from './app.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'angular-hrmsystem';
   // isValid:any;
   constructor(
    
-    public appService  : AppService ,
+    public appService  : AppService,
+    public router: Router
    
   ){}
 
-  ngOnInit() {
-
-    // this.isValid = this.appService.isValied;
-    
-
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['login']);
   }
 
-
- 
-  
     
 }

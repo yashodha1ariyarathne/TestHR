@@ -14,14 +14,19 @@ export class MenubarComponent{
   constructor(
     public appService: AppService,
     public router: Router
-  ) { }
+   
+  ){}
 
-  
   empTypeId=this.appService.empTypeId;
 
   logout() {
     localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    this.appService.isValied = false;
+    this.router.navigate(['login']);
   }
 
+  
+ 
+
+ 
 }
