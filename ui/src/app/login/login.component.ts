@@ -7,7 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 // import { body } from 'express-validator';
 
 import { AppService } from '../app.service';
-// import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { ApiService } from '../exapi.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -25,42 +25,49 @@ export class LoginComponent {
 
   username: string = '';
   password: string = '';
-  public error: any; 
-  result: string='';
+   
   hide = true;
 
   constructor(
     private http:HttpClient,
     private appService: AppService,
-    private  apiService:  ApiService
+    private  apiService:  ApiService,
+    private authService: AuthService
     
   ) { }
 
   form = new FormGroup({
-    username: new FormControl('', Validators.required),
+    username: new FormControl('',Validators.required),
     password: new FormControl('',Validators.required)    
   });
+
+  get f(){
+    return this.form.controls;
+  }
   
-
-
   async login() {
 
     try {
-    let username = JSON.parse(JSON.stringify(this.form.value.username));
-    let password = JSON.parse(JSON.stringify(this.form.value.password))
 
-    let loginResult = await this.apiService.userLogin({username,password});
+      let username = JSON.parse(JSON.stringify(this.form.value.username));
+      let password = JSON.parse(JSON.stringify(this.form.value.password));
 
-    let result = JSON.parse(JSON.stringify(loginResult))
-   
-    if(loginResult)
+      let loginResult = await this.apiService.userLogin({username,password});
 
-      localStorage.setItem('token',result);
-      this.appService.isValied = true;
+      // let result = JSON.parse(JSON.stringify(loginResult));
+    
+      if(loginResult){
+        this.appService.isValied = true;
+        localStorage.setItem('token',loginResult);
+        
+      }
+
+      
       
     } 
     
     catch (error) {
+      
       var err:any = error;
       window.alert(err.error);
       this.form.reset();

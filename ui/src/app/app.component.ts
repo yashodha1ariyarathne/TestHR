@@ -12,7 +12,7 @@ import { AppService } from './app.service';
 })
 export class AppComponent implements OnInit {
   title = 'angular-hrmsystem';
-  isValid:any;
+  // isValid:any;
   constructor(
    
     public appService  : AppService ,
@@ -21,7 +21,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-    this.isValid = this.appService.isValied;
+    // this.isValid = this.appService.isValied;
+    
 
   }
 

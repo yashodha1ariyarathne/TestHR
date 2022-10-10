@@ -19,7 +19,6 @@ import { LoginComponent } from './login/login.component';
 
 
 import { AuthGuard } from './services/auth.guard';
-import { tokenGetter } from './services/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppService } from './app.service';
 import { MarkattendanceComponent } from './markattendance/markattendance.component';
@@ -34,6 +33,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MenubarComponent } from './ui-widgets/menubar/menubar.component';
+
+export function tokenGetter():any {
+  
+  return localStorage.getItem("token")
+}
+
 
 
 @NgModule({

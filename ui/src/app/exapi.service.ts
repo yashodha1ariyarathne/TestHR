@@ -3,8 +3,8 @@ import {  Injectable, Injector, Input } from '@angular/core';
 import { LoginComponent} from './login/login.component';
 import { lastValueFrom } from 'rxjs';
 import { AppService} from './app.service';
-import { AuthService, tokenGetter} from './services/auth.service';
-
+import { AuthService} from './services/auth.service';
+import { tokenGetter } from './app.module';
 
 
 export let injector: Injector;

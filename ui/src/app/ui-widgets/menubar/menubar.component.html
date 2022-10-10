@@ -1,5 +1,5 @@
 
-<mat-toolbar class="mat-elevation-z8">
+<mat-toolbar class="mat-elevation-z8" color="primary">
     <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
       <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
       <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
@@ -10,33 +10,19 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
 
-    <button mat-button id="mrkButton" class="mrkButton" routerLink="/markattendance">
-        <mat-icon>person</mat-icon>
-        <span>Mark Attendance</span>
-    </button>
-    <button mat-button id="reqLeaveButton" class="reqLeaveButton" routerLink="/reqleave">
-        <mat-icon>check</mat-icon>
-        <span> Requst a Leave</span>
-    </button>
-    <button mat-button id="appLeaveButton" class="appLeaveButton" routerLink="/appleave" *ngIf="empTypeId > 2">
-        <mat-icon>check</mat-icon>
-        <span> Approve leave</span>
-    </button>
-
-    <mat-divider></mat-divider>
-
-    <button mat-button class="menu-button"  id="logout" class="logout" (click)="logout()"  routerLink="">
-        <mat-icon>info</mat-icon>
-        <span>Logout</span>
-    </button>
+        <mat-nav-list>
+            <a mat-list-item [routerLink]="'/markattendance'"> Markattendance </a>
+            <a mat-list-item [routerLink]="'/reqleave'"> Requstleave </a>
+            <a mat-list-item [routerLink]="'/appleave'" *ngIf="empTypeId > 2"> Applyleave </a>
+            <a mat-list-item [routerLink]="'/login'" (click)="logout()" > Logout </a>
+            
+          </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content> 
-        <div>
-            <router-outlet></router-outlet>
+    <mat-sidenav-content>
+        <div style="height: 92vh">
+          <router-outlet></router-outlet>
         </div>
-
-    </mat-sidenav-content>
+      </mat-sidenav-content>
 </mat-sidenav-container>
 
-  

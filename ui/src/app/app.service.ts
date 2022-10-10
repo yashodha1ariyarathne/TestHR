@@ -8,7 +8,8 @@ export let injector: Injector;
 
 @Injectable({ providedIn: 'root' })
 
-export class AppService { 
+export class AppService {
+   
   url = 'http://localhost:8080'; 
   static url: string;
   empId = 0;
