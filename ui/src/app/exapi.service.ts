@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {  Injectable, Injector, Input } from '@angular/core';
-import { LoginComponent} from './login/login.component';
+// import { LoginComponent} from './login/login.component';
 import { lastValueFrom } from 'rxjs';
 import { AppService} from './app.service';
-import { AuthService} from './services/auth.service';
-import { tokenGetter } from './app.module';
+// import { AuthService} from './services/auth.service';
+// import { tokenGetter } from './app.module';
 
 
 export let injector: Injector;
@@ -14,9 +14,9 @@ export let injector: Injector;
 export class ApiService { 
    
   constructor(
-    private http:HttpClient,
-    private appService: AppService,
-    private authService: AuthService,
+    public http:HttpClient,
+    public appService: AppService,
+    
     
   ) { }
 

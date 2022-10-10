@@ -1,15 +1,16 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
+// import { HttpClient, HttpErrorResponse, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Component, Injectable } from '@angular/core';
-import { Router } from "@angular/router";
-import { lastValueFrom, Observable, throwError } from 'rxjs';
+// import { Router } from "@angular/router";
+// import { lastValueFrom, Observable, throwError } from 'rxjs';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
+// import { JwtHelperService } from '@auth0/angular-jwt';
 // import { body } from 'express-validator';
 
 import { AppService } from '../app.service';
-import { AuthService } from '../services/auth.service';
+// import { AuthService } from '../services/auth.service';
 import { ApiService } from '../exapi.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +30,11 @@ export class LoginComponent {
   hide = true;
 
   constructor(
-    private http:HttpClient,
-    private appService: AppService,
-    private  apiService:  ApiService,
-    private authService: AuthService
+    
+    public appService: AppService,
+    public  apiService:  ApiService,
+    public router: Router
+    
     
   ) { }
 
@@ -59,6 +61,7 @@ export class LoginComponent {
       if(loginResult){
         this.appService.isValied = true;
         localStorage.setItem('token',loginResult);
+        this.router.navigate(['']);
         
       }
 

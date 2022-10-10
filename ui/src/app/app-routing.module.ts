@@ -16,15 +16,16 @@ import { MenubarComponent } from './ui-widgets/menubar/menubar.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent,
+  
     data:{
       username:'username',
       password:'password'
     }
   },
 
-  { path: '', component: DashComponent,
-      canActivate: [AuthGuard], 
-    },
+    { path:'', component: DashComponent,
+    canActivate: [AuthGuard], 
+  },
 
   { path: 'markattendance', component: MarkattendanceComponent,
     canActivate: [AuthGuard],

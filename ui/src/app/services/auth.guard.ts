@@ -10,15 +10,15 @@ import { tokenGetter } from './../app.module';
 export class AuthGuard implements CanActivate {
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    public authService: AuthService,
+    public router: Router
     
   ){}
 
   // isvalied = this.authService.isAuthenticated();
 
   canActivate(): boolean {
-  
+  debugger
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['login']);
       return false;

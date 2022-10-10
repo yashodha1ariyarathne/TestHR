@@ -14,7 +14,7 @@
             <a mat-list-item [routerLink]="'/markattendance'"> Markattendance </a>
             <a mat-list-item [routerLink]="'/reqleave'"> Requstleave </a>
             <a mat-list-item [routerLink]="'/appleave'" *ngIf="empTypeId > 2"> Applyleave </a>
-            <a mat-list-item [routerLink]="'/login'" (click)="logout()" > Logout </a>
+            <a mat-list-item  (click)="logout()" > Logout </a>
             
           </mat-nav-list>
     </mat-sidenav>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AppService } from '../../app.service';
 
@@ -11,7 +12,8 @@ export class MenubarComponent{
   
 
   constructor(
-    public appService: AppService
+    public appService: AppService,
+    public router: Router
   ) { }
 
   
@@ -19,6 +21,7 @@ export class MenubarComponent{
 
   logout() {
     localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 
 }
