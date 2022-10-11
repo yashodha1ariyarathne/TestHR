@@ -12,7 +12,7 @@ var $  = require('jquery');
 
 const jwt = require("jsonwebtoken")
 const jwtKey = "my_secret_key"
-const jwtExpirySeconds = 300
+const jwtExpirySeconds = 60
 
 const path = require('path')
 app.use('/',express.static(path.join(__dirname,'ui')))

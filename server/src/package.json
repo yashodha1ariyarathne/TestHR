@@ -26,6 +26,7 @@
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
+    "moment": "^2.29.4",
     "mongoose": "^6.5.1",
     "mysql": "^2.18.1",
     "mysql-parse": "^2.0.8",

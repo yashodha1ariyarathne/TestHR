@@ -5,7 +5,7 @@ const db = require('../bin/config');
 const router = express.Router();
 
 var md5 = require('md5');
-const { TokenExpiredError } = require('jsonwebtoken');
+var moment = require('moment');
 
 router.post('/attendance' ,async(req, res,next) => {
   
@@ -20,7 +20,7 @@ router.post('/attendance' ,async(req, res,next) => {
 
   var statusLowCase =status.toLowerCase();
 
-console.log(res.locals);
+
   try {
 
     //Checking whether mandatory data has been entered.
@@ -37,6 +37,33 @@ console.log(res.locals);
     
     if(valiedAttendance1.length === 1)
       return res.status(400).json("Already marked"); 
+
+
+    //checking late attendance
+    if (statusLowCase === statusTypes[0]){
+      
+      var format = 'hh:mm:ss'
+      var time = moment(),
+      // var time = moment('09:05:00', format),
+      beforeTime = moment('09:00:00', format),
+      afterTime = moment('09:15:00', format);
+
+      if(time > afterTime){
+        return res.status(400).json("You cannot mark your attendance");
+      }
+  
+
+      if (time.isBetween(beforeTime, afterTime)) {
+        let resultLateAttendance = await  global.db.query('SELECT numberOfDays FROM lateattendance  WHERE emp_id=?',[id]);
+        let numberOfLateAttendance= resultLateAttendance[0].numberOfDays
+
+        if(numberOfLateAttendance >= 4){
+          return res.status(400).json("You have delayed marking 'in' for 4 days this month.");
+
+        }
+      } 
+    }
+    
 
       
     //If 'Out' is entered, checking whether 'In' is entered for that date.
