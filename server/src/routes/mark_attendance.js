@@ -10,7 +10,7 @@ var moment = require('moment');
 router.post('/attendance' ,async(req, res,next) => {
   
   var markAtt;
-  var statusTypes=['in','out'];
+  var statusTypes={in:'in',out:'out'};
 
   var  id = res.locals.empId;
   var typeId=res.locals.empTyepeId;
@@ -23,53 +23,58 @@ router.post('/attendance' ,async(req, res,next) => {
 
   try {
 
-    //Checking whether mandatory data has been entered.
+    //-------------------Checking whether mandatory data has been entered.----------------------//
     if(!status)
       return res.status(400).json("Please fill all required fields");
 
-    //Checking that 'Status' is entered correctly.
-    if (statusTypes.includes(statusLowCase) === false) 
+
+    //------------Checking that 'Status' is entered correctly.----------------------//
+    if (!Object.values(statusTypes).includes(statusLowCase)) 
     return res.status(400).json("Invalied status type");
 
 
-    //Checking if date related data is already entered.
+    //----------------------Checking if date related data is already entered.----------------------//
     let valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
     
     if(valiedAttendance1.length === 1)
       return res.status(400).json("Already marked"); 
+    
 
-
-    //checking late attendance
-    if (statusLowCase === statusTypes[0]){
+    //----------------------checking late attendance-------------------------//
+    if (statusLowCase === statusTypes.in){
       
-      var format = 'hh:mm:ss'
-      var time = moment(),
-      // var time = moment('09:05:00', format),
-      beforeTime = moment('09:00:00', format),
-      afterTime = moment('09:15:00', format);
+      var tFormat = 'hh:mm:ss';
+      // var dFormat = 'YYYY-MM-DD';
 
+      var time = moment(),
+      // var time = moment('09:05:00', tFormat),
+      beforeTime = moment('09:00:00', tFormat),
+      afterTime = moment('09:15:00', tFormat);
+
+      // var startDate = moment('2022-10-11', dFormat);
+      // var endDate = moment('2022-11-10', dFormat);
+      
       if(time > afterTime){
         return res.status(400).json("You cannot mark your attendance");
       }
   
 
       if (time.isBetween(beforeTime, afterTime)) {
-        let resultLateAttendance = await  global.db.query('SELECT numberOfDays FROM lateattendance  WHERE emp_id=?',[id]);
-        let numberOfLateAttendance= resultLateAttendance[0].numberOfDays
+        let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN "2022-10-11" AND "2022-11-10" AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
+        // let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN "?" AND "?" AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
+        let numberOfLateAttendance= resultAttendanceForMonth[0].numberOfLateAttendance
+        console.log(numberOfLateAttendance)
 
         if(numberOfLateAttendance >= 4)
           return res.status(400).json("You have delayed marking 'in' for 4 days this month.");
-
-        numberOfLateAttendance = numberOfLateAttendance +1;
-        await global.db.query('update lateattendance SET numberOfDays=? where emp_id=? ',[numberOfLateAttendance,id]); 
         
       } 
     }
     
 
       
-    //If 'Out' is entered, checking whether 'In' is entered for that date.
-    if (statusLowCase === statusTypes[1]){
+    //----------------------If 'Out' is entered, checking whether 'In' is entered for that date.----------------------//
+    if (statusLowCase === statusTypes.out){
 
       let valiedAttendance2 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status="in"',[id]);
         
@@ -78,7 +83,7 @@ router.post('/attendance' ,async(req, res,next) => {
 
     }
 
-    //If everything is OK, enter the data into the database.
+    //----------------------If everything is OK, enter the data into the database.----------------------//
     markAtt = await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
     res.status(201).json("Marked successfully");
 
