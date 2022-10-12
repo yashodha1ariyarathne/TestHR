@@ -57,10 +57,12 @@ router.post('/attendance' ,async(req, res,next) => {
         let resultLateAttendance = await  global.db.query('SELECT numberOfDays FROM lateattendance  WHERE emp_id=?',[id]);
         let numberOfLateAttendance= resultLateAttendance[0].numberOfDays
 
-        if(numberOfLateAttendance >= 4){
+        if(numberOfLateAttendance >= 4)
           return res.status(400).json("You have delayed marking 'in' for 4 days this month.");
 
-        }
+        numberOfLateAttendance = numberOfLateAttendance +1;
+        await global.db.query('update lateattendance SET numberOfDays=? where emp_id=? ',[numberOfLateAttendance,id]); 
+        
       } 
     }
     
