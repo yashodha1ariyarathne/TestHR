@@ -51,8 +51,10 @@ router.post('/attendance' ,async(req, res,next) => {
       beforeTime = moment('09:00:00', tFormat),
       afterTime = moment('09:15:00', tFormat);
 
-      // var startDate = moment('2022-10-11', dFormat);
-      // var endDate = moment('2022-11-10', dFormat);
+      var startDate = moment("2022-10-11").format('YYYY-MM-DD');
+      var endDate = moment('2022-11-10').format('YYYY-MM-DD');
+
+      // console.log(startDate,endDate)
       
       if(time > afterTime){
         return res.status(400).json("You cannot mark your attendance");
@@ -60,10 +62,10 @@ router.post('/attendance' ,async(req, res,next) => {
   
 
       if (time.isBetween(beforeTime, afterTime)) {
-        let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN "2022-10-11" AND "2022-11-10" AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
-        // let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN "?" AND "?" AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
+        // let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN "2022-10-11" AND "2022-11-10" AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
+        let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN ? AND ?  AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
         let numberOfLateAttendance= resultAttendanceForMonth[0].numberOfLateAttendance
-        console.log(numberOfLateAttendance)
+        console.log(resultAttendanceForMonth)
 
         if(numberOfLateAttendance >= 4)
           return res.status(400).json("You have delayed marking 'in' for 4 days this month.");
