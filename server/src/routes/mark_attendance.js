@@ -19,13 +19,13 @@ router.post('/attendance' ,async(req, res,next) => {
   var statusLowCase =status.toLowerCase();
 
   var tFormat = 'hh:mm:ss';
-  // var time = moment(),
-  var time = moment('09:05:00', tFormat),
+  var time = moment(),
+  // var time = moment('09:05:00', tFormat),
   beforeTime = moment('09:00:00', tFormat),
   afterTime = moment('09:15:00', tFormat);
 
   var startDate = moment("2022-10-10").format('YYYY-MM-DD');
-  var endDate = moment("2022-11-10").format('YYYY-MM-DD');
+  var endDate = moment().format('YYYY-MM-DD');
 
   var leaveType ='halfday';
   var numberOfDaysOfLeave = 1;
@@ -50,28 +50,25 @@ router.post('/attendance' ,async(req, res,next) => {
 
       if(withingLatePeriod()){
 
-        if(await markLateAttendance()){
-
-          if(await checkingForHalfdays()){
-            return res.status(400).json("You cannot mark your attendance");
-          } 
-          await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
-          return res.status(400).json("Today is marked as a half-day leave.");
-        }
+        if(await checkingForHalfdays()){
+          return res.status(400).json("You cannot mark your attendance");
+        } 
+        await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
+        return res.status(400).json("Today is marked as a half-day leave.");
       }
       
       if(lateAttendance()){
-        return res.status(400).json("You cannot mark your attendance");
-
-        
+        return res.status(400).json("You cannot mark your attendance");  
       }
 
     }
+
     else{
       //----------------------If 'Out' is entered, checking whether 'In' is entered for that date.----------------------//
       if(validOut()){
         return res.status(400).json("You cannot mark 'out' without marking 'in'");
       }
+
     }
     
 
@@ -115,35 +112,31 @@ router.post('/attendance' ,async(req, res,next) => {
   }
 
 
-  async function markLateAttendance(){
+  async function checkingForHalfdays(){
+   
     let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN ? AND ?  AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
     let numberOfLateAttendance= resultAttendanceForMonth[0].numberOfLateAttendance
     
     if(numberOfLateAttendance >= 4){
-      return true;
-    }
-    return false;
       
-  }
+      //----------To find the total number of halfdays available in the year for the employee's employee type.------------------//
+      let resultAvalable = await  global.db.query('SELECT * FROM availableleave  WHERE empTypeId = ? and leaveType = ?',[empTypeId,leaveType]);
+      let numberOfAvailabLeleave= resultAvalable[0].NumberOfLeaves
+      
 
+      //--------To find out the total number of halfdays taken by the respective employee during the year by employee type.---------------//
+      let resultTaken = await  global.db.query('SELECT SUM(numberOfDaysOfLeave) as numberOfLeaveTaken  FROM leavetaken  WHERE emp_id = ? AND leaveType = ?',[id,leaveType]);
+      let numberOfLeaveTaken= resultTaken[0].numberOfLeaveTaken
+          
 
-  async function checkingForHalfdays(){
-   
-    //----------To find the total number of halfdays available in the year for the employee's employee type.------------------//
-    let resultAvalable = await  global.db.query('SELECT * FROM availableleave  WHERE empTypeId = ? and leaveType = ?',[empTypeId,leaveType]);
-    let numberOfAvailabLeleave= resultAvalable[0].NumberOfLeaves
-    
+      //---------Checking whether the employee has taken the total number of halfdays available in the year for the employee type.---------//
+      if(numberOfAvailabLeleave <= numberOfLeaveTaken){
+        return true;
+      }
 
-    //--------To find out the total number of halfdays taken by the respective employee during the year by employee type.---------------//
-    let resultTaken = await  global.db.query('SELECT SUM(numberOfDaysOfLeave) as numberOfLeaveTaken  FROM leavetaken  WHERE emp_id = ? AND leaveType = ?',[id,leaveType]);
-    let numberOfLeaveTaken= resultTaken[0].numberOfLeaveTaken
-        
+      return false;
+    }
 
-    //---------Checking whether the employee has taken the total number of halfdays available in the year for the employee type.---------//
-    if(numberOfAvailabLeleave <= numberOfLeaveTaken){
-      return true;
-    } 
-  
     return false;
       
   }
