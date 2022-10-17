@@ -16,11 +16,12 @@ router.post('/attendance' ,async(req, res,next) => {
   var status    = req.body.status;
   var comment   = req.body.comment;
 
-  var statusLowCase =status.toLowerCase();
+  // var statusLowCase =status.toLowerCase();
+  var statusLowCase =status;
 
   var tFormat = 'hh:mm:ss';
   var time = moment(),
-  // var time = moment('13:05:00', tFormat),
+  // var time = moment('12:45:00', tFormat),
   beforeTime = moment('09:00:00', tFormat),
   afterTime = moment('09:15:00', tFormat),
   halfdayEndTime = moment('12:30:00', tFormat);
@@ -55,20 +56,20 @@ router.post('/attendance' ,async(req, res,next) => {
       switch (inTimeAlignment) {
 
         case "not-late":
-          await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
+          await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id, statusLowCase, comment]);
           res.status(201).send("Marked successfully");
           break;
 
 
         case "within-late":
           if(await isLateAttAvailable()){
-            await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
+            await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id, statusLowCase, comment]);
             res.status(201).send("Marked successfully");
           }
 
-          else if(isHalfdaysAvailable()){
-            await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
-            await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
+          else if(await isHalfdaysAvailable()){
+            await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id, leaveType, numberOfDaysOfLeave]);
+            await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id, statusLowCase, comment]);
             res.status(400).send("Today is marked as a half-day leave.");
           }
 
@@ -80,8 +81,8 @@ router.post('/attendance' ,async(req, res,next) => {
           
         case "late-time-passed":
           if(await isHalfdaysAvailable()){
-            await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
-            await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
+            await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id, leaveType, numberOfDaysOfLeave]);
+            await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id, statusLowCase, comment]);
             res.status(400).send("Today is marked as a half-day leave."); 
           }
 
@@ -120,7 +121,7 @@ router.post('/attendance' ,async(req, res,next) => {
 
 
   async function allreadyMarked (){
-    let valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id,statusLowCase]);
+    let valiedAttendance1 = await global.db.query('SELECT * FROM attendance WHERE date=CURRENT_DATE AND  emp_id=? AND status=?',[id, statusLowCase]);
     if(valiedAttendance1.length === 1){
       return true;
     }
@@ -162,12 +163,12 @@ router.post('/attendance' ,async(req, res,next) => {
   async function isHalfdaysAvailable(){
   
     //To find the total number of halfdays available in the year for the employee's employee type.//
-    let resultAvalable = await  global.db.query('SELECT * FROM availableleave  WHERE empTypeId = ? and leaveType = ?',[empTypeId,leaveType]);
+    let resultAvalable = await  global.db.query('SELECT * FROM availableleave  WHERE empTypeId = ? and leaveType = ?',[empTypeId, leaveType]);
     let numberOfAvailabLeleave= resultAvalable[0].NumberOfLeaves
     
 
     //To find out the total number of halfdays taken by the respective employee during the year by employee type.//
-    let resultTaken = await  global.db.query('SELECT SUM(numberOfDaysOfLeave) as numberOfLeaveTaken  FROM leavetaken  WHERE emp_id = ? AND leaveType = ?',[id,leaveType]);
+    let resultTaken = await  global.db.query('SELECT SUM(numberOfDaysOfLeave) as numberOfLeaveTaken  FROM leavetaken  WHERE emp_id = ? AND leaveType = ?',[id, leaveType]);
     let numberOfLeaveTaken= resultTaken[0].numberOfLeaveTaken
         
 
