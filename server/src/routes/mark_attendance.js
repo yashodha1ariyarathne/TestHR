@@ -66,19 +66,18 @@ router.post('/attendance' ,async(req, res,next) => {
             res.status(201).send("Marked successfully");
           }
 
+          else if(isHalfdaysAvailable()){
+            await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
+            await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
+            res.status(400).send("Today is marked as a half-day leave.");
+          }
+
           else{
-
-            if(isHalfdaysAvailable()){
-              await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
-              await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
-              res.status(400).send("Today is marked as a half-day leave.");
-            }
-
             res.status(400).send("You have already taken the maximum number of lates and halfdays for the month"); 
           } 
           break;
 
-
+          
         case "late-time-passed":
           if(await isHalfdaysAvailable()){
             await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
