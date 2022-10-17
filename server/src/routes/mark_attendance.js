@@ -85,10 +85,12 @@ router.post('/attendance' ,async(req, res,next) => {
             res.status(400).send("Today is marked as a half-day leave."); 
           }
 
-          res.status(400).send("You have already taken the maximum number of halfdays for the month");
+          else{
+            res.status(400).send("You have already taken the maximum number of halfdays for the month");
+          }
           break;
 
-
+          
         case "half-day-time-passed":
           res.status(400).send("You cannot mark your attendance"); 
           break;
