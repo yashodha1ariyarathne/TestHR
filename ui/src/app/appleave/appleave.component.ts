@@ -11,6 +11,12 @@ import { ApiService } from '../exapi.service';
   styleUrls: ['./appleave.component.scss']
 })
 export class AppleaveComponent {
+
+  approval = [
+    { id: 1,  name: "Accept" },
+    { id: 2 , name: "Reject" } 
+  ];
+
   
   constructor(
     private fb:FormBuilder,
@@ -49,6 +55,7 @@ export class AppleaveComponent {
     catch (error) {
       var err:any = error;
       window.alert(err.error);
+      this.form.reset();
     
     } 
 
