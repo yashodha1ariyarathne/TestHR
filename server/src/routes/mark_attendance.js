@@ -90,7 +90,7 @@ router.post('/attendance' ,async(req, res,next) => {
           }
           break;
 
-          
+
         case "half-day-time-passed":
           res.status(400).send("You cannot mark your attendance"); 
           break;
@@ -153,7 +153,7 @@ router.post('/attendance' ,async(req, res,next) => {
     let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN ? AND ?  AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
     let numberOfLateAttendance= resultAttendanceForMonth[0].numberOfLateAttendance
     
-    if(numberOfLateAttendance <= 4){
+    if(numberOfLateAttendance < 4){
       return true;
     }
     return false;
@@ -172,7 +172,7 @@ router.post('/attendance' ,async(req, res,next) => {
         
 
     //Checking whether the employee has taken the total number of halfdays available in the year for the employee type.//
-    if(numberOfAvailabLeleave >= numberOfLeaveTaken){
+    if(numberOfAvailabLeleave > numberOfLeaveTaken){
       return true;
     }
 
