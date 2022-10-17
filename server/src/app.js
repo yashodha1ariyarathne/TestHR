@@ -12,7 +12,7 @@ var $  = require('jquery');
 
 const jwt = require("jsonwebtoken")
 const jwtKey = "my_secret_key"
-const jwtExpirySeconds = 600
+const jwtExpirySeconds = 60
 
 const path = require('path')
 app.use('/',express.static(path.join(__dirname,'ui')))
@@ -116,6 +116,7 @@ app.use('/markAddendance', routes.mark_attendance);
 app.use('/requestLeave', routes.request_leave);
 app.use('/viewLeaveRequest', routes.view_leavereq);
 app.use('/approveLeaveRequest', routes.app_leavereq);
+app.use('/markHolidays', routes.mark_holidays);
 
 
 //Common error handler

@@ -16,8 +16,8 @@ router.post('/attendance' ,async(req, res,next) => {
   var status    = req.body.status;
   var comment   = req.body.comment;
 
-  // var statusLowCase =status.toLowerCase();
-  var statusLowCase =status;
+  var statusLowCase =status.toLowerCase();
+  // var statusLowCase =status;
 
   var tFormat = 'hh:mm:ss';
   var time = moment(),
