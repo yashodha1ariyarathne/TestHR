@@ -24,8 +24,8 @@ router.post('/attendance' ,async(req, res,next) => {
   beforeTime = moment('09:00:00', tFormat),
   afterTime = moment('09:15:00', tFormat),
   halfdayEndTime = moment('12:30:00', tFormat);
-
   var startDate = moment("2022-10-10").format('YYYY-MM-DD');
+
   var endDate = moment().format('YYYY-MM-DD');
 
   var leaveType ='halfday';
@@ -59,27 +59,36 @@ router.post('/attendance' ,async(req, res,next) => {
           res.status(201).send("Marked successfully");
           break;
 
+
         case "within-late":
-          if(await ifHalfdaysAreNotAvilableForWithingLate()){
-            res.status(400).send("You have already taken the maximum number of lates and halfdays for the month");
-          }
-          else{
-            await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
+          if(await isLateAttAvailable()){
             await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
-            res.status(400).send("Today is marked as a half-day leave.");
+            res.status(201).send("Marked successfully");
+          }
+
+          else{
+
+            if(isHalfdaysAvailable()){
+              await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
+              await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
+              res.status(400).send("Today is marked as a half-day leave.");
+            }
+
+            res.status(400).send("You have already taken the maximum number of lates and halfdays for the month"); 
           } 
           break;
 
+
         case "late-time-passed":
-          if(await ifHalfdaysAreNotAvilableLateAtt()){
-            res.status(400).send("You have already taken the maximum number of halfdays for the month");
-          }
-          else{
+          if(await isHalfdaysAvailable()){
             await global.db.query('INSERT INTO leavetaken (emp_id,leaveType,numberOfDaysOfLeave) VALUES(?,?,?)',[id,leaveType,numberOfDaysOfLeave]);
             await global.db.query('INSERT INTO attendance (emp_id,status,date,time,comment) VALUES(?,?,SYSDATE(),SYSDATE(),?)',[id,statusLowCase,comment]);
-            res.status(400).send("Today is marked as a half-day leave.");
-          } 
+            res.status(400).send("Today is marked as a half-day leave."); 
+          }
+
+          res.status(400).send("You have already taken the maximum number of halfdays for the month");
           break;
+
 
         case "half-day-time-passed":
           res.status(400).send("You cannot mark your attendance"); 
@@ -120,37 +129,36 @@ router.post('/attendance' ,async(req, res,next) => {
   } 
 
   function getinTimeAlignment(){
-
+    //before 9.00am
     if(time < beforeTime){
       return "not-late";
     }
-
+    //between 9.00am and 9.15am
     if(time.isBetween(beforeTime, afterTime)){
       return "within-late";
     }
-
+    //between 9.15am and 12.30pm
     if(time.isBetween(afterTime,halfdayEndTime)){
       return "late-time-passed";
     }
-   
+    //after 12.30pm
     if(time > halfdayEndTime){
       return "half-day-time-passed";
     }   
   
   }
 
-  async function ifHalfdaysAreNotAvilableForWithingLate(){
+  async function isLateAttAvailable(){
     let resultAttendanceForMonth = await  global.db.query('SELECT COUNT(*) as numberOfLateAttendance from attendance WHERE  emp_id =? AND date BETWEEN ? AND ?  AND time BETWEEN "09:00:00" AND "09:15:00"',[id,startDate,endDate]);
     let numberOfLateAttendance= resultAttendanceForMonth[0].numberOfLateAttendance
     
-    if(numberOfLateAttendance >= 4){
-      if(await ifHalfdaysAreNotAvilableLateAtt())
-        return true;
+    if(numberOfLateAttendance <= 4){
+      return true;
     }
     return false;
   }
 
-  async function ifHalfdaysAreNotAvilableLateAtt(){
+  async function isHalfdaysAvailable(){
   
     //To find the total number of halfdays available in the year for the employee's employee type.//
     let resultAvalable = await  global.db.query('SELECT * FROM availableleave  WHERE empTypeId = ? and leaveType = ?',[empTypeId,leaveType]);
@@ -163,7 +171,7 @@ router.post('/attendance' ,async(req, res,next) => {
         
 
     //Checking whether the employee has taken the total number of halfdays available in the year for the employee type.//
-    if(numberOfAvailabLeleave <= numberOfLeaveTaken){
+    if(numberOfAvailabLeleave >= numberOfLeaveTaken){
       return true;
     }
 
