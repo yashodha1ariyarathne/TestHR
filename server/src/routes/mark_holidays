@@ -9,7 +9,7 @@ router.post('/holidays', async(req, res,next) => {
    
     let date = req.body.date;
     let holidayType = req.body.holidayType;
-    holidayType =holidayType.toLowerCase();
+    holidayType = holidayType.toLowerCase();
 
     try {
 
@@ -23,7 +23,7 @@ router.post('/holidays', async(req, res,next) => {
         }
 
         await global.db.query('INSERT INTO holidays (date,holidayType) VALUES(?,?)',[date, holidayType]);
-        return res.status(201).json("Successfully entered into the database as a holiday.");
+        return res.status(201).send("Successfully entered into the database as a holiday.");
            
 
     } 
