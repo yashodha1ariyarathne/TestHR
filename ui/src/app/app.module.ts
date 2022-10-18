@@ -33,6 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MenubarComponent } from './ui-widgets/menubar/menubar.component';
+import { ReportsComponent } from './reports/reports.component';
 
 export function tokenGetter():any {
   
@@ -52,7 +53,8 @@ export function tokenGetter():any {
     DashComponent,
     MarkattendanceComponent,
     DashComponent,
-    MenubarComponent
+    MenubarComponent,
+    ReportsComponent
   ],
   imports: [
     

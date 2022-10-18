@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { MarkattendanceComponent } from './markattendance/markattendance.component';
 import { DashComponent } from './dash/dash.component';
 import { MenubarComponent } from './ui-widgets/menubar/menubar.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 const routes: Routes = [
@@ -54,6 +55,11 @@ const routes: Routes = [
       approval:'approval',
       comment:'comment'
     }  
+  },
+
+  { path: 'reports', component: ReportsComponent,
+  canActivate: [AuthGuard]
+   
   }
 ];
 

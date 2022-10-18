@@ -57,6 +57,24 @@ export class ApiService {
 
     return lastValueFrom(this.http.post(this.appService.url + '/approveLeaveRequest/approvereq', JSON.stringify(requestFields),{headers:headers}));
   }
+  markHolidays(requestFields:object): Promise<any>{
+    let auth_token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${auth_token}`
+    });
+
+    return lastValueFrom(this.http.post(this.appService.url + '/markHolidays/holidays', JSON.stringify(requestFields),{headers:headers}));
+  }
+  viewWorkingdays(requestFields:object): Promise<any>{
+    let auth_token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${auth_token}`
+    });
+
+    return lastValueFrom(this.http.post(this.appService.url + '/viewWorkingdays/workingdays', JSON.stringify(requestFields),{headers:headers}));
+  }
 
 
   

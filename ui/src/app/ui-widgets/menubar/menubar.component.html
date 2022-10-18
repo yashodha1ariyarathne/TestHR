@@ -14,6 +14,7 @@
             <a mat-list-item [routerLink]="'/markattendance'"> Markattendance </a>
             <a mat-list-item [routerLink]="'/reqleave'"> Requstleave </a>
             <a mat-list-item [routerLink]="'/appleave'" *ngIf="empTypeId > 2"> Applyleave </a>
+            <a mat-list-item [routerLink]="'/reports'" *ngIf="empTypeId > 2"> Reports </a>
             
         </mat-nav-list>
         <button type='submit'  id='submit' name="submit" mat-flat-button color="primary"  (click)="logout()" > Logout</button>
