@@ -13,6 +13,7 @@ import { MarkattendanceComponent } from './markattendance/markattendance.compone
 import { DashComponent } from './dash/dash.component';
 import { MenubarComponent } from './ui-widgets/menubar/menubar.component';
 import { ReportsComponent } from './reports/reports.component';
+import { AttendanceReportComponent } from './reports/attendance-report/attendance-report.component';
 
 
 const routes: Routes = [
@@ -58,6 +59,10 @@ const routes: Routes = [
   },
 
   { path: 'reports', component: ReportsComponent,
+  canActivate: [AuthGuard]
+   
+  },
+  { path: 'attreports', component: AttendanceReportComponent,
   canActivate: [AuthGuard]
    
   }

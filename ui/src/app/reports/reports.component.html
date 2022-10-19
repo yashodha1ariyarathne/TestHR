@@ -1,24 +1,8 @@
 <div class="main">
-    <div class="form">
-        <form [formGroup]="form" (ngSubmit)="submit()"> 
-            <div class="field">
-                <mat-form-field appearance="fill">
-                    <mat-label> Start Date</mat-label>
-                    <input matInput [matDatepicker]="picker1" id="stDate" name="stDate" formControlName="stDate">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field> <br> 
-                <mat-form-field appearance="fill">
-                    <mat-label> End Date</mat-label>
-                    <input matInput [matDatepicker]="picker2" id="endDate" name="endDate" formControlName="endDate">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field> <br> <br> <br>
-                <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >View workingdays</button>
-            </div>
-        </form> 
+    <div class="buttons">
+        
+        <a mat-list-item [routerLink]="'/attreports'"> Attendance Report </a>    
+        
     </div>
 
 </div>

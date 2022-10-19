@@ -34,6 +34,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MenubarComponent } from './ui-widgets/menubar/menubar.component';
 import { ReportsComponent } from './reports/reports.component';
+import { AttendanceReportComponent } from './reports/attendance-report/attendance-report.component';
 
 export function tokenGetter():any {
   
@@ -54,7 +55,8 @@ export function tokenGetter():any {
     MarkattendanceComponent,
     DashComponent,
     MenubarComponent,
-    ReportsComponent
+    ReportsComponent,
+    AttendanceReportComponent
   ],
   imports: [
     
