@@ -8,6 +8,7 @@ var moment = require('moment');
 
 router.post('/workingdays', async(req, res,next) => {
    
+    let empId = req.body.empId;
     let stDate = req.body.stDate;
     let endDate = req.body.endDate;
     
@@ -16,6 +17,19 @@ router.post('/workingdays', async(req, res,next) => {
 
     try {
 
+    //Checking whether mandatory data has been entered.----------------------//
+        if(!empId || !stDate || !endDate) 
+        return res.status(400).json("Please fill all required fields");
+
+    //Between the 2 days of entry for the employee entered To search for all dates marked for attendance.----------------//
+        let resultMarkatt = await global.db.query('SELECT date FROM attendance where emp_id =? and date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
+        
+        const resultMarkattArr = [];
+        resultMarkatt.forEach(object => {
+            resultMarkattArr.push(object.date);
+        });
+
+    //To find holidays between 2 entered dates.-----------------------------------------------------------------//
         let resultHolidays = await global.db.query('SELECT date FROM holidays where date BETWEEN ? AND ?' ,[stDate, endDate]);
 
         const resultHolidaysArr = [];
@@ -31,6 +45,9 @@ router.post('/workingdays', async(req, res,next) => {
 
 //--compute date array between start and end dates----------------------------------------------//
     var dateArray = getDateArray(startDate, edDate);
+
+// prepare the marked array
+    var markedAttArray = prepareDateArray(resultMarkattArr);
 
 // prepare the holidays array
     var holidaysArray = prepareDateArray(officalHolidays);
@@ -76,9 +93,12 @@ router.post('/workingdays', async(req, res,next) => {
     var arr = dates.filter(function(dt){
         return holidaysArray.indexOf(dt) < 0;
     });
+    var arr2 = arr.filter(function(dt){
+        return markedAttArray.indexOf(dt) < 0;
+    });
 
     // remove weekend dates that are not working dates
-    var result = arr.filter(function(dt){
+    var result = arr2.filter(function(dt){
         if (dt.indexOf("Sat") > -1 || dt.indexOf("Sun") > -1) {
             if (workingWeekendDates.indexOf(dt) > -1) {
                 return dt;
