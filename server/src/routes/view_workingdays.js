@@ -4,9 +4,9 @@ const { AppError } = require('../bin/config');
 const db = require('../bin/config');
 const router = express.Router();
 var moment = require('moment');
+ 
 
-
-router.post('/workingdays', async(req, res,next) => {
+router.post('/attendanceReport', async(req, res,next) => {
    
     let empId = req.body.empId;
     let stDate = req.body.stDate;
@@ -14,6 +14,7 @@ router.post('/workingdays', async(req, res,next) => {
     
     var startDate = new Date(stDate); //YYYY-MM-DD
     var edDate = new Date(endDate);
+    
 
     try {
 
@@ -22,10 +23,13 @@ router.post('/workingdays', async(req, res,next) => {
         return res.status(400).json("Please fill all required fields");
 
     //Between the 2 days of entry for the employee entered To search for all dates marked for attendance.----------------//
-        let resultMarkatt = await global.db.query('SELECT date FROM attendance where emp_id =? and date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
+        let details = await global.db.query('SELECT date,comment FROM attendance where emp_id =? AND status="in" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
+        
+
+        // return res.status(201).send(detailsObj);
         
         const resultMarkattArr = [];
-        resultMarkatt.forEach(object => {
+        details.forEach(object => {
             resultMarkattArr.push(object.date);
         });
 
@@ -58,8 +62,21 @@ router.post('/workingdays', async(req, res,next) => {
 // get the working days array
     var workingDateArray = getWorkingDateArray(dateArray, holidaysArray, workingWeekendsArray);
 
-// output
-    return res.status(201).send(workingDateArray);
+// get the working days detail object
+    var detailsobj={};
+    var arr = [];
+    for (var i = 0; i < workingDateArray.length; i++) {
+        arr.push({
+            date: workingDateArray[i],
+            // comment:""
+        });        
+    }
+     
+    
+    detailsobj.details = arr;
+
+//output
+    return res.status(201).send(detailsobj);
 
     } 
     catch (error) {
@@ -93,12 +110,10 @@ router.post('/workingdays', async(req, res,next) => {
     var arr = dates.filter(function(dt){
         return holidaysArray.indexOf(dt) < 0;
     });
-    var arr2 = arr.filter(function(dt){
-        return markedAttArray.indexOf(dt) < 0;
-    });
+   
 
     // remove weekend dates that are not working dates
-    var result = arr2.filter(function(dt){
+    var result = arr.filter(function(dt){
         if (dt.indexOf("Sat") > -1 || dt.indexOf("Sun") > -1) {
             if (workingWeekendDates.indexOf(dt) > -1) {
                 return dt;
@@ -112,8 +127,6 @@ router.post('/workingdays', async(req, res,next) => {
     return result;
 
     }
-
-
 
 });
 
