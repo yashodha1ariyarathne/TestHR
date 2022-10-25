@@ -42,10 +42,9 @@ router.post('/attendanceReport', async(req, res,next) => {
         });
 
 
-//---holidays and working weekends---------------------------------------------------------------//
+//---holidays---------------------------------------------------------------//
     var officalHolidays = resultHolidaysArr; //YYYY-MM-DD
-    var workingWeekends = []; //YYYY-MM-DD
-    
+
 
 //--compute date array between start and end dates----------------------------------------------//
     var dateArray = getDateArray(startDate, edDate);
@@ -56,20 +55,26 @@ router.post('/attendanceReport', async(req, res,next) => {
 // prepare the holidays array
     var holidaysArray = prepareDateArray(officalHolidays);
 
-// prepare the working weekends array
-    var workingWeekendsArray = prepareDateArray(workingWeekends);
-
 // get the working days array
-    var workingDateArray = getWorkingDateArray(dateArray, holidaysArray, workingWeekendsArray);
+    var workingDateArray = getWorkingDateArray(dateArray, holidaysArray);
+    
 
 // get the working days detail object
     var detailsobj={};
     var arr = [];
     for (var i = 0; i < workingDateArray.length; i++) {
-        arr.push({
-            date: workingDateArray[i],
-            // comment:""
-        });        
+
+        if(markedAttArray.indexOf(workingDateArray[i]) > -1){
+            arr.push({
+                date: workingDateArray[i],
+                comment:""
+            }); 
+        }
+        else{
+            arr.push({
+                date: workingDateArray[i],
+            }); 
+        }      
     }
      
     
@@ -103,25 +108,22 @@ router.post('/attendanceReport', async(req, res,next) => {
         }
         return arr;
 }
+
+
 //--this will return an array consisting of the working dates-----------------------------//
-    function getWorkingDateArray(dates, hoildayDates, workingWeekendDates) {
+    function getWorkingDateArray(dates, hoildayDates) {
         
         // remove holidays
-    var arr = dates.filter(function(dt){
+    var arr = dates.filter((dt) =>{
         return holidaysArray.indexOf(dt) < 0;
     });
    
-
     // remove weekend dates that are not working dates
-    var result = arr.filter(function(dt){
+    var result = arr.filter((dt) => {
         if (dt.indexOf("Sat") > -1 || dt.indexOf("Sun") > -1) {
-            if (workingWeekendDates.indexOf(dt) > -1) {
-                return dt;
-            }
+            return null;
         }
-        else {
-            return dt;
-        }
+        return dt;
     });
     
     return result;
