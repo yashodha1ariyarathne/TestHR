@@ -24,13 +24,25 @@ router.post('/attendanceReport', async(req, res,next) => {
 
     //Between the 2 days of entry for the employee entered To search for all dates marked for attendance.----------------//
         let details = await global.db.query('SELECT date,comment FROM attendance where emp_id =? AND status="in" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
-        
+
+    //Between the 2 days of entry for the employee entered To search for all out comments marked for attendance.----------------//
+        let outComments = await global.db.query('SELECT date,comment FROM attendance where emp_id =? AND status="out" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
 
         // return res.status(201).send(detailsObj);
         
         const resultMarkattArr = [];
         details.forEach(object => {
             resultMarkattArr.push(object.date);
+        });
+        
+        const resultMarkattOutCommentsArr = [];
+        outComments.forEach(object => {
+            resultMarkattOutCommentsArr.push(object.comment);
+        });
+
+        const resultMarkattCommentsArr = [];
+        details.forEach(object => {
+            resultMarkattCommentsArr.push(object.comment);
         });
 
     //To find holidays between 2 entered dates.-----------------------------------------------------------------//
@@ -62,20 +74,35 @@ router.post('/attendanceReport', async(req, res,next) => {
 // get the working days detail object
     var detailsobj={};
     var arr = [];
-    for (var i = 0; i < workingDateArray.length; i++) {
-
-        if(markedAttArray.indexOf(workingDateArray[i]) > -1){
-            arr.push({
-                date: workingDateArray[i],
-                comment:""
-            }); 
-        }
-        else{
-            arr.push({
-                date: workingDateArray[i],
-            }); 
-        }      
+    
+for (var i = 0; i < workingDateArray.length; i++) {
+    if(markedAttArray.indexOf(workingDateArray[i]) > -1){
+        var j =i; 
+        var k =j;
+        arr.push({
+            date: workingDateArray[i],
+            attendance_status: {
+                type: "present",
+                time: ""
+            },
+            comment:{
+                morning:resultMarkattCommentsArr[j],
+                evening:resultMarkattOutCommentsArr[k]
+            }
+        }); 
+        
     }
+    else{
+        arr.push({
+            date: workingDateArray[i],
+            attendance_status: {
+                type: "leave(medical/casual)",
+            },
+        }); 
+    }
+                
+    
+}
      
     
     detailsobj.details = arr;

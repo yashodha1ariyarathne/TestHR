@@ -117,7 +117,7 @@ app.use('/requestLeave', routes.request_leave);
 app.use('/viewLeaveRequest', routes.view_leavereq);
 app.use('/approveLeaveRequest', routes.app_leavereq);
 app.use('/markHolidays', routes.mark_holidays);
-app.use('/viewWorkingdays', routes.view_workingdays);
+app.use('/viewWorkingdays', routes.attendance_report);
 
 
 //Common error handler
