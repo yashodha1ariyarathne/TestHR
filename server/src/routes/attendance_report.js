@@ -23,27 +23,50 @@ router.post('/attendanceReport', async(req, res,next) => {
         return res.status(400).json("Please fill all required fields");
 
     //Between the 2 days of entry for the employee entered To search for all dates marked for attendance.----------------//
-        let details = await global.db.query('SELECT date,comment FROM attendance where emp_id =? AND status="in" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
+        let details = await global.db.query('SELECT date,time,comment FROM attendance where emp_id =? AND status="in" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
 
     //Between the 2 days of entry for the employee entered To search for all out comments marked for attendance.----------------//
         let outComments = await global.db.query('SELECT date,comment FROM attendance where emp_id =? AND status="out" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
 
-        // return res.status(201).send(detailsObj);
-        
+    //Between the 2 days of entry for the employee entered To search for all leaves.----------------//
+        let leaveDetails = await global.db.query('SELECT date,leaveType FROM leavetaken where emp_id =? and date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
+
+        //get date array from details array
         const resultMarkattArr = [];
         details.forEach(object => {
             resultMarkattArr.push(object.date);
         });
+
+        //get time array from details array
+        const resultMarkattTimeArr = [];
+        details.forEach(object => {
+            resultMarkattTimeArr.push(object.time);
+        });
         
+        //get out comment array from outComments array
         const resultMarkattOutCommentsArr = [];
         outComments.forEach(object => {
             resultMarkattOutCommentsArr.push(object.comment);
         });
 
+        //get in comment array from details array
         const resultMarkattCommentsArr = [];
         details.forEach(object => {
             resultMarkattCommentsArr.push(object.comment);
         });
+
+        //get in leave dates array from leaveDetails array
+        const resultLeaveArr = [];
+        leaveDetails.forEach(object => {
+            resultLeaveArr.push(object.date);
+        });
+
+        //get in leave dates array from leaveDetails array
+        const resultLeaveTypeArr = [];
+        leaveDetails.forEach(object => {
+            resultLeaveTypeArr.push(object.leaveType);
+        });
+
 
     //To find holidays between 2 entered dates.-----------------------------------------------------------------//
         let resultHolidays = await global.db.query('SELECT date FROM holidays where date BETWEEN ? AND ?' ,[stDate, endDate]);
@@ -64,6 +87,9 @@ router.post('/attendanceReport', async(req, res,next) => {
 // prepare the marked array
     var markedAttArray = prepareDateArray(resultMarkattArr);
 
+// prepare the leave array
+var leaveArray = prepareDateArray(resultLeaveArr);
+
 // prepare the holidays array
     var holidaysArray = prepareDateArray(officalHolidays);
 
@@ -77,38 +103,49 @@ router.post('/attendanceReport', async(req, res,next) => {
     
 for (var i = 0; i < workingDateArray.length; i++) {
     if(markedAttArray.indexOf(workingDateArray[i]) > -1){
-        var j =i; 
-        var k =j;
         arr.push({
             date: workingDateArray[i],
             attendance_status: {
                 type: "present",
-                time: ""
+                time: resultMarkattTimeArr[i]
+                // time: details[i].time
             },
             comment:{
-                morning:resultMarkattCommentsArr[j],
-                evening:resultMarkattOutCommentsArr[k]
+                morning:resultMarkattCommentsArr[i],
+                // morning:details[i].comment,
+                evening:resultMarkattOutCommentsArr[i]
+                // evening:outComments[i].comment
             }
         }); 
         
+    }
+    else if(leaveArray.indexOf(workingDateArray[i]) > -1){
+        arr.push({
+            date: workingDateArray[i],
+            attendance_status: {
+                type: "casual or medical leave"
+                // type:resultLeaveTypeArr[i].leaveType
+            },
+        }); 
     }
     else{
         arr.push({
             date: workingDateArray[i],
             attendance_status: {
-                type: "leave(medical/casual)",
+                type: "unapproved casual leave",
             },
         }); 
+
     }
                 
     
 }
      
     
-    detailsobj.details = arr;
+    // detailsobj.details = arr;
 
 //output
-    return res.status(201).send(detailsobj);
+    return res.status(201).send(arr);
 
     } 
     catch (error) {
