@@ -158,47 +158,53 @@ router.post('/attendanceReport', async(req, res,next) => {
     }
 
 
-    //------this will return an array containing all the dates between start date and an end date-----------//
-    function getDateArray(start, end) {
-        var arr = new Array();
-        var dt = new Date(start);
-        while (dt <= end) {
-            arr.push((new Date(dt)).toString().substring(0,15)); //save only the Day MMM DD YYYY part
-            dt.setDate(dt.getDate() + 1);
-        }
-        return arr;
-    }
-    //--this will prepare a date array--------------------------------------------------------------------//
 
-    function prepareDateArray (dtArr) {
-        var arr = new Array();
-        for (var i = 0; i < dtArr.length; i++) {
-            arr.push((new Date(dtArr[i])).toString().substring(0,15)); //save only the Day MMM DD YYYY part
-        }
-        return arr;
-    }
-
-
-    //--this will return an array consisting of the working dates-----------------------------//
-    function getWorkingDateArray(dates, hoildayDates) {
-        
-        // remove holidays
-        var arr = dates.filter((dt) =>{
-            return holidaysArray.indexOf(dt) < 0;
-        });
-   
-        // remove weekend dates that are not working dates
-        var result = arr.filter((dt) => {
-            if (dt.indexOf("Sat") > -1 || dt.indexOf("Sun") > -1) {
-                return null;
-            }
-            return dt;
-        });
-    
-        return result;
-
-    }
 
 });
+
+
+
+//------this will return an array containing all the dates between start date and an end date-----------//
+function getDateArray(start, end) {
+    var arr = new Array();
+    var dt = new Date(start);
+    while (dt <= end) {
+        arr.push((new Date(dt)).toString().substring(0,15)); //save only the Day MMM DD YYYY part
+        dt.setDate(dt.getDate() + 1);
+    }
+    return arr;
+}
+//--this will prepare a date array--------------------------------------------------------------------//
+
+function prepareDateArray (dtArr) {
+    var arr = new Array();
+    for (var i = 0; i < dtArr.length; i++) {
+        arr.push((new Date(dtArr[i])).toString().substring(0,15)); //save only the Day MMM DD YYYY part
+    }
+    return arr;
+}
+
+
+//--this will return an array consisting of the working dates-----------------------------//
+function getWorkingDateArray(dates, hoildayDates) {
+    
+    // remove holidays
+    var arr = dates.filter((dt) =>{
+        return holidaysArray.indexOf(dt) < 0;
+    });
+
+    // remove weekend dates that are not working dates
+    var result = arr.filter((dt) => {
+        if (dt.indexOf("Sat") > -1 || dt.indexOf("Sun") > -1) {
+            return null;
+        }
+        return dt;
+    });
+
+    return result;
+
+}
+
+
 
 module.exports = router;
