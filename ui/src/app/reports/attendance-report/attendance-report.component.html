@@ -23,10 +23,37 @@
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field> <br> <br> 
 
-                <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >View workingdays</button>
+                <button type='submit' id='submit' name="submit" mat-stroked-button color="primary" >View</button>
                 <button type="button" routerLink="" mat-stroked-button color="accent"> Exit</button>
             </div>
         </form> 
     </div>
-
+        
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">Date</th>
+                <th colspan="2">Attendance status</th>
+                <th colspan="2">comment</th>
+                
+            </tr>
+            <tr>
+                <th>type</th>
+                <th>time</th>
+                <th>morning</th>
+                <th>evening</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of requestResult">
+                <td>{{user.date}}</td>
+                <td>{{user.attendance_status.type}}</td>
+                <td>{{user.attendance_status.time}}</td>
+                <td>{{user.comment.morning}}</td>
+                <td>{{user.comment.evening}}</td>
+            </tr>
+        </tbody>
+    </table>
+    
 </div>

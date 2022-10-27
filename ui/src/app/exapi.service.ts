@@ -73,7 +73,7 @@ export class ApiService {
       'Authorization': `Bearer ${auth_token}`
     });
 
-    return lastValueFrom(this.http.post(this.appService.url + '/viewWorkingdays/workingdays', JSON.stringify(requestFields),{headers:headers}));
+    return lastValueFrom(this.http.post(this.appService.url + '/viewAttendanceReport/attendanceReport', JSON.stringify(requestFields),{headers:headers}));
   }
 
 

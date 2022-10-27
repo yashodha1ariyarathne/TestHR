@@ -16,7 +16,8 @@ export class AttendanceReportComponent {
     private appService: AppService,
     private  apiService:  ApiService
   ) { }
-
+   
+  requestResult:any;
   form = new FormGroup({
     empId: new FormControl('', Validators.required),
     stDate: new FormControl('', Validators.required),
@@ -28,16 +29,17 @@ export class AttendanceReportComponent {
 
   async submit(){
 
+debugger
     try {
     let empId  = JSON.parse(JSON.stringify(this.form.value.empId));
     let stDate  = JSON.parse(JSON.stringify(this.form.value.stDate));
     let endDate = JSON.parse(JSON.stringify(this.form.value.endDate));
    
     
-    let requestResult = await this.apiService.viewWorkingdays({empId,stDate,endDate});
-    window.alert(requestResult);
-    console.log(requestResult)
-    this.form.reset();
+    this.requestResult = await this.apiService.viewWorkingdays({empId,stDate,endDate});
+    // window.alert(this.requestResult);
+    // console.log(requestResult)
+    // this.form.reset();
 
     
     

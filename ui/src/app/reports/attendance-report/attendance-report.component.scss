@@ -1,17 +1,24 @@
 .main{
-    height: 800px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     background-color:  rgb(152, 160, 193);
+    
 }
 .form{
     height: 350px;
     width: 300px;
     background-color: rgba(246, 249, 249, 0.9);
+    margin: 50px;
 
     .field{
         margin: 10px;
     
     }
+}
+table{
+    margin: 50px;
+    th,td {
+        padding: 5px;
+        background-color: aliceblue;
+}
+
 }
