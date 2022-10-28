@@ -20,7 +20,7 @@ router.post('/attendanceReport', async(req, res,next) => {
 
         //Checking whether mandatory data has been entered.----------------------//
         if(!empId || !stDate || !endDate) 
-            return res.status(400).json("Please fill all required fields");             //TODO: just send a string instead of json
+            return res.status(400).send("Please fill all required fields");             //TODO: just send a string instead of json
 
 
 
@@ -28,7 +28,7 @@ router.post('/attendanceReport', async(req, res,next) => {
         let details = await global.db.query('SELECT date, time, comment FROM attendance where emp_id =? AND status="in" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
 
         //Between the 2 days of entry for the employee entered To search for all out comments marked for attendance.----------------//
-        let outComments = await global.db.query('SELECT date, comment FROM attendance where emp_id =? AND status="out" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
+        let outCommentsDetails = await global.db.query('SELECT date, comment FROM attendance where emp_id =? AND status="out" AND date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
 
         //Between the 2 days of entry for the employee entered To search for all leaves.----------------//
         let leaveDetails = await global.db.query('SELECT date, leaveType FROM leavetaken where emp_id =? and date BETWEEN ? AND ?' ,[empId, stDate, endDate]);
@@ -47,12 +47,7 @@ router.post('/attendanceReport', async(req, res,next) => {
             resultMarkattTimeArr.push(object.time);
         });
         
-        //get out comment array from outComments array
-        const resultMarkattOutCommentsArr = [];
-        outComments.forEach(object => {
-            resultMarkattOutCommentsArr.push(object.comment);
-        });
-
+        
         //get in comment array from details array
         const resultMarkattCommentsArr = [];
         details.forEach(object => {
@@ -81,9 +76,6 @@ router.post('/attendanceReport', async(req, res,next) => {
         });
 
 
-        //---holidays---------------------------------------------------------------//
-        var officalHolidays = resultHolidaysArr; //YYYY-MM-DD
-
 
         //--compute date array between start and end dates----------------------------------------------//
         var dateArray = getDateArray(startDate, edDate);
@@ -95,7 +87,7 @@ router.post('/attendanceReport', async(req, res,next) => {
         var leaveArray = prepareDateArray(resultLeaveArr);
 
         // prepare the holidays array
-        var holidaysArray = prepareDateArray(officalHolidays);
+        var holidaysArray = prepareDateArray(resultHolidaysArr);
 
         // get the working days array
         var workingDateArray = getWorkingDateArray(dateArray, holidaysArray);
@@ -104,25 +96,62 @@ router.post('/attendanceReport', async(req, res,next) => {
         // get the working days detail object
         var detailsobj={};
         var arr = [];
-    
+
+        // get the out comments date array
+        const outCommentsadate = [];
+        outCommentsDetails.forEach(object => {
+            outCommentsadate.push(object.date);
+        });
+
+        // get the out comments array
+        const outComments = [];
+        outCommentsDetails.forEach(object => {
+            outComments.push(object.comment);
+        });
+
+        
+        var outCommentsArr = prepareDateArray(outCommentsadate);
+
+
+        // get out comment array
+        const resultMarkattOutCommentsArr = [];
+        var k=0;
+
+        for (var i = 0; i < markedAttArray.length; i++) {
+            
+            if(outCommentsArr.indexOf(markedAttArray[i]) > -1){
+                resultMarkattOutCommentsArr.push(outComments[k]);
+                k=k+1;   
+            }
+            else{
+                resultMarkattOutCommentsArr.push(" "); 
+            }
+            
+        }
+
+        
+        // get report details
+        var j=0;
+
         for (var i = 0; i < workingDateArray.length; i++) {
             if(markedAttArray.indexOf(workingDateArray[i]) > -1){
                 arr.push({
                     date: workingDateArray[i],
                     attendance_status: {
                         type: "present",
-                        time: resultMarkattTimeArr[i]
+                        time: resultMarkattTimeArr[j]
                         // time: details[i].time
                     },
                     comment:{
-                        morning:resultMarkattCommentsArr[i],
+                        morning:resultMarkattCommentsArr[j],
                         // morning:details[i].comment,
-                        evening:resultMarkattOutCommentsArr[i]
+                        evening:resultMarkattOutCommentsArr[j]
                         // evening:outComments[i].comment
                     }
                 }); 
-                
+                j=j+1;
             }
+
             else if(leaveArray.indexOf(workingDateArray[i]) > -1){
                 arr.push({
                     date: workingDateArray[i],
@@ -150,6 +179,7 @@ router.post('/attendanceReport', async(req, res,next) => {
 
         //output
         return res.status(201).send(arr);
+        // return res.status(201).send(resultMarkattOutCommentsArr)
 
     } 
     catch (error) {
@@ -190,7 +220,7 @@ function getWorkingDateArray(dates, hoildayDates) {
     
     // remove holidays
     var arr = dates.filter((dt) =>{
-        return holidaysArray.indexOf(dt) < 0;
+        return hoildayDates.indexOf(dt) < 0;
     });
 
     // remove weekend dates that are not working dates
