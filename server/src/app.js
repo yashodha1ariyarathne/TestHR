@@ -87,6 +87,7 @@ app.use('/ver', (req, res) => {
                 // next();
 
 app.use('/login',routes.login);
+app.use('/test', routes.test.sampleOneRouter);
 
 app.use(async (req, res, next) => {
     const bearerHeader= req.headers['authorization']
@@ -118,6 +119,7 @@ app.use('/viewLeaveRequest', routes.view_leavereq);
 app.use('/approveLeaveRequest', routes.app_leavereq);
 app.use('/markHolidays', routes.mark_holidays);
 app.use('/viewAttendanceReport', routes.attendance_report);
+app.use('/test', routes.test.sampleTwoRouter);
 
 
 //Common error handler

@@ -49,9 +49,9 @@ router.post('/attendanceReport', async(req, res,next) => {
         
         
         //get in comment array from details array
-        const resultMarkattCommentsArr = [];
+        const inComments = [];
         details.forEach(object => {
-            resultMarkattCommentsArr.push(object.comment);
+            inComments.push(object.comment);
         });
 
         //get  leave dates array from leaveDetails array
@@ -104,9 +104,9 @@ router.post('/attendanceReport', async(req, res,next) => {
         });
 
         // get the out comments array
-        const outComments = [];
+        const outCommentArr = [];
         outCommentsDetails.forEach(object => {
-            outComments.push(object.comment);
+            outCommentArr.push(object.comment);
         });
 
         
@@ -114,17 +114,17 @@ router.post('/attendanceReport', async(req, res,next) => {
 
 
         // get out comment array
-        const resultMarkattOutCommentsArr = [];
+        const resultOutComments = [];
         var k=0;
 
         for (var i = 0; i < markedAttArray.length; i++) {
             
             if(outCommentsArr.indexOf(markedAttArray[i]) > -1){
-                resultMarkattOutCommentsArr.push(outComments[k]);
+                resultOutComments.push(outComments[k]);
                 k=k+1;   
             }
             else{
-                resultMarkattOutCommentsArr.push(" "); 
+                resultOutComments.push(" "); 
             }
             
         }
@@ -143,7 +143,7 @@ router.post('/attendanceReport', async(req, res,next) => {
                         // time: details[i].time
                     },
                     comment:{
-                        morning:resultMarkattCommentsArr[j],
+                        morning:inComments[j],
                         // morning:details[i].comment,
                         evening:resultMarkattOutCommentsArr[j]
                         // evening:outComments[i].comment
